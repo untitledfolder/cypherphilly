@@ -1,8 +1,13 @@
 .app-container {
+  margin: 0 10%;
+  width: 80%;
+  min-width: 300px;
+
   .app-title {
     text-align: center;
   }
 
   .app-content {
+    margin: auto;
   }
 }
