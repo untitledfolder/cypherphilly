@@ -1,3 +1,19 @@
+body {
+  margin: 0;
+}
+
+@mixin header {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+
+.app-header {
+  @include header;
+
+  z-index: 1;
+}
+
 .app-container {
   margin: 0 10%;
   width: 80%;
@@ -8,9 +24,7 @@
   }
 
   .page-header {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
+    @include header;
 
     background-color: white;
   }
