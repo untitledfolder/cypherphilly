@@ -7,6 +7,14 @@
     text-align: center;
   }
 
+  .page-header {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+
+    background-color: white;
+  }
+
   .app-content {
     margin: auto;
   }
