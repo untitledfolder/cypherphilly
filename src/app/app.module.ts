@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
+import { ToolbarModule } from './toolbar/toolbar.module';
 import { HomeModule } from './home/home.module';
 import { HomeComponent } from './home/home.component';
 
@@ -24,6 +25,7 @@ import { HomeComponent } from './home/home.component';
         redirectTo: '/'
       }
     ]),
+    ToolbarModule,
     HomeModule
   ],
   providers: [],
