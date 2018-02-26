@@ -14,4 +14,5 @@ import { HomeComponent } from './home.component';
     HomeComponent
   ]
 })
+
 export class HomeModule { }
