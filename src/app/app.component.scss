@@ -1,0 +1,29 @@
+.app-container {
+  margin: 0 10%;
+  width: 80%;
+  min-width: 300px;
+
+  .app-title {
+    text-align: center;
+  }
+
+  .page-header {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+
+    background-color: white;
+  }
+
+  .app-content {
+    margin: auto;
+  }
+}
+
+// Mobile Styling
+@media only screen and (max-width: 480px)  {
+  .app-container {
+    margin: 0;
+    width: 100%;
+  }
+}
