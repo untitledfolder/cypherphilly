@@ -7,7 +7,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { ToolbarModule } from './toolbar/toolbar.module';
 import { HomeModule } from './home/home.module';
-import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -16,10 +15,6 @@ import { HomeComponent } from './home/home.component';
   imports: [
     BrowserModule,
     RouterModule.forRoot([
-      {
-        path: '',
-        component: HomeComponent
-      },
       {
         path: '**',
         redirectTo: '/'
