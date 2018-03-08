@@ -8,6 +8,13 @@ import { Component, OnInit } from '@angular/core';
 
 export class ToolbarComponent implements OnInit {
 
+  navLinks = [
+    {
+      label: 'Data',
+      link: '/table'
+    }
+  ]
+
   constructor() { }
 
   ngOnInit() {

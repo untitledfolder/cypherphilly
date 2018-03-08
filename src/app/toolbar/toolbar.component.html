@@ -1,9 +1,10 @@
 <mat-toolbar color="primary" class="app-toolbar">
-  <span class="toolbar-logo">
+  <span class="toolbar-logo" routerLink="/">
     CypherPhilly
   </span>
 
-  <span>
-    Data1
+  <span *ngFor="let nav of navLinks" [routerLink]="nav.link">
+      {{nav.label}}
   </span>
+
 </mat-toolbar>
