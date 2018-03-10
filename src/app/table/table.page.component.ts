@@ -22,7 +22,7 @@ export class TablePageComponent implements OnInit {
     .subscribe(headers => this.headers = headers);
 
     this.tableService.getData()
-    .subscribe(datas => this.datas = datas);
+    .then(datas => this.datas = datas);
   }
 
   ngOnInit() {
