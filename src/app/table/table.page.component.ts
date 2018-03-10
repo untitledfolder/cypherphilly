@@ -18,8 +18,11 @@ export class TablePageComponent implements OnInit {
   constructor(private tableService: TableService) { }
 
   getData() {
-    this.headers = this.tableService.getHeaders();
-    this.datas = this.tableService.getData();
+    this.tableService.getHeaders()
+    .subscribe(headers => this.headers = headers);
+
+    this.tableService.getData()
+    .subscribe(datas => this.datas = datas);
   }
 
   ngOnInit() {

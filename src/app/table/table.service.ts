@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class TableService {
@@ -57,12 +59,12 @@ export class TableService {
 
   constructor() { }
 
-  getData() {
-    return this.datas;
+  getData(): Observable<any> {
+    return of(this.datas);
   }
 
-  getHeaders() {
-    return this.headers;
+  getHeaders(): Observable<any> {
+    return of(this.headers);
   }
 
 }
