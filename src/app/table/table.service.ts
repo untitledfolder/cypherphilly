@@ -27,11 +27,7 @@ export class TableService {
   }
 
   getData(): Promise<any> {
-    return this.http.get(this.dataUrl)
-    .toPromise()
-    .then(data => {
-      return data['records'].map(i => i.keys.reduce((dataObject, key, j) => { dataObject[key] = i._fields[j]; return dataObject}, {}));
-    });
+    return this.http.get(this.dataUrl).toPromise();
   }
 
   getHeaders(): Observable<any[]> {
