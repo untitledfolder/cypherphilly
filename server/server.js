@@ -19,7 +19,20 @@ app.get('/police_complaints', (req, res) => {
     'p.summary AS summary'
   )
   .then(result => {
-    res.send(result);
+
+    //TODO: Make this a utility for all Neo4j responses
+    res.send(
+      result.records.map(
+        i => i.keys.reduce(
+          (dataObject, key, j) => {
+            dataObject[key] = i._fields[j];
+            return dataObject;
+          },
+          {}
+        )
+      )
+    );
+
   });
 });
 
