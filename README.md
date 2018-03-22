@@ -1,27 +1,37 @@
-# Cypherphilly
+# Cypher Philly
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.1.
+This project is meant to be a hub of various types of public data regarding
+Philly. It will also be a collection of notes, scripts, and APIs for data
+sources.
 
-## Development server
+This can be used to gather information for research, journalism, and data
+science.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Setup
 
-## Code scaffolding
+To get setup for the project, you will first need to get
+[Node.js](https://nodejs.org/en/). Also, you will need access to a `Neo4j`
+instance. There is a script to setup `Neo4j`
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Install Angular CLI:
 
-## Build
+```
+npm install -g @angular/cli
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Then, you should just need to do the install:
 
-## Running unit tests
+```
+npm i
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+You will need to install [jq](https://stedolan.github.io/jq/) for some of the
+CLI scripts.
 
-## Running end-to-end tests
+## Links
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+https://www.opendataphilly.org/dataset/police-complaints/resource/aab05f09-727e-4269-80ed-27cd70c065ea?inner_span=True
 
-## Further help
+API call:
+https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20ppd_complaint_disciplines
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
