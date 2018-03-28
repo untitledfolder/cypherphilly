@@ -6,6 +6,14 @@ console.log("Config:", config);
 var driver = neo4j.driver(config.connect, neo4j.auth.basic(config.neoUser, config.neoPW));
 var session = driver.session();
 
+var port = 3000;
+
+if (process.argv.length >= 3) {
+  port = process.argv[2];
+}
+
+console.log("Using port:", port);
+
 app.get('/police_complaints', (req, res) => {
   session.run(
     'MATCH (p:PoliceComplaint:PoliceComplaintData) RETURN ' +
@@ -36,6 +44,6 @@ app.get('/police_complaints', (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log("Server started at 3000");
+app.listen(port, () => {
+  console.log("Server started at " + port);
 });
