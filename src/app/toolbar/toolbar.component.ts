@@ -16,10 +16,6 @@ export class ToolbarComponent implements OnInit {
     {
       label: 'Setup',
       link: '/setup'
-    },
-    {
-      label: 'Data',
-      link: '/table'
     }
   ]
 
