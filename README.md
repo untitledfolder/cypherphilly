@@ -35,7 +35,7 @@ Most importantly we need Philadelphia journalists and citizens to help us identi
 ## Project Collaboration:
 
 ### **Community Project Boards**
-[Cypher Philly Trello Board](https://trello.com/b/ZHv7dIfb)
+[Cypher Philly[Trello Board]](https://trello.com/b/ZHv7dIfb)
 
 [Code for Philly[Cypher Philly Project Page]](https://codeforphilly.org/pages/cypherphilly)
 
