@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { HomeComponent } from './home.component';
+import { GetinvolvedComponent } from '../getinvolved/getinvolved.component';
+import { SetupComponent } from '../setup/setup.component';
 
 import { MarkdownModule } from 'angular2-markdown';
 
@@ -13,12 +15,22 @@ import { MarkdownModule } from 'angular2-markdown';
       {
         path: '',
         component: HomeComponent
+      },
+      {
+        path: 'getinvolved',
+        component: GetinvolvedComponent
+      },
+      {
+        path: 'setup',
+        component: SetupComponent
       }
     ]),
     MarkdownModule.forRoot()
   ],
   declarations: [
-    HomeComponent
+    HomeComponent,
+    GetinvolvedComponent,
+    SetupComponent
   ],
   exports: [
     HomeComponent

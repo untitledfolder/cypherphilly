@@ -10,6 +10,14 @@ export class ToolbarComponent implements OnInit {
 
   navLinks = [
     {
+      label: 'Get Involved',
+      link: '/getinvolved'
+    },
+    {
+      label: 'Setup',
+      link: '/setup'
+    },
+    {
       label: 'Data',
       link: '/table'
     }
