@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 
 import { HomeComponent } from './home.component';
 
+import { MarkdownModule } from 'angular2-markdown';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -12,7 +14,8 @@ import { HomeComponent } from './home.component';
         path: '',
         component: HomeComponent
       }
-    ])
+    ]),
+    MarkdownModule.forRoot()
   ],
   declarations: [
     HomeComponent
