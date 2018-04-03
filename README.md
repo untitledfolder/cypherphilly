@@ -7,7 +7,7 @@
 Philly Graph DB and Code for Philly are starting a new initiative called Cypher Philly. The initiative is intended to inspire and equip citizen journalists, data enthusiasts and social activists with the tools and data to do good for the city and citizens of Philadelphia. There are a number of reasons why Philadelphia needs your help from public safety issues to beautifying shared public spaces, transportation updates or even unheard police complaints. Our goal is to harness the untapped potential of OpenDataPhilly.org which has hundreds of datasets that could help inform effective solutions to these problems. Topics range from Arts/Culture/History, Education, Elections/Politics, Transportation, Public Safety, Environment & and much more. With a shared enthusiasm for making an actionable difference we believe you can help us make this initiative possible.    
   
 
-## **The Code**#
+## **The Code**
 
 Cypher Philly's first priority is to build web application tools which contributors can use collaboratively. These tools will help us to query the data were working with and allow us to share the results we’ve discovered. The Cypher Philly web application tool can be found on our Github page and is completely open source, so anyone can contribute to the code. Each new project that is spawned from this initiative will get its own web page. 
 
