@@ -9,6 +9,7 @@ import { ConfigService } from './config.service';
 import { ToolbarModule } from './toolbar/toolbar.module';
 import { HomeModule } from './home/home.module';
 import { TableModule } from './table/table.module';
+import { DatasetsModule } from './datasets/datasets.module';
 
 import { AppComponent } from './app.component';
 
@@ -28,7 +29,8 @@ import { AppComponent } from './app.component';
     BrowserAnimationsModule,
     ToolbarModule,
     HomeModule,
-    TableModule
+    TableModule,
+    DatasetsModule
   ],
   providers: [
     ConfigService
