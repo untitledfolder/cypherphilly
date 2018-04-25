@@ -11,6 +11,8 @@ import { HomeModule } from './home/home.module';
 import { TableModule } from './table/table.module';
 import { DatasetsModule } from './datasets/datasets.module';
 
+import { DataService } from './data/data.service';
+
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -33,7 +35,8 @@ import { AppComponent } from './app.component';
     DatasetsModule
   ],
   providers: [
-    ConfigService
+    ConfigService,
+    DataService
   ],
   bootstrap: [AppComponent]
 })

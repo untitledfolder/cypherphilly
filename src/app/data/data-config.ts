@@ -5,6 +5,5 @@ export interface HeaderItem {
 
 export interface DataConfig {
   title: string
-  apiUrl: string
   headers: HeaderItem[]
 }

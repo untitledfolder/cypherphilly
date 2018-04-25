@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
+import { PpcService } from './ppc/ppc.service';
 import { PpcComponent } from './ppc/ppc.component';
 
 @NgModule({
@@ -17,7 +18,9 @@ import { PpcComponent } from './ppc/ppc.component';
   declarations: [
     PpcComponent
   ],
-  providers: [ ],
+  providers: [
+    PpcService
+  ],
   exports: [
   ]
 })
