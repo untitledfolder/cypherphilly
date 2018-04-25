@@ -5,11 +5,12 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AppComponent } from './app.component';
 import { ConfigService } from './config.service';
 import { ToolbarModule } from './toolbar/toolbar.module';
 import { HomeModule } from './home/home.module';
 import { TableModule } from './table/table.module';
+
+import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [

@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { TableComponent } from './table.component';
-import { TablePageComponent } from './table.page.component';
-import { TableService } from './table.service';
+import { ComponentsModule } from '../components/components.module';
 
-import { MatTableModule, MatPaginatorModule, } from '@angular/material';
+import { TablePageComponent } from './table.page.component';
+import { TableSectionComponent } from './table.section.component';
+import { TableService } from './table.service';
 
 @NgModule({
   imports: [
@@ -17,17 +17,17 @@ import { MatTableModule, MatPaginatorModule, } from '@angular/material';
         component: TablePageComponent
       }
     ]),
-    MatTableModule,
-    MatPaginatorModule,
+    ComponentsModule
   ],
   declarations: [
-    TableComponent, TablePageComponent
+    TablePageComponent,
+    TableSectionComponent
   ],
   providers: [
     TableService
   ],
   exports: [
-    TableComponent, TablePageComponent
+    TableSectionComponent
   ]
 })
 
