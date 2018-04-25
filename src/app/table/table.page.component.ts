@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { TableComponent } from './table.component';
+import { TableSectionComponent } from './table.section.component';
+
 import { TableService } from './table.service';
 
 @Component({
