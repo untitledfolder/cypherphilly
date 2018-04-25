@@ -10,15 +10,16 @@ import { MatPaginator, MatTableDataSource } from '@angular/material';
 
 export class TableComponent implements OnInit {
 
+  headerKeys;
+
   @Input()
   headers;
 
   @Input()
   datas;
 
-  constructor() { }
-
   ngOnInit() {
+    this.headerKeys = this.headers.map( header => header.key );
   }
 
 }
