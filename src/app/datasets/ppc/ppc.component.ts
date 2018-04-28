@@ -13,7 +13,6 @@ export class PpcComponent implements DataConfig {
 
   title: string
   headers: HeaderItem[]
-  apiUrl: string
   datas: any
 
   constructor(private data: PpcService) {
