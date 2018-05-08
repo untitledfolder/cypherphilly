@@ -3,7 +3,7 @@ Description=Cypher Philly
 After=neo4j.service
 
 [Service]
-ExecStart=/usr/bin/node /opt/server/cypherphilly/prod/server.js 3002
+ExecStart=/usr/bin/node /opt/server/cypherphilly/server.js 3000
 Type=simple
 User=ubuntu
 Restart=on-failure
