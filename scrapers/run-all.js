@@ -1,0 +1,42 @@
+#!/usr/bin/env node
+
+var exec = require('child_process').exec;
+var test = false;
+var help = false;
+var dataSources = "./scrapers";
+var args = Object.assign([], process.argv);
+args.shift();
+args.shift();
+
+while (args.length) {
+  console.log("Arg:", args[0]);
+  var arg = args.shift();
+
+  if (args.length) {
+    if ("-s" == arg) {
+      dataSources = args.shift();
+      continue;
+    }
+  }
+
+  if ("-t" == arg) test = true;
+  else if ("-h" === arg) help = true;
+  else console.log("Don't know arg:", arg);
+}
+
+console.log("Help:", help);
+console.log("Test:", test);
+console.log("Sources:", dataSources);
+
+console.log("Starting Scrapers");
+exec(
+  'find ' + dataSources + ' -type f -iname "*-config.js"',
+  function(error, stdout, stderr) {
+    if (error) {
+      console.log("Error:", error);
+      process.exit(1);
+    }
+
+    process.stdout.write(stdout);
+  }
+);
