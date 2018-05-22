@@ -37,6 +37,15 @@ exec(
       process.exit(1);
     }
 
-    process.stdout.write(stdout);
+    stdout.split(/\r?\n/).forEach(function(dataConfig) {
+      if (dataConfig.length) {
+        console.log("Data Config:", dataConfig);
+        var config = require('../' + dataConfig);
+        console.log("\tData Group Name:", config.datagroup.dataGroupName);
+        config.datagroup.datasets.forEach(function (dataset) {
+          console.log("\t\tData Set Name:", dataset.name);
+        });
+      }
+    });
   }
 );

@@ -1,5 +1,5 @@
 exports.datagroup = {
-  dataGroupsName: "Philadelphia Police Complaints",
+  dataGroupName: "Philadelphia Police Complaints",
   dataGroupLabel: "PhiladelphiaPoliceComplaints",
   datasets: [
     {
