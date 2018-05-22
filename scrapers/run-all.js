@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 
 var exec = require('child_process').exec;
+var neo4j = require('neo4j-driver').v1;
+var neoConfig = require('../config.js');
+
+var driver = neo4j.driver(neoConfig.connect, neo4j.auth.basic(neoConfig.neoUser, neoConfig.neoPW));
+var session = driver.session();
 
 var createOrUpdate = require('./create-or-update-data.js');
 
@@ -54,16 +59,17 @@ function processDataSetConfig(dataConfig) {
         return;
       }
 
-      (function processingData(dataGroupLabel, processingData, dataset) {
+      (function processingData(session, dataGroupLabel, processingData, dataset) {
         var dataCollected = "";
 
         processingData.stdout.on('data', function(data) {
           dataCollected += data.toString();
         });
         processingData.stdout.on('end', function() {
-          createOrUpdate.process(dataGroupLabel, dataset, dataCollected);
+          createOrUpdate.process(session, dataGroupLabel, dataset, dataCollected);
         });
       })(
+        session,
         config.datagroup.dataGroupLabel,
         processDataSet(getDataCommand, dataset.processor),
         dataset

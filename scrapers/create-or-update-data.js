@@ -1,6 +1,31 @@
-var readline = require('readline');
+function runCypher(session, cypher, data) {
+  return session.run(cypher, data);
+}
 
-exports.process = function(dataGroupLabel, dataConfig, data) {
+function processLines(session, match, create, update, data) {
+  var line = JSON.parse(data.shift());
+
+  runCypher(session, match, line)
+  .then(result => {
+    (function () {
+      if (result.records.length) {
+        return runCypher(session, update, line);
+      }
+      else {
+        return runCypher(session, create, line);
+      }
+    })()
+    .then(result => {
+      console.log(result);
+
+      if (data.length) {
+        processLines(session, match, create, update, data);
+      }
+    });
+  });
+}
+
+exports.process = function(session, dataGroupLabel, dataConfig, data) {
   console.log("Processing:", dataConfig.name);
   console.log(" Labels:", dataGroupLabel, dataConfig.label);
   if (dataConfig.keys) {
@@ -12,15 +37,9 @@ exports.process = function(dataGroupLabel, dataConfig, data) {
     create += "}) RETURN n";
     var update = "MATCH (n: " + dataGroupLabel + ":" + dataConfig.label + " {" +
       dataConfig.id + ": {" + dataConfig.id + "}})\nSET ";
-    update += dataConfig.keys.map( key => "p." + key + " = {" + key + "}").join(", ");
+    update += dataConfig.keys.map( key => "n." + key + " = {" + key + "}").join(", ");
     update += " RETURN n";
 
-    console.log("Match:", match);
-    console.log("Create:", create);
-    console.log("Update:", update);
-
-    data.split(/\r?\n/).forEach(function(line) {
-      console.log("\tLine:", line);
-    });
+    processLines(session, match, create, update, data.split(/\r?\n/));
   }
 };
