@@ -16,8 +16,9 @@ exports.datagroup = {
       name: "Discipline",
       label: "PPCDiscipline",
       source: "https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20ppd_complaint_disciplines",
+      processor: "scrapers/opendataphilly/ppd_complaints/ppd_disciplines-scraper.sh",
       test: {
-        file: "",
+        file: "test/fixtures/ppc.disciplines.one-example.data",
         expected: ""
       }
     },
