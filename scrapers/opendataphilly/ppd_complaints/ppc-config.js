@@ -6,6 +6,7 @@ exports.datagroup = {
       name: "Complaint",
       label: "PPCComplaint",
       source: "https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20ppd_complaints",
+      processor: "scrapers/opendataphilly/ppd_complaints/ppd_complaints-scraper.sh",
       test: {
         file: "test/fixtures/ppc.complaints.one-example.data",
         expected: ""

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var exec = require('child_process').exec;
-var test = true;
+var test = false;
 var help = false;
 var dataSources = "./scrapers";
 var args = Object.assign([], process.argv);
@@ -44,27 +44,32 @@ function processDataSetConfig(dataConfig) {
       }
       else if (!test) {
         console.log("\t\tSource:", dataset.source);
-        getDataCommand = "wget " + dataset.source;
+        getDataCommand = "curl " + dataset.source;
       }
       else {
         console.log("\t\tNo tests");
         return;
       }
 
-      processDataSet(getDataCommand, dataset.processor);
+      var processingData = processDataSet(getDataCommand, dataset.processor);
+
+      processingData.stdout.on('data', function(data) {
+        process.stdout.write(data);
+      });
     });
   }
 }
 
 function processDataSet(getDataCommand, processDataScript) {
-  exec(
+  return exec(
     getDataCommand + ' | ' + processDataScript,
+    {
+      maxBuffer: 100000 * 1024
+    },
     function(error, stdout, stderr) {
       if (error) {
         console.log("Error:", error);
       }
-
-      process.stdout.write(stdout);
     }
   );
 }
