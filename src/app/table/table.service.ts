@@ -9,12 +9,30 @@ import { ConfigService } from '../config.service';
 export class TableService {
 
   headers = [
-    "cartodb_id",
-    "cap_number",
-    "date_received",
-    "dist_occurrence",
-    "general_cap_classification",
-    "summary"
+    {
+      title: "ID",
+      key: "cartodb_id"
+    },
+    {
+      title: "CAP Number",
+      key: "cap_number"
+    },
+    {
+      title: "Received",
+      key: "date_received"
+    },
+    {
+      title: "Distance",
+      key: "dist_occurrence"
+    },
+    {
+      title: "Classification",
+      key: "general_cap_classification"
+    },
+    {
+      title: "Summary",
+      key: "summary"
+    }
   ]
 
   private dataUrl: string;

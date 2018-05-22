@@ -3,12 +3,14 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 
 @Component({
-  selector: 'app-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss']
+  selector: 'table-component',
+  templateUrl: './table-component.component.html',
+  styleUrls: ['./table-component.component.scss']
 })
 
 export class TableComponent implements OnInit {
+
+  headerKeys;
 
   @Input()
   headers;
@@ -16,9 +18,8 @@ export class TableComponent implements OnInit {
   @Input()
   datas;
 
-  constructor() { }
-
   ngOnInit() {
+    this.headerKeys = this.headers.map( header => header.key );
   }
 
 }

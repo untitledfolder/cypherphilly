@@ -1,9 +1,12 @@
-var config = require('./config');
+var neoConfig = require('./config');
 var neo4j = require('neo4j-driver').v1;
+var exec = require('child_process').exec;
 var app = require('express')();
 
-console.log("Config:", config);
-var driver = neo4j.driver(config.connect, neo4j.auth.basic(config.neoUser, config.neoPW));
+var dataSources = "./scrapers";
+
+console.log("Neo Config:", neoConfig);
+var driver = neo4j.driver(neoConfig.connect, neo4j.auth.basic(neoConfig.neoUser, neoConfig.neoPW));
 var session = driver.session();
 
 var port = 3000;
@@ -12,38 +15,77 @@ if (process.argv.length >= 3) {
   port = process.argv[2];
 }
 
-console.log("Using port:", port);
+if (process.argv.length >= 4) {
+  dataSources = process.argv[3];
+}
 
-app.get('/police_complaints', (req, res) => {
-  session.run(
-    'MATCH (p:PoliceComplaint:PoliceComplaintData) RETURN ' +
-    'p.cartodb_id AS cartodb_id, ' +
-    'p.the_geom AS the_geom, ' +
-    'p.the_geom_webmercator AS the_geom_webmercator, ' +
-    'p.cap_number AS cap_number , ' +
-    'p.date_received AS date_received, ' +
-    'p.dist_occurrence AS dist_occurrence, ' +
-    'p.general_cap_classification AS general_cap_classification, ' +
-    'p.summary AS summary'
-  )
-  .then(result => {
+function processDataSetConfig(dataConfig) {
+  if (dataConfig.length) {
+    var config = require(dataConfig);
 
-    //TODO: Make this a utility for all Neo4j responses
-    res.send(
-      result.records.map(
-        i => i.keys.reduce(
-          (dataObject, key, j) => {
-            dataObject[key] = i._fields[j];
-            return dataObject;
-          },
-          {}
-        )
+    console.log("Group API:", config.datagroup.dataGroupAPI);
+    var groupMatch = "MATCH (n: " + config.datagroup.dataGroupLabel +
+      ") RETURN n LIMIT 5";
+    console.log("Group Match:", groupMatch);
+
+    app.get(config.datagroup.dataGroupAPI, (req, res) => {
+      session.run(groupMatch)
+      .then(result => processNeo(res, result));
+    });
+
+    config.datagroup.datasets.forEach(dataset => {
+      console.log("Dataset API:", dataset.api);
+      match = "MATCH (n: " + config.datagroup.dataGroupLabel +
+        ":" + dataset.label + ") RETURN n LIMIT 5";
+      console.log("Dataset Match:", match);
+
+      app.get(
+        config.datagroup.dataGroupAPI + dataset.api,
+        (req, res) => {
+          console.log("REQUEST:", req.url);
+          session.run(match)
+          .then(result => processNeo(res, result));
+        }
+      );
+    });
+  }
+}
+
+function processNeo(res, result) {
+  //TODO: Make this a utility for all Neo4j responses
+  res.send(
+    result.records.map(
+      i => i.keys.reduce(
+        (dataObject, key, j) => {
+          dataObject[key] = i._fields[j];
+          return dataObject;
+        },
+        {}
       )
-    );
+    )
+  );
+}
 
-  });
-});
+exec(
+  'find ' + dataSources + ' -type f -iname "*-config.js"',
+  function(error, stdout, stderr) {
+    if (error) {
+      console.log("Error:", error);
+      process.exit(1);
+    }
 
-app.listen(port, () => {
-  console.log("Server started at " + port);
-});
+    stdout.split(/\r?\n/).forEach(processDataSetConfig);
+
+    console.log("Using port:", port);
+
+    // Catcher
+    app.get('/*', function(req, res) {
+      console.log("Req:", req.url);
+      res.send("NOPE");
+    });
+
+    app.listen(port, () => {
+      console.log("Server started at " + port);
+    });
+  }
+);
