@@ -40,10 +40,21 @@ exec(
     stdout.split(/\r?\n/).forEach(function(dataConfig) {
       if (dataConfig.length) {
         console.log("Data Config:", dataConfig);
+        // TODO: Only do if it doesn't start with one of these: ['./', '../', '/']
         var config = require('../' + dataConfig);
+
         console.log("\tData Group Name:", config.datagroup.dataGroupName);
         config.datagroup.datasets.forEach(function (dataset) {
           console.log("\t\tData Set Name:", dataset.name);
+          if (test && dataset.test && dataset.test.file) {
+            console.log("\t\tTest Data:", dataset.test.file);
+          }
+          else if (!test) {
+            console.log("\t\tSource:", dataset.source);
+          }
+          else {
+            console.log("\t\tNo tests");
+          }
         });
       }
     });
