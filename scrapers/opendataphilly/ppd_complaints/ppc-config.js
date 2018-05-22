@@ -13,8 +13,8 @@ exports.datagroup = {
       }
     },
     {
-      name: "Discipline",
-      label: "PPCDiscipline",
+      name: "Finding",
+      label: "PPCFinding",
       source: "https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20ppd_complaint_disciplines",
       processor: "scrapers/opendataphilly/ppd_complaints/ppd_disciplines-scraper.sh",
       test: {
@@ -23,9 +23,13 @@ exports.datagroup = {
       }
     },
     {
-      name: "Finding",
-      label: "PPCFinding",
+      name: "Complaintant",
+      label: "PPCComplaintant",
+      source: "https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20ppd_complaint_complainants",
+      processor: "scrapers/opendataphilly/ppd_complaints/ppd_complainants-scraper.sh",
       test: {
+        file: "test/fixtures/ppc.complainants.one-example.data",
+        expected: ""
       }
     }
   ]
