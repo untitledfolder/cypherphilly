@@ -1,0 +1,12 @@
+{
+  "cartodb_id":1,
+  "the_geom":null,
+  "the_geom_webmercator":null,
+  "cap_number":"13-0001",
+  "po_initials":"TD",
+  "po_race":"White",
+  "po_sex":"Male",
+  "allegations_investigated":"Verbal Abuse",
+  "investigative_findings":"Sustained Finding",
+  "disciplinary_findings":"Guilty Finding"
+}
