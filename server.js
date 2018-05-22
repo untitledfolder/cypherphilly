@@ -25,7 +25,7 @@ function processDataSetConfig(dataConfig) {
 
     console.log("Group API:", config.datagroup.dataGroupAPI);
     var groupMatch = "MATCH (n: " + config.datagroup.dataGroupLabel +
-      ") RETURN n";
+      ") RETURN n LIMIT 5";
     console.log("Group Match:", groupMatch);
 
     app.get(config.datagroup.dataGroupAPI, (req, res) => {
@@ -36,14 +36,14 @@ function processDataSetConfig(dataConfig) {
     config.datagroup.datasets.forEach(dataset => {
       console.log("Dataset API:", dataset.api);
       match = "MATCH (n: " + config.datagroup.dataGroupLabel +
-        ":" + dataset.label + ") RETURN n";
+        ":" + dataset.label + ") RETURN n LIMIT 5";
       console.log("Dataset Match:", match);
 
       app.get(
         config.datagroup.dataGroupAPI + dataset.api,
         (req, res) => {
           console.log("REQUEST:", req.url);
-          session.run(Match)
+          session.run(match)
           .then(result => processNeo(res, result));
         }
       );
@@ -75,15 +75,17 @@ exec(
     }
 
     stdout.split(/\r?\n/).forEach(processDataSetConfig);
+
+    console.log("Using port:", port);
+
+    // Catcher
+    app.get('/*', function(req, res) {
+      console.log("Req:", req.url);
+      res.send("NOPE");
+    });
+
+    app.listen(port, () => {
+      console.log("Server started at " + port);
+    });
   }
 );
-
-app.get('/*', function(req, res) {
-  console.log("Req:", req.url);
-  res.send("NOPE");
-});
-
-console.log("Using port:", port);
-app.listen(port, () => {
-  console.log("Server started at " + port);
-});
