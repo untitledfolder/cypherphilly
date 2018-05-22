@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 
 var exec = require('child_process').exec;
+
+var createOrUpdate = require('./create-or-update-data.js');
+
 var test = false;
 var help = false;
 var dataSources = "./scrapers";
@@ -51,11 +54,19 @@ function processDataSetConfig(dataConfig) {
         return;
       }
 
-      var processingData = processDataSet(getDataCommand, dataset.processor);
+      (function processingData(processingData, dataset) {
+        var dataCollected = "";
 
-      processingData.stdout.on('data', function(data) {
-        process.stdout.write(data);
-      });
+        processingData.stdout.on('data', function(data) {
+          dataCollected += data.toString();
+        });
+        processingData.stdout.on('end', function() {
+          createOrUpdate.process(dataset, dataCollected);
+        });
+      })(
+        processDataSet(getDataCommand, dataset.processor),
+        dataset
+      );
     });
   }
 }
