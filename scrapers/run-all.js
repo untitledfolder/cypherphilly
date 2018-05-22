@@ -54,16 +54,17 @@ function processDataSetConfig(dataConfig) {
         return;
       }
 
-      (function processingData(processingData, dataset) {
+      (function processingData(dataGroupLabel, processingData, dataset) {
         var dataCollected = "";
 
         processingData.stdout.on('data', function(data) {
           dataCollected += data.toString();
         });
         processingData.stdout.on('end', function() {
-          createOrUpdate.process(dataset, dataCollected);
+          createOrUpdate.process(dataGroupLabel, dataset, dataCollected);
         });
       })(
+        config.datagroup.dataGroupLabel,
         processDataSet(getDataCommand, dataset.processor),
         dataset
       );
