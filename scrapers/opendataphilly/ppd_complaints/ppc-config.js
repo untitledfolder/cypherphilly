@@ -11,16 +11,17 @@ exports.datagroup = {
         file: "test/fixtures/ppc.complaints.one-example.data",
         expected: ""
       },
-      keys: {
-        cartodb_id: "string",
-        the_geom: "string",
-        the_geom_webmercator: "string",
-        cap_number: "string",
-        date_received: "string",
-        dist_occurrence: "string",
-        general_cap_classification: "string",
-        summary: "string"
-      }
+      id: "cartodb_id",
+      keys: [
+        "cartodb_id",
+        "the_geom",
+        "the_geom_webmercator",
+        "cap_number",
+        "date_received",
+        "dist_occurrence",
+        "general_cap_classification",
+        "summary"
+      ]
     },
     {
       name: "Finding",
