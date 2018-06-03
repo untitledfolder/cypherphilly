@@ -28,26 +28,18 @@ function processDataSetConfig(dataConfig) {
       ") RETURN n LIMIT 5";
     console.log("Group Match:", groupMatch);
 
-    app.get(config.datagroup.dataGroupAPI, (req, res) => {
-      session.run(groupMatch)
-      .then(result => processNeo(res, result));
-    });
-
     config.datagroup.datasets.forEach(dataset => {
       console.log("Dataset API:", dataset.api);
       match = "MATCH (n: " + config.datagroup.dataGroupLabel +
-        ":" + dataset.label + ") RETURN n LIMIT 5";
+        ":" + dataset.label + ") RETURN ";
+      match += dataset.keys.map(key => "n." + key + " AS " + key).join(", ");
+      match += " LIMIT 5";
       console.log("Dataset Match:", match);
 
-      app.get(
-        config.datagroup.dataGroupAPI + dataset.api,
-        (req, res) => {
-          console.log("REQUEST:", req.url);
-          session.run(match)
-          .then(result => processNeo(res, result));
-        }
-      );
+      makeGetter(app, config.datagroup.dataGroupAPI + dataset.api, match);
     });
+
+    makeGetter(app, config.datagroup.dataGroupAPI, groupMatch);
   }
 }
 
@@ -64,6 +56,16 @@ function processNeo(res, result) {
       )
     )
   );
+}
+
+function makeGetter(app, url, match) {
+  app.get(url, (req, res) => {
+    console.log("REQUEST:", req.url);
+    console.log(">>>USING REQUEST:", match);
+
+    session.run(match)
+    .then(result => processNeo(res, result));
+  });
 }
 
 exec(
