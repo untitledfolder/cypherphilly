@@ -2,44 +2,124 @@ function runCypher(session, cypher, data) {
   return session.run(cypher, data);
 }
 
-function processLines(session, match, create, update, data) {
-  var line = JSON.parse(data.shift());
+function generateLabel(dataLabel, groupLabel) {
+  var label = "";
 
-  runCypher(session, match, line)
-  .then(result => {
-    (function () {
-      if (result.records.length) {
-        return runCypher(session, update, line);
-      }
-      else {
-        return runCypher(session, create, line);
-      }
-    })()
+  if (dataLabel) {
+    label += ": ";
+
+    if (groupLabel) {
+      label += groupLabel + ":";
+    }
+    label += dataLabel;
+  }
+
+  return label;
+}
+
+function generateId(dataId) {
+  var id = "";
+
+  if (dataId) {
+    id += " {" + dataId + ": {" + dataId + "}}";
+  }
+
+  return id;
+}
+
+function generateMatch(dataConfig) {
+  var match = "MATCH (n";
+
+  match += generateLabel(dataConfig.label, dataConfig.groupLabel);
+  match += generateId(dataConfig.id);
+
+  match += ") RETURN n";
+
+  return match;
+}
+
+function generateCreate(dataConfig) {
+  var create = "CREATE (n";
+
+  create += generateLabel(dataConfig.label, dataConfig.groupLabel);
+
+  create += " {";
+  create += dataConfig.keys.map( key => key + ": {" + key + "}").join(", ");
+  create += "}) RETURN n";
+
+  return create;
+}
+
+function generateUpdate(dataConfig) {
+  var update = "MATCH (n";
+
+  update += generateLabel(dataConfig.label, dataConfig.groupLabel);
+  update += generateId(dataConfig.id);
+
+  update += ")\nSET ";
+  update += dataConfig.keys.map( key => "n." + key + " = {" + key + "}").join(", ");
+  update += " RETURN n";
+
+  return update;
+}
+
+function processLines(session, dataConfig, data) {
+  function next(session, dataConfig, data) {
+    if (data.length) {
+      processLines(session, dataConfig, data);
+    }
+  }
+
+  try {
+    var dataLine = data.shift();
+    var line = {};
+    if (dataLine) {
+      line = JSON.parse(dataLine);
+    }
+  }
+  catch (error) {
+    console.log("Error parsing line:", dataLine);
+  }
+
+  if (line[dataConfig.id]) {
+    console.log("Processing (" + dataConfig.id + "):", line[dataConfig.id]);
+    console.log("  match:", generateMatch(dataConfig));
+    console.log("  create:", generateCreate(dataConfig));
+    console.log("  update:", generateUpdate(dataConfig));
+
+    runCypher(session, generateMatch(dataConfig), line)
     .then(result => {
-      console.log(result);
+      console.log("  " + line[dataConfig.id] + ": " + result.records.length ? "Found" : "New Record");
 
-      if (data.length) {
-        processLines(session, match, create, update, data);
-      }
+      return result.records.length ?
+        runCypher(session, generateUpdate(dataConfig), line) :
+        runCypher(session, generateCreate(dataConfig), line);
+    })
+    .then(result => {
+      console.log("  " + line[dataConfig.id] + ": Uploaded");
+
+      setTimeout(function() {
+        next(session, dataConfig, data);
+      }, 0);
+    })
+    .catch(err => {
+      console.log("  " + line[dataConfig.id] + ": Failed");
+      console.log("NEO ERROR:", err);
+      next(session, dataConfig, data);
     });
-  });
+  }
 }
 
 exports.process = function(session, dataGroupLabel, dataConfig, data) {
   console.log("Processing:", dataConfig.name);
   console.log(" Labels:", dataGroupLabel, dataConfig.label);
-  if (dataConfig.keys) {
-    console.log("Keys:", dataConfig.keys);
-    var match = "MATCH (n: " + dataGroupLabel + ":" + dataConfig.label +
-      " {" + dataConfig.id + ": {" + dataConfig.id + "}}) RETURN n";
-    var create = "CREATE (n: " + dataGroupLabel + ":" + dataConfig.label + " {";
-    create += dataConfig.keys.map( key => key + ": {" + key + "}").join(", ");
-    create += "}) RETURN n";
-    var update = "MATCH (n: " + dataGroupLabel + ":" + dataConfig.label + " {" +
-      dataConfig.id + ": {" + dataConfig.id + "}})\nSET ";
-    update += dataConfig.keys.map( key => "n." + key + " = {" + key + "}").join(", ");
-    update += " RETURN n";
+  // TODO: Make this easier
+  dataConfig.groupLabel = dataGroupLabel;
 
-    processLines(session, match, create, update, data.split(/\r?\n/));
+  if (dataConfig.keys && dataConfig.id) {
+    console.log("Keys:", dataConfig.keys);
+    console.log("ID:", dataConfig.id);
+
+    processLines(session, dataConfig, data.split(/\r?\n/));
   }
 };
