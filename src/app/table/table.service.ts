@@ -41,7 +41,7 @@ export class TableService {
     private config: ConfigService,
     private http: HttpClient
   ) {
-    this.dataUrl = config.getAPI() + '/police_complaints';
+    this.dataUrl = config.getAPI() + '/philadelphia_police_complaints/complaint';
   }
 
   getData(): Promise<any> {
