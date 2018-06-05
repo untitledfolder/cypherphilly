@@ -11,6 +11,8 @@ var session = driver.session();
 
 var port = 3000;
 
+var datagroups = [];
+
 if (process.argv.length >= 3) {
   port = process.argv[2];
 }
@@ -28,6 +30,7 @@ function processDataSetConfig(dataConfig) {
       ") RETURN n LIMIT 5";
     console.log("Group Match:", groupMatch);
 
+    datagroups.push(config.datagroup);
     config.datagroup.datasets.forEach(dataset => {
       console.log("Dataset API:", dataset.api);
       match = "MATCH (n: " + config.datagroup.dataGroupLabel +
@@ -36,10 +39,10 @@ function processDataSetConfig(dataConfig) {
       match += " LIMIT 5";
       console.log("Dataset Match:", match);
 
-      makeGetter(app, config.datagroup.dataGroupAPI + dataset.api, match);
+      makeGetter(config.datagroup.dataGroupAPI + dataset.api, match);
     });
 
-    makeGetter(app, config.datagroup.dataGroupAPI, groupMatch);
+    makeGetter(config.datagroup.dataGroupAPI, groupMatch);
   }
 }
 
@@ -58,7 +61,7 @@ function processNeo(res, result) {
   );
 }
 
-function makeGetter(app, url, match) {
+function makeGetter(url, match) {
   app.get(url, (req, res) => {
     console.log("REQUEST:", req.url);
     console.log(">>>USING REQUEST:", match);
@@ -77,6 +80,10 @@ exec(
     }
 
     stdout.split(/\r?\n/).forEach(processDataSetConfig);
+    app.get('/datasets', function(req, res) {
+      console.log("Getting datagroups:", datagroups.length);
+      res.send(JSON.stringify(datagroups));
+    });
 
     console.log("Using port:", port);
 
