@@ -5,12 +5,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 import { ConfigService } from './config.service';
+import { DataService } from './data/data.service';
+
 import { ToolbarModule } from './toolbar/toolbar.module';
 import { HomeModule } from './home/home.module';
 import { TableModule } from './table/table.module';
-import { DatasetsModule } from './datasets/datasets.module';
-
-import { DataService } from './data/data.service';
+import { DataPagesModule } from './data-pages/data-pages.module';
 
 import { AppComponent } from './app.component';
 
@@ -31,7 +31,7 @@ import { AppComponent } from './app.component';
     ToolbarModule,
     HomeModule,
     TableModule,
-    DatasetsModule
+    DataPagesModule
   ],
   providers: [
     ConfigService,
