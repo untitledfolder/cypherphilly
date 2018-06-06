@@ -8,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 
 export class DataPageComponent implements OnInit {
 
+  private datagroups;
+
   constructor() { }
 
+  init() {
+    this.datagroups = [{
+      name: 'Group Name',
+      link: '/groupname'
+    }];
+  }
+
   ngOnInit() {
+    this.init();
   }
 
 }

@@ -1,3 +1,10 @@
 <p>
 data-page works!
 </p>
+
+<ul>
+  <li *ngFor="let group of datagroups"
+      [routerLink]="'/data' + group.link">
+    {{group.name}}
+  </li>
+</ul>
