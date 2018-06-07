@@ -4,11 +4,16 @@ import { Injectable } from '@angular/core';
 export class ConfigService {
 
   private API = "api";
+  private DATA = "/data";
 
   constructor() { }
 
   getAPI() {
     return this.API;
+  }
+
+  getDATA() {
+    return this.API + this.DATA;
   }
 
 }

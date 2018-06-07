@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { DatasetService } from '../data/dataset.service';
+
 @Component({
   selector: 'app-data-page',
   templateUrl: './data-page.component.html',
@@ -10,13 +12,13 @@ export class DataPageComponent implements OnInit {
 
   private datagroups;
 
-  constructor() { }
+  constructor(private datasetService: DatasetService) { }
 
   init() {
-    this.datagroups = [{
-      name: 'Group Name',
-      url: '/groupname'
-    }];
+    this.datasetService.getDatasets()
+    .then(response => {
+      console.log(response);
+    });
   }
 
   ngOnInit() {
