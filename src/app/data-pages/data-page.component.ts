@@ -15,7 +15,7 @@ export class DataPageComponent implements OnInit {
   init() {
     this.datagroups = [{
       name: 'Group Name',
-      link: '/groupname'
+      url: '/groupname'
     }];
   }
 

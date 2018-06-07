@@ -15,7 +15,17 @@ export class DataGroupComponent implements OnInit {
 
     this.datagroup = {
       name: "Group name",
-      url: "/groupname"
+      url: "/groupname",
+      datasets: [
+        {
+          name: "Dataset 1",
+          url: "/dataset1"
+        },
+        {
+          name: "Dataset 2",
+          url: "/dataset2"
+        }
+      ]
     };
 
   }

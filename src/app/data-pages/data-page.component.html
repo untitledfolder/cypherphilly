@@ -4,7 +4,7 @@ data-page works!
 
 <ul>
   <li *ngFor="let group of datagroups"
-      [routerLink]="'/data' + group.link">
+      [routerLink]="'/data' + group.url">
     {{group.name}}
   </li>
 </ul>

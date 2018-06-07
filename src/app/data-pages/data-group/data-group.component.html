@@ -1,3 +1,10 @@
 <p>
   data-group works!
 </p>
+
+<ul>
+  <li *ngFor="let dataset of datagroup.datasets"
+    [routerLink]="'/data' + datagroup.url + dataset.url">
+    {{dataset.name}}
+  </li>
+</ul>
