@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { DataPageComponent } from './data-page.component';
 import { DataGroupComponent } from './data-group/data-group.component';
 import { DatasetComponent } from './dataset/dataset.component';
+import { DataProfileComponent } from './data-profile/data-profile.component';
 
 @NgModule({
   imports: [
@@ -31,7 +32,8 @@ import { DatasetComponent } from './dataset/dataset.component';
   declarations: [
     DataPageComponent,
     DataGroupComponent,
-    DatasetComponent
+    DatasetComponent,
+    DataProfileComponent
   ],
   exports: [ ]
 })
