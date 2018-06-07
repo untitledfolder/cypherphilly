@@ -1,33 +1,33 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { DatasetService } from '../../data/dataset.service';
 
 @Component({
   selector: 'app-data-group',
   templateUrl: './data-group.component.html',
   styleUrls: ['./data-group.component.scss']
 })
+
 export class DataGroupComponent implements OnInit {
 
   private datagroup;
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute,
+    private datasetService: DatasetService
+  ) { }
 
   init() {
+    this.datasetService.getDatasets()
+    .then(response => {
+      this.datagroup = response
+      .filter(
+        group => '/' + this.route.snapshot.paramMap.get('groupid') === group.dataGroupAPI
+      )[0];
 
-    this.datagroup = {
-      name: "Group name",
-      url: "/groupname",
-      datasets: [
-        {
-          name: "Dataset 1",
-          url: "/dataset1"
-        },
-        {
-          name: "Dataset 2",
-          url: "/dataset2"
-        }
-      ]
-    };
-
+      console.log("Datagroup:", this.datagroup);
+    });
   }
 
   ngOnInit() {
