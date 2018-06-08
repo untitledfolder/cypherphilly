@@ -11,7 +11,7 @@ import { DatasetService } from '../../data/dataset.service';
 
 export class DataGroupComponent implements OnInit {
 
-  private datagroup;
+  private datagroup = {};
 
   constructor(
     private route: ActivatedRoute,
@@ -23,7 +23,7 @@ export class DataGroupComponent implements OnInit {
     .then(response => {
       this.datagroup = response
       .filter(
-        group => '/' + this.route.snapshot.paramMap.get('groupid') === group.dataGroupAPI
+        group => this.route.snapshot.paramMap.get('groupid') === group.key
       )[0];
 
       console.log("Datagroup:", this.datagroup);

@@ -42,7 +42,7 @@ function processDataSetConfig(dataConfig) {
     // TODO: Only do if it doesn't start with one of these: ['./', '../', '/']
     var config = require('../' + dataConfig);
 
-    console.log("\tData Group Name:", config.datagroup.dataGroupName);
+    console.log("\tData Group Name:", config.datagroup.name);
     config.datagroup.datasets.forEach(function (dataset) {
       console.log("\t\tData Set Name:", dataset.name);
       var getDataCommand;
@@ -59,18 +59,18 @@ function processDataSetConfig(dataConfig) {
         return;
       }
 
-      (function processingData(session, dataGroupLabel, processingData, dataset) {
+      (function processingData(session, label, processingData, dataset) {
         var dataCollected = "";
 
         processingData.stdout.on('data', function(data) {
           dataCollected += data.toString();
         });
         processingData.stdout.on('end', function() {
-          createOrUpdate.process(session, dataGroupLabel, dataset, dataCollected);
+          createOrUpdate.process(session, label, dataset, dataCollected);
         });
       })(
         session,
-        config.datagroup.dataGroupLabel,
+        config.datagroup.label,
         processDataSet(getDataCommand, dataset.processor),
         dataset
       );

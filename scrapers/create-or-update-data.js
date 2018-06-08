@@ -110,11 +110,11 @@ function processLines(session, dataConfig, data) {
   }
 }
 
-exports.process = function(session, dataGroupLabel, dataConfig, data) {
+exports.process = function(session, label, dataConfig, data) {
   console.log("Processing:", dataConfig.name);
-  console.log(" Labels:", dataGroupLabel, dataConfig.label);
+  console.log(" Labels:", label, dataConfig.label);
   // TODO: Make this easier
-  dataConfig.groupLabel = dataGroupLabel;
+  dataConfig.groupLabel = label;
 
   if (dataConfig.keys && dataConfig.id) {
     console.log("Keys:", dataConfig.keys);

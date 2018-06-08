@@ -25,24 +25,24 @@ function processDataSetConfig(dataConfig) {
   if (dataConfig.length) {
     var config = require(dataConfig);
 
-    console.log("Group API:", config.datagroup.dataGroupAPI);
-    var groupMatch = "MATCH (n: " + config.datagroup.dataGroupLabel +
+    console.log("Group API:", config.datagroup.key);
+    var groupMatch = "MATCH (n: " + config.datagroup.label +
       ") RETURN n LIMIT 5";
     console.log("Group Match:", groupMatch);
 
     datagroups.push(config.datagroup);
     config.datagroup.datasets.forEach(dataset => {
       console.log("Dataset API:", dataset.api);
-      match = "MATCH (n: " + config.datagroup.dataGroupLabel +
+      match = "MATCH (n: " + config.datagroup.label +
         ":" + dataset.label + ") RETURN ";
       match += dataset.keys.map(key => "n." + key + " AS " + key).join(", ");
       match += " LIMIT 5";
       console.log("Dataset Match:", match);
 
-      makeGetter(config.datagroup.dataGroupAPI + dataset.api, match);
+      makeGetter(config.datagroup.key + '/' + dataset.key, match);
     });
 
-    makeGetter(config.datagroup.dataGroupAPI, groupMatch);
+    makeGetter(config.datagroup.key, groupMatch);
   }
 }
 

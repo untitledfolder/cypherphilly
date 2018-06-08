@@ -1,6 +1,6 @@
 <ul>
   <li *ngFor="let group of datagroups"
-      [routerLink]="'/data' + group.dataGroupAPI">
-    {{group.dataGroupName}}
+      [routerLink]="'/data/' + group.key">
+    {{group.name}}
   </li>
 </ul>
