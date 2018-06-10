@@ -2,12 +2,5 @@
   data-group works!
 </p>
 
-<app-data-profile>
-</app-data-profile>
-
-<ul>
-  <li *ngFor="let dataset of datagroup.datasets"
-    [routerLink]="'/data/' + datagroup.key + '/' + dataset.key">
-    {{dataset.name}}
-  </li>
-</ul>
+<router-outlet>
+</router-outlet>

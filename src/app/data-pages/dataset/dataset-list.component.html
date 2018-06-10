@@ -1,0 +1,6 @@
+<ul>
+  <li *ngFor="let dataset of datagroup.datasets"
+    [routerLink]="'/data/' + datagroup.key + '/' + dataset.key">
+    {{dataset.name}}
+  </li>
+</ul>

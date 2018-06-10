@@ -4,3 +4,8 @@
 
 <app-data-profile>
 </app-data-profile>
+
+<div *ngIf="dataset.keys">
+  <table-component [headers]="dataset.keys" [datas]="data">
+  </table-component>
+</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 
@@ -8,18 +8,27 @@ import { MatPaginator, MatTableDataSource } from '@angular/material';
   styleUrls: ['./table-component.component.scss']
 })
 
-export class TableComponent implements OnInit {
+export class TableComponent {
 
-  headerKeys;
+  private headerKeys;
+
+  private _headers;
 
   @Input()
-  headers;
+  set headers(headers) {
+    if (headers && headers.length) {
+      this.headerKeys = headers.map( header => header.key );
+      this._headers = headers;
+    }
+
+    console.log("Header Keys:", this.headerKeys);
+  }
+
+  get headers() {
+    return this._headers;
+  }
 
   @Input()
   datas;
-
-  ngOnInit() {
-    this.headerKeys = this.headers.map( header => header.key );
-  }
 
 }

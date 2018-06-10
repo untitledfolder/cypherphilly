@@ -15,14 +15,38 @@ exports.datagroup = {
       },
       id: "cartodb_id",
       keys: [
-        "cartodb_id",
-        "the_geom",
-        "the_geom_webmercator",
-        "cap_number",
-        "date_received",
-        "dist_occurrence",
-        "general_cap_classification",
-        "summary"
+        {
+          title: "ID",
+          key: "cartodb_id"
+        },
+        {
+          title: "Geom",
+          key: "the_geom"
+        },
+        {
+          title: "Geom Webmercator",
+          key: "the_geom_webmercator"
+        },
+        {
+          title: "CAP Number",
+          key: "cap_number"
+        },
+        {
+          title: "Date Received",
+          key: "date_received"
+        },
+        {
+          title: "Distance",
+          key: "dist_occurrence"
+        },
+        {
+          title: "Classification",
+          key: "general_cap_classification"
+        },
+        {
+          title: "Summary",
+          key: "summary"
+        }
       ]
     },
     {
@@ -37,16 +61,46 @@ exports.datagroup = {
       },
       id: "cartodb_id",
       keys: [
-        "cartodb_id",
-        "the_geom",
-        "the_geom_webmercator",
-        "cap_number",
-        "po_initials",
-        "po_race",
-        "po_sex",
-        "allegations_investigated",
-        "investigative_findings",
-        "disciplinary_findings"
+        {
+          title: "ID",
+          key: "cartodb_id"
+        },
+        {
+          title: "Geom",
+          key: "the_geom"
+        },
+        {
+          title: "Geom Webmercator",
+          key: "the_geom_webmercator"
+        },
+        {
+          title: "CAP Number",
+          key: "cap_number"
+        },
+        {
+          title: "Initials",
+          key: "po_initials"
+        },
+        {
+          title: "Race",
+          key: "po_race"
+        },
+        {
+          title: "Sex",
+          key: "po_sex"
+        },
+        {
+          title: "Allegations Investigated",
+          key: "allegations_investigated"
+        },
+        {
+          title: "Investigation Findings",
+          key: "investigative_findings"
+        },
+        {
+          title: "Disciplinary Findings",
+          key: "disciplinary_findings"
+        }
       ]
     },
     {
@@ -61,14 +115,38 @@ exports.datagroup = {
       },
       id: "cartodb_id",
       keys: [
-        "cartodb_id",
-        "the_geom",
-        "the_geom_webmercator",
-        "cap_number",
-        "complainant_sex",
-        "complainant_race",
-        "complainant_age",
-        "complainant_initials"
+        {
+          title: "ID",
+          key: "cartodb_id"
+        },
+        {
+          title: "Geom",
+          key: "the_geom"
+        },
+        {
+          title: "Geom Webmercator",
+          key: "the_geom_webmercator"
+        },
+        {
+          title: "CAP Number",
+          key: "cap_number"
+        },
+        {
+          title: "ex",
+          key: "complainant_sex"
+        },
+        {
+          title: "Race",
+          key: "complainant_race"
+        },
+        {
+          title: "Age",
+          key: "complainant_age"
+        },
+        {
+          title: "Initials",
+          key: "complainant_initials"
+        }
       ]
     }
   ]

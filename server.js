@@ -35,7 +35,9 @@ function processDataSetConfig(dataConfig) {
       console.log("Dataset API:", dataset.api);
       match = "MATCH (n: " + config.datagroup.label +
         ":" + dataset.label + ") RETURN ";
-      match += dataset.keys.map(key => "n." + key + " AS " + key).join(", ");
+      match += dataset.keys
+        .map(keyConfig => keyConfig.key)
+        .map(key => "n." + key + " AS " + key).join(", ");
       match += " LIMIT 5";
       console.log("Dataset Match:", match);
 
@@ -50,7 +52,8 @@ function processNeo(res, result) {
   //TODO: Make this a utility for all Neo4j responses
   res.send(
     result.records.map(
-      i => i.keys.reduce(
+      i => i.keys
+      .reduce(
         (dataObject, key, j) => {
           dataObject[key] = i._fields[j];
           return dataObject;
@@ -62,9 +65,10 @@ function processNeo(res, result) {
 }
 
 function makeGetter(url, match) {
-  app.get(url, (req, res) => {
+  console.log("Adding URL:", url);
+  console.log(">>>USING REQUEST:", match);
+  app.get('/' + url, (req, res) => {
     console.log("REQUEST:", req.url);
-    console.log(">>>USING REQUEST:", match);
 
     session.run(match)
     .then(result => processNeo(res, result));

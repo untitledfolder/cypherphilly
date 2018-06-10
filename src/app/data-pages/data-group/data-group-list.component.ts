@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { DatasetService } from '../data/dataset.service';
+import { DatasetService } from '../../data/dataset.service';
 
 @Component({
   selector: 'app-data-group-list',
