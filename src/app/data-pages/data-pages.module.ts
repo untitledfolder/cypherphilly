@@ -2,8 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { DataModule } from '../data/data.module';
 import { ComponentsModule } from '../components/components.module';
+import { DatasetsModule } from '../datasets/datasets.module';
+import { DatasetsService } from '../datasets/datasets.service';
+import { DataGroupService } from '../datasets/data-group.service';
+import { DatasetService } from '../datasets/dataset.service';
 
 import { DataPageComponent } from './data-page.component';
 import { DataGroupListComponent } from './data-group/data-group-list.component';
@@ -20,6 +23,9 @@ import { DataProfileComponent } from './data-profile/data-profile.component';
       {
         path: 'data',
         component: DataPageComponent,
+        resolve: {
+          datagroups: DatasetsService
+        },
         children: [
           {
             path: '',
@@ -28,6 +34,9 @@ import { DataProfileComponent } from './data-profile/data-profile.component';
           {
             path: ':groupid',
             component: DataGroupComponent,
+            resolve: {
+              datagroup: DataGroupService
+            },
             children: [
               {
                 path: '',
@@ -35,14 +44,17 @@ import { DataProfileComponent } from './data-profile/data-profile.component';
               },
               {
                 path: ':setid',
-                component: DatasetComponent
+                component: DatasetComponent,
+                resolve: {
+                  dataset: DatasetService
+                }
               }
             ]
           }
         ]
       }
     ]),
-    DataModule,
+    DatasetsModule,
     ComponentsModule
   ],
   declarations: [

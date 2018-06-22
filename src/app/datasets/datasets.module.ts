@@ -1,25 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 
-import { PpcService } from './ppc/ppc.service';
-import { PpcComponent } from './ppc/ppc.component';
+import { DatasetsService } from './datasets.service';
+import { DataGroupService } from './data-group.service';
+import { DatasetService } from './dataset.service';
 
 @NgModule({
   imports: [
-    CommonModule,
-    RouterModule.forRoot([
-      {
-        path: 'ppc',
-        component: PpcComponent
-      }
-    ])
+    CommonModule
   ],
   declarations: [
-    PpcComponent
   ],
   providers: [
-    PpcService
+    DatasetsService,
+    DataGroupService,
+    DatasetService
   ],
   exports: [
   ]

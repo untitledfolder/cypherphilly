@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-
-import { DatasetService } from '../data/dataset.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-data-page',
@@ -8,19 +6,8 @@ import { DatasetService } from '../data/dataset.service';
   styleUrls: ['./data-page.component.scss']
 })
 
-export class DataPageComponent implements OnInit {
+export class DataPageComponent {
 
-  private datagroups;
-
-  constructor(private datasetService: DatasetService) { }
-
-  init() {
-    this.datasetService.getDatasets()
-    .then(response => this.datagroups = response);
-  }
-
-  ngOnInit() {
-    this.init();
-  }
+  constructor() { }
 
 }

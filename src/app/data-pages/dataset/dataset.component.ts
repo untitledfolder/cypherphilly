@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { TableComponent } from '../../components/table-component.component';
-
+import { Dataset } from '../../datasets/dataset';
 import { DataService } from '../../data/data.service';
-import { DatasetService } from '../../data/dataset.service';
+
+import { TableComponent } from '../../components/table-component.component';
 
 @Component({
   selector: 'app-dataset',
@@ -14,37 +14,22 @@ import { DatasetService } from '../../data/dataset.service';
 
 export class DatasetComponent implements OnInit {
 
-  private datagroup: any = {};
-  private dataset: any = {};
+  private dataset: Dataset;
   private data: any = [];
 
   constructor(
     private route: ActivatedRoute,
-    private dataService: DataService,
-    private datasetService: DatasetService
+    private dataService: DataService
   ) { }
 
   init() {
-    this.datasetService.getDatasets()
-    .then(response => {
-      this.datagroup = response
-      .filter(
-        group => this.route.parent.snapshot.paramMap.get('groupid') === group.key
-      )[0];
+    this.dataset = this.route.snapshot.data.dataset;
 
-      this.dataset = this.datagroup.datasets
-      .filter(
-        set => this.route.snapshot.paramMap.get('setid') === set.key
-      )[0];
-
-      return this.dataService.getData(
-        '/' + this.datagroup.key + '/' + this.dataset.key
-      );
-    })
-    .then(response => {
-      console.log("Response:", response);
-      this.data = response
-    });
+    this.dataService.getData(
+      '/' + this.route.snapshot.parent.data.datagroup.key +
+      '/' + this.route.snapshot.data.dataset.key
+    )
+    .then(response => this.data = response);
   }
 
   ngOnInit() {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { DatasetService } from '../../data/dataset.service';
+import { DataGroup } from '../../datasets/data-group';
 
 import { DatasetListComponent } from '../dataset/dataset-list.component';
 
@@ -13,22 +13,12 @@ import { DatasetListComponent } from '../dataset/dataset-list.component';
 
 export class DataGroupDetailsComponent implements OnInit {
 
-  private datagroup = {};
+  private datagroup: DataGroup;
 
-  constructor(
-    private route: ActivatedRoute,
-    private datasetService: DatasetService
-  ) { }
+  constructor(private route: ActivatedRoute) { }
 
   init() {
-    console.log(this.route);
-    this.datasetService.getDatasets()
-    .then(response => {
-      this.datagroup = response
-      .filter(
-        group => this.route.snapshot.paramMap.get('groupid') === group.key
-      )[0];
-    });
+    this.datagroup = this.route.snapshot.data.datagroup;
   }
 
   ngOnInit() {
