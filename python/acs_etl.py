@@ -33,17 +33,18 @@ result.dropna()
 import re
 
 #create empty dictionary 
+#Added "commuting" to list of matchers
 
 matchers = {"Insurance": "INSURANCE COVERAGE"
     , "Employment Status": "EMPLOYMENT STATUS"
     , "Occupation": "OCCUPATION"
     , "Industry": "INDUSTRY"
-    , "Income": "INCOME"
+    , "Income": "INCOME AND BENEFITS"
     , "Poverty": "POVERTY LEVEL"
-    , "Worker Class": "CLASS OF WORKER" }
+    , "Commuting": "COMMUTING"
+    , "Worker Class": "CLASS OF WORKER"}
 
 test_desc = "Percent; EMPLOYMENT STATUS - Civilian labor force"
-
 
 def classify(desc):
     results=[]
@@ -60,15 +61,18 @@ print(type(desc))
 #make desc into list
 
 desc = result['desc'].tolist()
-desc = classify(desc)
+categories_long = classify(desc)
 #result['categories'] = result['desc'].apply(classify)
-desc
+categories_long
 
-result['categories'] = classify(result['desc'].tolist())
-result['categories']
-result['desc']
-for i in matchers:
-    re.search()
+#remove all n/a
+categories[:] = [x for x in categories_long if x != 'n/a']
 
-result.with_column("categories", categories)
+categories = categories[:]
+
+#adding categories names to result dataframe
+
+result['categories'] = categories
+
+result
 
