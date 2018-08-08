@@ -2,11 +2,13 @@ exports.datagroup = {
   name: "Philadelphia Police Complaints",
   label: "PhiladelphiaPoliceComplaints",
   key: "philadelphia_police_complaints",
+  description: "Group description goes here",
   datasets: [
     {
       name: "Complaint",
       label: "PPCComplaint",
       key: "complaint",
+      description: "Complaint description",
       source: "https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20ppd_complaints",
       processor: "scrapers/opendataphilly/ppd_complaints/ppd_complaints-scraper.sh",
       test: {
@@ -53,6 +55,7 @@ exports.datagroup = {
       name: "Finding",
       label: "PPCFinding",
       key: "finding",
+      description: "Finding description",
       source: "https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20ppd_complaint_disciplines",
       processor: "scrapers/opendataphilly/ppd_complaints/ppd_disciplines-scraper.sh",
       test: {
@@ -107,6 +110,7 @@ exports.datagroup = {
       name: "Complainant",
       label: "PPCComplainant",
       key: "complainant",
+      description: "Complainant description",
       source: "https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20ppd_complaint_complainants",
       processor: "scrapers/opendataphilly/ppd_complaints/ppd_complainants-scraper.sh",
       test: {
