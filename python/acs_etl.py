@@ -66,13 +66,14 @@ categories_long = classify(desc)
 categories_long
 
 #remove all n/a
-categories[:] = [x for x in categories_long if x != 'n/a']
+categories_long[:] = [x for x in categories_long if x != 'n/a']
 
-categories = categories[:]
+categories = categories_long[:]
 
 #adding categories names to result dataframe
 
 result['categories'] = categories
 
 result
+
 
