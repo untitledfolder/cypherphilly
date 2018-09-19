@@ -75,5 +75,81 @@ categories = categories_long[:]
 result['categories'] = categories
 
 result
+def split_right(desc):
+    results=[]
+    for line in desc:
+        sub_cat_result = line.split("-")[1]
+        results.append(sub_cat_result)
+    return results
+
+sub_cat = split_right(desc)
+
+result['Sub Category'] = sub_cat
+
+#filter to usable rows for a categorization by income level
+
+house_income_pct = result.iloc[51:61]
+
+house_income_pct
+
+#create a new column describing each income level in 'house_income_pct'
+
+def split_right_incomes(income_desc):
+    results=[]
+    for line in income_desc:
+        sub_cat_result = line.split("households - ")[1]
+        results.append(sub_cat_result)
+    return results
+
+income_ranges = split_right_incomes(house_income_pct['desc'])
+
+#add income ranges to result dataframe
+
+house_income_pct['Ranges'] = income_ranges
+
+#drop other columns and put income range column at the front
+
+house_income_pct = house_income_pct.drop(['categories', 'Sub Category', 'desc'], axis=1)
+
+cols = house_income_pct.columns.tolist()
+
+cols
+
+cols = cols[-1:] + cols[:-1]
+
+house_income_pct = house_income_pct[cols]
+house_income_pct
+
+house_income_pct_range_index = house_income_pct.set_index(['Ranges'])
+
+house_income_pct
+
+#melt
+house_income_pct.melt(id_vars='Ranges').groupby('variable')['value'].agg('max')
+
+ranges_melt = house_income_pct.melt(id_vars='Ranges')
+
+ranges_melt
+
+ranges_melt.loc[ranges_melt['value'] == '-', 'value'] = pd.np.nan
+
+ranges_melt['value'] = ranges_melt['value'].astype(float)
+
+ranges_melt.query("value=='-'")
+
+zip_max_income_range = ranges_melt.groupby('variable')['value'].agg('max')
+
+house_income_pct_range_index.replace('-', pd.np.nan).astype(float).idxmax()
+
+#percentage in the biggest income range for each zip
+zip_max_income_range 
+
+#needs to include which range is the max
+
+
+
+
+
+
 
 
