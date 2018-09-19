@@ -144,7 +144,12 @@ house_income_pct_range_index.replace('-', pd.np.nan).astype(float).idxmax()
 #percentage in the biggest income range for each zip
 zip_max_income_range 
 
-#needs to include which range is the max
+#changing titles and adding sub_type
+final = ranges_melt.rename(columns = {'variable': 'zip', 'value': 'percent', 'Ranges': 'field_sub_type'}) \
+            .assign(field_type = 'INCOME')
+final
+
+
 
 
 
