@@ -26,6 +26,7 @@ Most importantly we need Philadelphia journalists and citizens to help us identi
 
 ## With The Data
 [Data Query Formatting](https://docs.google.com/document/d/188VJ85lypit7mriBv-8HupBStZ13j6KhnKDqOsEANGY/edit?usp=sharing)
+
 [OpenDataPhilly](https://www.opendataphilly.org/dataset)
 
 ## With Journalism
