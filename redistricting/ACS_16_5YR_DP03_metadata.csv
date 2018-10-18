@@ -1,0 +1,67 @@
+GEO.id,Id
+GEO.id2,Id2
+GEO.display-label,Geography
+HC03_VC06,Percent; EMPLOYMENT STATUS - Civilian Employed
+HC03_VC07,Percent; EMPLOYMENT STATUS - Civilian Unemployed
+HC03_VC08,Percent; EMPLOYMENT STATUS - Armed Forces
+HC03_VC09,Percent; EMPLOYMENT STATUS - Not in labor force
+HC03_VC28,"Percent; COMMUTING TO WORK - Car, truck, or van: drove alone"
+HC03_VC29,"Percent; COMMUTING TO WORK - Car, truck, or van: carpooled"
+HC03_VC30,Percent; COMMUTING TO WORK -  Public transportation (excluding taxicab)
+HC03_VC31,Percent; COMMUTING TO WORK - Walked
+HC03_VC32,Percent; COMMUTING TO WORK - Other means
+HC03_VC33,Percent; COMMUTING TO WORK -  Worked at home
+HC01_VC36,Estimate; COMMUTING TO WORK - Mean travel time to work (minutes)
+HC03_VC41,"Percent; OCCUPATION - Management, business, science, and arts occupations"
+HC03_VC42,Percent; OCCUPATION - Service
+HC03_VC43,Percent; OCCUPATION -  Sales and office 
+HC03_VC44,"Percent; OCCUPATION - Natural resources, construction, and maintenance "
+HC03_VC45,"Percent; OCCUPATION - Production, transportation, and material moving"
+HC03_VC50,"Percent; INDUSTRY -  Agriculture, forestry, fishing and hunting, and mining"
+HC03_VC51,Percent; INDUSTRY - Construction
+HC03_VC52,Percent; INDUSTRY - Manufacturing
+HC03_VC53,Percent; INDUSTRY - Wholesale trade
+HC03_VC54,Percent; INDUSTRY -  Retail trade
+HC03_VC55,"Percent; INDUSTRY - Transportation and warehousing, and utilities"
+HC03_VC56,Percent; INDUSTRY - Information
+HC03_VC57,"Percent; INDUSTRY - Finance and insurance, and real estate and rental and leasing"
+HC03_VC58,"Percent; INDUSTRY - Professional, scientific, and management, and administrative and waste management services"
+HC03_VC59,"Percent; INDUSTRY - Educational services, and health care and social assistance"
+HC03_VC60,"Percent; INDUSTRY - Arts, entertainment, and recreation, and accommodation and food services"
+HC03_VC61,"Percent; INDUSTRY - Other services, except public administration"
+HC03_VC62,Percent; INDUSTRY - Public administration
+HC03_VC67,Percent; CLASS OF WORKER -  Private wage and salary workers
+HC03_VC68,Percent; CLASS OF WORKER - Government workers
+HC03_VC69,Percent; CLASS OF WORKER - Self-employed in own not incorporated business workers
+HC03_VC70,Percent; CLASS OF WORKER - Unpaid family workers
+HC03_VC75,"Percent; INCOME AND BENEFITS (INDIVIDUAL) - Less than $10,000"
+HC03_VC76,"Percent; INCOME AND BENEFITS (INDIVIDUAL) - $10,000 to $14,999"
+HC03_VC77,"Percent; INCOME AND BENEFITS (INDIVIDUAL) - $15,000 to $24,999"
+HC03_VC78,"Percent; INCOME AND BENEFITS (INDIVIDUAL) - $25,000 to $34,999"
+HC03_VC79,"Percent; INCOME AND BENEFITS (INDIVIDUAL) - $35,000 to $49,999"
+HC03_VC80,"Percent; INCOME AND BENEFITS (INDIVIDUAL) - $50,000 to $74,999"
+HC03_VC81,"Percent; INCOME AND BENEFITS (INDIVIDUAL) - $75,000 to $99,999"
+HC03_VC82,"Percent; INCOME AND BENEFITS (INDIVIDUAL) - $100,000 to $149,999"
+HC03_VC83,"Percent; INCOME AND BENEFITS (INDIVIDUAL) - $150,000 to $199,999"
+HC03_VC84,"Percent; INCOME AND BENEFITS (INDIVIDUAL) - $200,000 or more"
+HC01_VC85,Estimate; INCOME AND BENEFITS -  Median household income (dollars)
+HC01_VC86,Estimate; INCOME AND BENEFITS -  Mean household income (dollars)
+HC03_VC104,"Percent; INCOME AND BENEFITS (FAMILIES) - Less than $10,000"
+HC03_VC105,"Percent; INCOME AND BENEFITS (FAMILIES) - $10,000 to $14,999"
+HC03_VC106,"Percent; INCOME AND BENEFITS (FAMILIES) - $15,000 to $24,999"
+HC03_VC107,"Percent; INCOME AND BENEFITS (FAMILIES) - $25,000 to $34,999"
+HC03_VC108,"Percent; INCOME AND BENEFITS (FAMILIES) - $35,000 to $49,999"
+HC03_VC109,"Percent; INCOME AND BENEFITS (FAMILIES) - $50,000 to $74,999"
+HC03_VC110,"Percent; INCOME AND BENEFITS (FAMILIES) - $75,000 to $99,999"
+HC03_VC111,"Percent; INCOME AND BENEFITS (FAMILIES) - $100,000 to $149,999"
+HC03_VC112,"Percent; INCOME AND BENEFITS (FAMILIES) - $150,000 to $199,999"
+HC03_VC113,"Percent; INCOME AND BENEFITS (FAMILIES) - $200,000 or more"
+HC01_VC114,Estimate; INCOME AND BENEFITS (FAMILIES) - Median family income (dollars)
+HC01_VC115,Estimate; INCOME AND BENEFITS (FAMILIES) - Mean family income (dollars)
+HC03_VC132,Percent; HEALTH INSURANCE COVERAGE - private health insurance
+HC03_VC133,Percent; HEALTH INSURANCE COVERAGE - public health insurance coverage
+HC03_VC134,Percent; HEALTH INSURANCE COVERAGE - No health insurance coverage
+HC03_VC164,Percent; BELOW THE POVERTY LEVEL - Married couple families
+HC03_VC167,"Percent; BELOW THE POVERTY LEVEL - Families with female householder, no husband present"
+HC03_VC171,Percent; BELOW THE POVERTY LEVEL - All people
+HC03_VC172,Percent; BELOW THE POVERTY LEVEL - All people - Under 18 years
