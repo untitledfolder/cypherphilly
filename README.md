@@ -25,7 +25,7 @@ Most importantly we need Philadelphia journalists and citizens to help us identi
 [cypherphilly on github](https://github.com/AddictiveSci/cypherphilly)
 
 ## With The Data
-[Data Query Formatting](https://docs.google.com/document/d/188VJ85lypit7mriBv-8HupBStZ13j6KhnKDqOsEANGY/edit?usp=sharing)
+[Data Query Formatting](https://docs.google.com/document/d/1NosqI_z8zaGZ7evIJKxCyOJNdujUWoQU1rZKyx_O2qE/edit?usp=sharing)
 
 [OpenDataPhilly](https://www.opendataphilly.org/dataset)
 
