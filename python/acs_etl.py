@@ -86,6 +86,7 @@ sub_cat = split_right(desc)
 
 result['Sub Category'] = sub_cat
 
+sub_cat
 #filter to usable rows for a categorization by income level
 
 house_income_pct = result.iloc[51:61]
