@@ -19,7 +19,7 @@ pct.columns.names=['zip']
 pct.head()
 
 #read metadata for field names
-names=pd.read_csv('redistricting/ACS_16_5YR_DP03_metadata.csv', names=['field', 'desc'])
+names=pd.read_csv('redistricting/ACS_filtered_metadata.csv', names=['field', 'desc'])
 ###names.index.names=['field']
 names.head()
 names.set_index('field', inplace=True)
