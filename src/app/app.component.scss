@@ -31,6 +31,8 @@ body {
 
   .app-content {
     margin: auto;
+
+    font-family: "OpenDyslexic3-Regular";
   }
 }
 
@@ -40,4 +42,15 @@ body {
     margin: 8px;
     width: 100%;
   }
+}
+
+// Fonts
+@font-face {
+  font-family: 'OpenDyslexic3-Regular';
+  src: url('../assets/fonts/OpenDyslexic3-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'OpenDyslexic3-Bold';
+  src: url('../assets/fonts/OpenDyslexic3-Bold.ttf') format('truetype');
 }
