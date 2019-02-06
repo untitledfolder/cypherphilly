@@ -71,7 +71,8 @@ function makeGetter(url, match) {
     console.log("REQUEST:", req.url);
 
     session.run(match)
-    .then(result => processNeo(res, result));
+    .then(result => processNeo(res, result))
+    .catch(error => console.log(error));
   });
 }
 
