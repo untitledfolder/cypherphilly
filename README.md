@@ -1,38 +1,48 @@
 
 # **Cypher Philly**
 
+**The Idea:**
 
-## **The Idea**
+The [Philly Graph DB](https://www.meetup.com/Philly-GraphDB/) meetup group has started a new initiative called Cypher Philly. The initiative is intended to inspire and equip citizen journalists, data enthusiasts and social activists with the tools and data to do good for the city and citizens of Philadelphia. 
 
-Philly Graph DB and Code for Philly are starting a new initiative called Cypher Philly. The initiative is intended to inspire and equip citizen journalists, data enthusiasts and social activists with the tools and data to do good for the city and citizens of Philadelphia. There are a number of reasons why Philadelphia needs your help from public safety issues to beautifying shared public spaces, transportation updates or even unheard police complaints. Our goal is to harness the untapped potential of OpenDataPhilly.org which has hundreds of datasets that could help inform effective solutions to these problems. Topics range from Arts/Culture/History, Education, Elections/Politics, Transportation, Public Safety, Environment & and much more. With a shared enthusiasm for making an actionable difference we believe you can help us make this initiative possible.    
-  
+There are a number of reasons why Philadelphia needs your help from public safety issues, to beautifying shared public spaces or even unheard police complaints. Our goal is to harness the untapped potential of OpenDataPhilly.org which has hundreds of datasets that could help inform effective solutions to these problems. Topics range from Arts/Culture/History, Education, Elections/Politics, Civil Rights, Public Safety, Environment & and much more. With a shared enthusiasm for making an actionable difference we believe you can help us make this initiative possible. 
 
-## **The Code**
+This initiative is in collaboration with [Code For Philly](https://www.codeforphilly.org/), [Neo4j](https://neo4j.com/), [Linode](https://www.linode.com/), [Data Philly](https://www.meetup.com/DataPhilly/) & [Technical.ly Philly](https://technical.ly/philly/). We've just been awarded a [Lenfest](https://www.lenfestinstitute.org/innovation-grants/) grant to build portions of the technology for developing collaboration in the Philadelphia Journalism ecosystem. We'll be working with Many of these collaborators to test and build our toolsets, technology and initiative as we work to create actionable change through data storytelling.     
 
-Cypher Philly's first priority is to build web application tools which contributors can use collaboratively. These tools will help us to query the data were working with and allow us to share the results we’ve discovered. The Cypher Philly web application tool can be found on our Github page and is completely open source, so anyone can contribute to the code. Each new project that is spawned from this initiative will get its own web page. 
 
-## **The Data**
+# Learn More
 
-Additionally we need data experts to help in many aspects. Once a problem is identified by the journalist and a topic chosen to explore, we’ll need data experts to start the data preparation phase. Wherein the data will need to be cleaned and modeled to fit the search parameters set out by the journalists to tell a story. Afterwards the prepared datasets will be imported into the Cypher Philly project main databases. Your next task will be to set up query parameters for using Cypher Philly Neo4j Graph Database web application and the Cypher Query language to query the data. After the datasets are queried for each project, results will be displayed on the Cypher Philly website either in a visual, categorical, quantitative or any combination that helps tell the story of the data. The data findings from each project will then be summarized in conjunction with the journalist in order to draw conclusions from the results and build recommendations for actionable steps moving forward.          
+**For Activist:**       
 
-## **Journalism**
+Activist for this project come in many forms and levels of participation. We are always accepting new participants to help us with this initiative. We ask any new activists only bring their best selves and a curious mind ready to tackle interesting civic problems.
 
-Most importantly we need Philadelphia journalists and citizens to help us identify problems that are most relevant to the data we have from Open Data Philly. Once we’ve identified the problems and datasets we’ll be working with, we’ll work with data scientists to determine what parts of the data are most relevant to telling the story. When the data scientists have concluded their analysis and published their findings; we’ll need journalists to tell the stories we find in the data and how we can use this information to make actionable change.
+If you're looking to participate [Click Here](https://docs.google.com/forms/d/e/1FAIpQLSdKqTnUG_hmwmpczj0WjvWHQygPIFqvAZboY-jGmoXv8RqhRA/viewform?usp=sf_link) to share your skills and superpowers. 
 
-# **How to get involved**
- 
-## With The Code
-[cypherphilly on github](https://github.com/AddictiveSci/cypherphilly)
+**For Coders:**
 
-## With The Data
-[Data Query Formatting](https://docs.google.com/document/d/1NosqI_z8zaGZ7evIJKxCyOJNdujUWoQU1rZKyx_O2qE/edit?usp=sharing)
+Cypher Philly's first priority is to build our web application toolset which contributors can use collaboratively. These tools will help us to Ingest, Process and Upload data sources we'll use in our projects. We'll also be developing a consistent API which will make it easier to Access, Share and Query the data we're working with. The Cypher Philly web application toolset can be found on our [Github page](https://github.com/AddictiveSci/cypherphilly). The project is completely open source, so anyone can contribute to the code or reuse for their community. 
 
-[OpenDataPhilly](https://www.opendataphilly.org/dataset)
+Get started with Learning how to use Neo4j Desktop with our [Civic Data Journalism Walkthrough](https://docs.google.com/document/d/1NosqI_z8zaGZ7evIJKxCyOJNdujUWoQU1rZKyx_O2qE/edit#heading=h.vok8ubo4dcer).
 
-## With Journalism
-### **Journalistic Organizations Involved** 
-[Journalistic Outlets In Philly Go Here ](https://en.wikipedia.org/wiki/News_media)
+**For Data People:**
 
+Once a story lead is identified by the journalist or a civic activist, a topic is then chosen to explore. we'll need data experts to begin by scouring the web to locate hosted open data or institutions who have access to open data. 
+
+A priority deliverable for this project is to make a consistent process for adding new data sources, processing data, cleaning, and finding connections between datasets. This will enable us to easily combine large sets of data in this manner.  We'll find our sources, Ingest the data, run the data through our data processor and finally upload the data to our Neo4j Database Hosted on servers provided by our collaborator Linode. 
+
+Got open data to share? Summit it here using this [Form](https://docs.google.com/forms/d/1ih6FzfRTwDCicWe4TgFhFbydYKGSzEvDHZyKd0-xbyA/edit).          
+
+**For Journalism:**
+
+We're partnering with Journalists in the Philadelphia ecosystem to help us identify problems that are most relevant to the problems the city and its citizens are facing. Once we've identified the problems and datasets we'll be working with, we'll then team up with data scientists to determine what parts of the data are most relevant to telling a data story. Data scientists will need to work with the journalist to make sense of the data and concluded their analysis. Journalists will then be able to publish the stories we find in the data and how we can use this information to make an actionable change.   
+
+Got a story you want to report? [Click Here](https://docs.google.com/forms/d/e/1FAIpQLSdQQJ9AFPs5x1em34akGidJpTRppFMuDTFMScH72-uOlXmjMg/viewform?usp=sf_link)
+
+Looking for a data story Lead? [Click Here](https://docs.google.com/forms/d/e/1FAIpQLSdQQJ9AFPs5x1em34akGidJpTRppFMuDTFMScH72-uOlXmjMg/viewform?usp=sf_link)
+
+**For Creatives:**
+
+You can also find wireframes and mockup designs in the [Google Drive Folders](https://drive.google.com/drive/folders/18T9FYCM63klmHEaZLr0tSWJ6y64N3NaM?usp=sharing) for Cypher Philly and directly from the [CP New Wireframes folder](https://drive.google.com/drive/folders/1Bl2qHA4qFYrRN4XNquVEPu_jdpIEEIZe?usp=sharing).
 ## Project Collaboration:
 
 ### **Community Project Boards**
