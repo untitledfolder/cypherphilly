@@ -5,3 +5,9 @@ This code will be used to ingest data from various data sources. It should be do
 ## Current Status
 
 Getting started!
+
+## Specifics
+
+### Data Configs
+
+Each data that will be ingested will need a data config.
