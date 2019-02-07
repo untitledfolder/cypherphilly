@@ -5,10 +5,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build-prod": "ng build --prod",
-    "build-staging": "ng build --staging",
-    "build-dev": "ng build --dev",
+    "build-prod": "npm run clean && ng build --prod",
+    "build-staging": "npm run clean && ng build --staging",
+    "build-dev": "npm run clean && ng build",
     "build": "npm run build-dev",
+    "clean": "rm -rf dist",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
