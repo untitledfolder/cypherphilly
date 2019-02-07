@@ -6,6 +6,10 @@ if (process.argv.length !== 3) {
   process.exit(1);
 }
 
-var ingestorConfig = process.argv[2];
+console.log("~~~ INGESTOR ~~~");
 
-console.log("INGESTOR:", ingestorConfig);
+var workingDir = __dirname;
+console.log("Working dir:", workingDir);
+
+var ingestorConfig = process.argv[2];
+console.log("Config file:", ingestorConfig);
