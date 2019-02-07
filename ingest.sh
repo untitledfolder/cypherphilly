@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INGESTOR_COFNIGS_DIR="./ingestor/datasets/"
+INGESTOR_CONFIGS_DIR="./ingestor/datasets"
 
 echo "Ingestor"
 echo
@@ -12,5 +12,12 @@ fi
 
 echo "Ingest list: $INGEST_LIST"
 for ingest_item in "$INGEST_LIST"; do
-  echo "Ingesting data for: $ingest_item"
+  if [ ! -f "$INGESTOR_CONFIGS_DIR/$ingest_item/config.json" ]; then
+    echo "No dataset config for $ingest_item"
+    continue
+  fi
+
+  echo "START INGEST: $ingest_item"
+  echo
+  echo "END INGEST: $ingest_item"
 done
