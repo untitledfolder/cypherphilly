@@ -18,6 +18,6 @@ for ingest_item in "$INGEST_LIST"; do
   fi
 
   echo "START INGEST: $ingest_item"
-  echo
+  ./ingestor/ingestor.js $INGESTOR_CONFIGS_DIR/$ingest_item/config.json
   echo "END INGEST: $ingest_item"
 done
