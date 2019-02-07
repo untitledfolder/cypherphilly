@@ -1,5 +1,7 @@
 #!/bin/bash
 
+INGESTOR_COFNIGS_DIR="./ingestor/datasets/"
+
 echo "Ingestor"
 echo
 
@@ -9,3 +11,6 @@ if [ -z "$INGEST_LIST" ]; then
 fi
 
 echo "Ingest list: $INGEST_LIST"
+for ingest_item in "$INGEST_LIST"; do
+  echo "Ingesting data for: $ingest_item"
+done
