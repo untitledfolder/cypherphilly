@@ -1,4 +1,5 @@
 {
   "name": "Philadelphia Police Complaints",
-  "label": "PhiladelphiaPoliceComplaints"
+  "label": "PhiladelphiaPoliceComplaints",
+  "source": "https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20ppd_complaints"
 }
