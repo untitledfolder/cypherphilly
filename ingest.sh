@@ -29,7 +29,7 @@ for ingest_item in "$INGEST_LIST"; do
 
   debug_message "START INGEST: $ingest_item"
   debug_message
-  $WORKING_DIR/ingestor/ingestor.js $INGESTOR_CONFIGS_DIR/$ingest_item/config.json
+  $WORKING_DIR/ingestor/ingestor.js $ingest_item $INGESTOR_CONFIGS_DIR/$ingest_item/config.json
   debug_message
   debug_message "END INGEST: $ingest_item"
 done
