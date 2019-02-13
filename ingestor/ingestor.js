@@ -17,7 +17,6 @@ console.log("~~~ INGESTOR ~~~");
 var workingDir = __dirname;
 console.log("Working dir:", workingDir);
 var util = require(workingDir + "/ingest-util");
-console.log("Util:", util);
 
 var ingestorConfig = JSON.parse(fs.readFileSync(ingestorConfigFile));
 console.log();
@@ -27,9 +26,10 @@ console.log("Config file:");
 console.log(prettyjson.render(ingestorConfig));
 console.log();
 
-if (ingestorConfig.source) {
-  console.log("Data source:", ingestorConfig.source);
-}
-else {
+if (!ingestorConfig.source) {
   console.log("No data source o_O");
+  process.exit(1);
 }
+
+console.log("Data source:", ingestorConfig.source);
+util.downloadDataFromSource(ingestorConfig.source);
