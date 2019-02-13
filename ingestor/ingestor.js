@@ -16,6 +16,8 @@ console.log("~~~ INGESTOR ~~~");
 
 var workingDir = __dirname;
 console.log("Working dir:", workingDir);
+var util = require(workingDir + "/ingest-util");
+console.log("Util:", util);
 
 var ingestorConfig = JSON.parse(fs.readFileSync(ingestorConfigFile));
 console.log();
