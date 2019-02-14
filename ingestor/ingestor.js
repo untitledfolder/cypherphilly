@@ -32,4 +32,7 @@ if (!ingestorConfig.source) {
 }
 
 console.log("Data source:", ingestorConfig.source);
-util.downloadDataFromSource(ingestorConfig.source);
+util.prettyjson(
+  util.downloadDataFromSource(ingestorConfig.source).stdout,
+  process.stdout
+);
