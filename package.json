@@ -4,11 +4,9 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build-prod": "ng build --prod",
-    "build-staging": "ng build --staging",
-    "build-dev": "ng build --dev",
-    "build": "npm run build-dev",
+    "start": "npm run build && npm run assets",
+    "build": "ng build",
+    "assets": "./index.js",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

@@ -10,6 +10,7 @@ if (args.length) {
   port = args.shift();
 }
 
+console.log("Starting server at port `" + port + "`....");
 app.use('/content', serveStatic('content'));
 app.use(
   serveStatic('dist', {
