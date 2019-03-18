@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MatTableModule, MatPaginatorModule } from '@angular/material';
 
 import { TableComponent } from './table-component.component';
+import { ImageContentComponent } from './image-content.component';
 
 @NgModule({
   imports: [
@@ -12,11 +13,13 @@ import { TableComponent } from './table-component.component';
     MatPaginatorModule
   ],
   declarations: [
-    TableComponent
+    TableComponent,
+    ImageContentComponent
   ],
   providers: [ ],
   exports: [
-    TableComponent
+    TableComponent,
+    ImageContentComponent
   ]
 })
 
