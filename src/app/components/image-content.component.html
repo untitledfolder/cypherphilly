@@ -1,15 +1,17 @@
 <div class="image-content-component">
   <div class="image-content-image">
-    IMAGE
+    <img [src]="imageUrl">
   </div>
 
   <div class="image-content-section">
     <div class="image-content-title">
-      TITLE
+      <h1>
+        {{ title }}
+      </h1>
     </div>
 
     <div class="image-content-text">
-      TEXT
+      {{ text }}
     </div>
   </div>
 </div>

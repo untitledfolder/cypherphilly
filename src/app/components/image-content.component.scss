@@ -3,4 +3,20 @@
     width: 49%;
     display: inline-block;
   }
+
+  .image-content-image {
+    img {
+      width: 100%;
+    }
+  }
+
+  .image-content-section {
+    vertical-align: top;
+    text-align: center;
+
+    .image-content-title {
+      height: 75px;
+      padding: 15px;
+    }
+  }
 }
