@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ImageContentComponent } from '../components/image-content.component';
+import { IconCardComponent } from '../components/icon-card.component';
 
 @Component({
   selector: 'app-home',

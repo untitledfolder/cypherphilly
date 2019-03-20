@@ -5,6 +5,7 @@ import { MatTableModule, MatPaginatorModule } from '@angular/material';
 
 import { TableComponent } from './table-component.component';
 import { ImageContentComponent } from './image-content.component';
+import { IconCardComponent } from './icon-card.component';
 
 @NgModule({
   imports: [
@@ -14,12 +15,14 @@ import { ImageContentComponent } from './image-content.component';
   ],
   declarations: [
     TableComponent,
-    ImageContentComponent
+    ImageContentComponent,
+    IconCardComponent
   ],
   providers: [ ],
   exports: [
     TableComponent,
-    ImageContentComponent
+    ImageContentComponent,
+    IconCardComponent
   ]
 })
 
