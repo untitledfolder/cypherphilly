@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'image-content',
@@ -8,14 +8,15 @@ import { Component } from '@angular/core';
 
 export class ImageContentComponent {
 
+  @Input()
   title: string;
+
+  @Input()
   text: string;
+
+  @Input()
   imageUrl: string;
 
-  constructor() {
-    this.title = "TITLE!";
-    this.text = "TEXT!";
-    this.imageUrl = "https://www.gettyimages.com/gi-resources/images/CreativeLandingPage/HP_Sept_24_2018/CR3_GettyImages-159018836.jpg";
-  }
+  constructor() {}
 
 }
