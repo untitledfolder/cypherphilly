@@ -1,4 +1,7 @@
 .image-content-component {
+  width: 80%;
+  margin: auto;
+
   .image-content-image, .image-content-section {
     width: 49%;
     display: inline-block;
@@ -6,7 +9,8 @@
 
   .image-content-image {
     img {
-      width: 100%;
+      margin-top: 35px;
+      width: 85%;
     }
   }
 
@@ -15,7 +19,7 @@
     text-align: center;
 
     .image-content-title {
-      height: 75px;
+      height: 60px;
       padding: 15px;
     }
   }

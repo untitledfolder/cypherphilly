@@ -15,9 +15,11 @@ export class HomeComponent implements OnInit {
   mainContentText: string;
 
   constructor() {
-    this.mainContentImageUrl = "https://www.gettyimages.com/gi-resources/images/CreativeLandingPage/HP_Sept_24_2018/CR3_GettyImages-159018836.jpg";
-    this.mainContentTitle = "TITLE!!";
-    this.mainContentText = "TEXT!!";
+    this.mainContentImageUrl = "/content/Cypher_Philly_Unification_Color.png";
+    this.mainContentTitle = "The Cypher Philly Initiative";
+    this.mainContentText = `The Cypher Philly Initiative is an open source web application project designed to empower citizens, journalists, data scientists, coders and creatives with the ability to harness open data for civic good.
+
+        Our goal is to simplify the process of telling data-driven stories using open public data to bring about actionable change, while also informing citizens and governments alike. We plan to collaborate with news organizations to publish our results to the greater Philadelphia community.`;
   }
 
   ngOnInit() {
