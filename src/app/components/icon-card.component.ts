@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { MatCard } from '@angular/material';
 
@@ -9,6 +9,12 @@ import { MatCard } from '@angular/material';
 })
 
 export class IconCardComponent {
+
+  @Input()
+  title: string;
+
+  @Input()
+  image: string;
 
   constructor() {}
 

@@ -15,12 +15,21 @@ export class HomeComponent implements OnInit {
   mainContentTitle: string;
   mainContentText: string;
 
+  learnMoreCards: any;
+
   constructor() {
     this.mainContentImageUrl = "/content/Cypher_Philly_Unification_Color.png";
     this.mainContentTitle = "The Cypher Philly Initiative";
     this.mainContentText = `The Cypher Philly Initiative is an open source web application project designed to empower citizens, journalists, data scientists, coders and creatives with the ability to harness open data for civic good.
 
         Our goal is to simplify the process of telling data-driven stories using open public data to bring about actionable change, while also informing citizens and governments alike. We plan to collaborate with news organizations to publish our results to the greater Philadelphia community.`;
+
+    this.learnMoreCards = [
+      {
+        title: "Icon Card Title",
+        image: "https://img.icons8.com/material/4ac144/256/camera.png"
+      }
+    ];
   }
 
   ngOnInit() {

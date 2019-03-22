@@ -16,7 +16,9 @@
 </div>
 
 <div class="home-icon-cards">
-  <icon-card>
+  <icon-card *ngFor="let learnmore of learnMoreCards"
+     [title]="learnmore.title"
+     [image]="learnmore.image">
   </icon-card>
 </div>
 
