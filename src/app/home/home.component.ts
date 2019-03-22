@@ -26,8 +26,20 @@ export class HomeComponent implements OnInit {
 
     this.learnMoreCards = [
       {
-        title: "Icon Card Title",
-        image: "https://img.icons8.com/material/4ac144/256/camera.png"
+        title: "The Cypher Philly Data Stories",
+        image: "/content/icons/Cypher_Philly_logo_white_Blackborder.png"
+      },
+      {
+        title: "Lenfest Grant Award",
+        image: "/content/icons/Lenfest_Logo.png"
+      },
+      {
+        title: "Philly Data Graphs 4 Good",
+        image: "/content/icons/Philly_Data_Graphs_For_Good_Logo.png"
+      },
+      {
+        title: "Philly Graph DB Meetup Group",
+        image: "/content/icons/Philly_Graph_Logo_Nodes_Final.png"
       }
     ];
   }
