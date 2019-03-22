@@ -1,8 +1,11 @@
 .icon-card {
   .icon-card-image {
-    width: 60%;
+    width: 50%;
     margin: auto;
-    background: black;
+
+    img {
+      width: 100%;
+    }
   }
 
   .icon-card-title {
