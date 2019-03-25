@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home.component';
 import { GetinvolvedComponent } from '../getinvolved/getinvolved.component';
 import { SetupComponent } from '../setup/setup.component';
+import { ComponentsModule } from '../components/components.module';
 
 import { MarkdownModule } from 'angular2-markdown';
 
@@ -25,7 +26,8 @@ import { MarkdownModule } from 'angular2-markdown';
         component: SetupComponent
       }
     ]),
-    MarkdownModule.forRoot()
+    MarkdownModule.forRoot(),
+    ComponentsModule
   ],
   declarations: [
     HomeComponent,
