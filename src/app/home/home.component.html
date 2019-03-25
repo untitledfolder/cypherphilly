@@ -16,10 +16,10 @@
 </div>
 
 <div class="home-icon-cards">
-  <icon-card *ngFor="let learnmore of learnMoreCards"
-     [title]="learnmore.title"
-     [image]="learnmore.image">
-  </icon-card>
+  <div class="home-icon-card" *ngFor="let learnmore of learnMoreCards">
+    <icon-card [title]="learnmore.title" [image]="learnmore.image">
+    </icon-card>
+  </div>
 </div>
 
 <!--

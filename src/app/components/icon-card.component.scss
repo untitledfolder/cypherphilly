@@ -1,11 +1,10 @@
 .icon-card {
-  padding: 15%;
+  padding: 10px;
   box-shadow: 0px 0px 1px grey;
 
   .icon-card-image {
-    width: 100%;
-    margin: auto;
-    margin-bottom: 15%;
+    width: 80%;
+    margin: 10% auto;
     box-shadow: 0px 0px 1px grey;
 
     img {
@@ -15,8 +14,10 @@
 
   .icon-card-title {
     width: 90%;
+    height: 80px;
     margin: auto;
     text-align: center;
+    line-height: 1.2;
     font-size: 200%;
   }
 }
