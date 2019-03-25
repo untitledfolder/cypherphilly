@@ -27,19 +27,23 @@ export class HomeComponent implements OnInit {
     this.learnMoreCards = [
       {
         title: "The Cypher Philly Data Stories",
-        image: "/content/icons/Cypher_Philly_logo_white_Blackborder.png"
+        image: "/content/icons/Cypher_Philly_logo_white_Blackborder.png",
+        link: "/data"
       },
       {
         title: "Lenfest Grant Award",
-        image: "/content/icons/Lenfest_Logo.png"
+        image: "/content/icons/Lenfest_Logo.png",
+        external: "link1"
       },
       {
         title: "Philly Data Graphs 4 Good",
-        image: "/content/icons/Philly_Data_Graphs_For_Good_Logo.png"
+        image: "/content/icons/Philly_Data_Graphs_For_Good_Logo.png",
+        external: "link2"
       },
       {
         title: "Philly Graph DB Meetup Group",
-        image: "/content/icons/Philly_Graph_Logo_Nodes_Final.png"
+        image: "/content/icons/Philly_Graph_Logo_Nodes_Final.png",
+        external: "link3"
       }
     ];
   }

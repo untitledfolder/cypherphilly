@@ -16,6 +16,17 @@ export class IconCardComponent {
   @Input()
   image: string;
 
+  @Input()
+  link: string;
+
+  @Input()
+  external: string;
+
+  click() {
+    console.log("Link:", this.link);
+    console.log("External:", this.external);
+  }
+
   constructor() {}
 
 }
