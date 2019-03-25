@@ -19,8 +19,13 @@
     text-align: center;
 
     .image-content-title {
-      height: 60px;
-      padding: 15px;
+      height: 50px;
+      padding: 45px 0 25px 0;
+    }
+
+    .image-content-text {
+      font-size: 15px;
+      line-heigh: 1.6;
     }
   }
 }
