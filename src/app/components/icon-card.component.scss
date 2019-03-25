@@ -1,19 +1,24 @@
 .icon-card {
   padding: 10px;
+  width: 400px;
+  height: 500px;
+  display: inline-block;
   box-shadow: 0px 0px 1px grey;
 
   .icon-card-image {
-    width: 80%;
+    width: 240px;
+    height: 240px;
     margin: 10% auto;
     box-shadow: 0px 0px 1px grey;
 
     img {
-      width: 100%;
+      width: 240px;
+      height: 240px;
     }
   }
 
   .icon-card-title {
-    width: 90%;
+    width: 85%;
     height: 80px;
     margin: auto;
     text-align: center;
