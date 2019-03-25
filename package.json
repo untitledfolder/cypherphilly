@@ -47,6 +47,7 @@
     "karma-coverage-istanbul-reporter": "^1.4.2",
     "karma-jasmine": "^1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "mocha": "^6.0.2",
     "prettyjson": "^1.2.1",
     "protractor": "~5.1.2",
     "ts-node": "~4.1.0",
