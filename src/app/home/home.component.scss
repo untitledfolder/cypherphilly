@@ -4,9 +4,13 @@
 }
 
 .home-icon-cards {
+  width: 900px;
+  margin: auto;
+
   .home-icon-card {
     width: 420px;
-    height: 520px;
+    height: 460px;
+    margin: 12px;
     margin-bottom: 20px;
     display: inline-block;
   }
