@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { MatCard } from '@angular/material';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'icon-card',
@@ -23,10 +23,14 @@ export class IconCardComponent {
   external: string;
 
   click() {
-    console.log("Link:", this.link);
-    console.log("External:", this.external);
+    if (this.link) {
+      this.router.navigateByUrl(this.link);
+    }
+    else if (this.external) {
+      window.open(this.external, '_blank');;
+    }
   }
 
-  constructor() {}
+  constructor(private router: Router) {}
 
 }

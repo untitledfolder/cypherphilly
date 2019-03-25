@@ -33,17 +33,17 @@ export class HomeComponent implements OnInit {
       {
         title: "Lenfest Grant Award",
         image: "/content/icons/Lenfest_Logo.png",
-        external: "link1"
+        external: "https://www.lenfestinstitute.org/team/the-cypher-philly-initiative/"
       },
       {
         title: "Philly Data Graphs 4 Good",
         image: "/content/icons/Philly_Data_Graphs_For_Good_Logo.png",
-        external: "link2"
+        external: "https://docs.google.com/document/d/1HmQOetTtHpLJUjcdsfPROrJByk5kyVTXMfeeImtkNN8/edit?usp=sharing"
       },
       {
         title: "Philly Graph DB Meetup Group",
         image: "/content/icons/Philly_Graph_Logo_Nodes_Final.png",
-        external: "link3"
+        external: "https://www.meetup.com/Philly-GraphDB/"
       }
     ];
   }
