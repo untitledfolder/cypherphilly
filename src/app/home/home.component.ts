@@ -50,8 +50,24 @@ export class HomeComponent implements OnInit {
 
     this.getInvolvedCards = [
       {
-        title: "Title 1",
-        image: ""
+        title: "For Civic Activists",
+        image: "/content/icons/Cypher_Philly_Unification_Civic_Activists.png",
+        link: "https://docs.google.com/forms/d/e/1FAIpQLSdKqTnUG_hmwmpczj0WjvWHQygPIFqvAZboY-jGmoXv8RqhRA/viewform?usp=sf_link"
+      },
+      {
+        title: "For Journlists",
+        image: "/content/icons/Cypher_Philly_Unification_Journalists.png",
+        url: "https://docs.google.com/forms/d/e/1FAIpQLScHrm7FR-i7PGvsgJLxXayfds5T9596ChtDianhlJ-RMfNg8g/viewform?usp=sf_link"
+      },
+      {
+        title: "For Data Scientists",
+        image: "/content/icons/Cypher_Philly_Unification_Datascientists.png",
+        url: "https://goo.gl/forms/ntis7bY1kKaCnqdx1"
+      },
+      {
+        title: "For Coders & Creatives",
+        image: "/content/icons/Cypher_Philly_Unification_Coders_Creatives.png",
+        url: "https://github.com/untitledfolder/cypherphilly"
       }
     ];
   }
