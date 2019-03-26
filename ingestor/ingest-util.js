@@ -25,3 +25,25 @@ exports.prettyjson = function(stdin, stdout) {
     console.log();
   });
 };
+
+exports.new = () => {
+  return {};
+};
+
+exports.reader = {
+  new: () => {
+    return {};
+  }
+};
+
+exports.processor = {
+  new: () => {
+    return {};
+  }
+};
+
+exports.writer = {
+  new: () => {
+    return {};
+  }
+};
