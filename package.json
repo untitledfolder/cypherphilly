@@ -8,6 +8,7 @@
     "build": "ng build",
     "assets": "./index.js",
     "test": "ng test",
+    "unit": "mocha",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
