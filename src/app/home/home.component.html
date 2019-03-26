@@ -16,6 +16,19 @@
   </div>
 </div>
 
+<div class="home-subsection-title">
+  <h1>
+    Get Involved
+  </h1>
+</div>
+
+<div class="home-icon-cards">
+  <div class="home-icon-card" *ngFor="let involved of getInvolvedCards">
+    <icon-card [title]="involved.title" [image]="involved.image" [link]="involved.link" [external]="involved.external">
+    </icon-card>
+  </div>
+</div>
+
 <!--
 <div class="page-content">
   <div class="mission" Markdown path="/content/mission.md"></div>
