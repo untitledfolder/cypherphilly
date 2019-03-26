@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
   mainContentText: string;
 
   learnMoreCards: any;
+  getInvolvedCards: any;
 
   constructor() {
     this.mainContentImageUrl = "/content/Cypher_Philly_Unification_Color.png";
@@ -44,6 +45,13 @@ export class HomeComponent implements OnInit {
         title: "Philly Graph DB Meetup Group",
         image: "/content/icons/Philly_Graph_Logo_Nodes_Final.png",
         external: "https://www.meetup.com/Philly-GraphDB/"
+      }
+    ];
+
+    this.getInvolvedCards = [
+      {
+        title: "Title 1",
+        image: ""
       }
     ];
   }
