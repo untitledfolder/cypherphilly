@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-toolbar',
@@ -6,22 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./toolbar.component.scss']
 })
 
-export class ToolbarComponent implements OnInit {
-
-  navLinks = [
-    {
-      label: 'Get Involved',
-      link: '/getinvolved'
-    },
-    {
-      label: 'Setup',
-      link: '/setup'
-    }
-  ]
+export class ToolbarComponent {
 
   constructor() { }
-
-  ngOnInit() {
-  }
 
 }
