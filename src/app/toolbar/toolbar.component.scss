@@ -1,16 +1,23 @@
 .app-toolbar {
   span {
-    margin-left: 8px;
-    margin-right: 8px;
-
     cursor: pointer;
+  }
 
-    &:hover {
-      text-decoration: underline;
-    }
+  .toolbar-item, .toolbar-logo {
+    margin-top: 9px;
+    width: 52px;
+  }
 
-    &.toolbar-logo {
-      margin-right: 24px;
+  .toolbar-logo {
+    img {
+      width: 100%;
     }
+  }
+
+  .toolbar-title {
+    width: 100%;
+    text-align: center;
+
+    font-size: 46px;
   }
 }
