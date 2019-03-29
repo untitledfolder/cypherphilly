@@ -33,30 +33,31 @@ exports.prettyjson = function(stdin, stdout) {
 var reader = {
   new: (type, source, matcher) => {
     var sourceType = source.match(/^http/) ? 'http' : 'file';
-    var io;
+    var stdin, stdout;
 
     if ('file' === sourceType) {
-      if ('csv' === type) {
-        io = fileReader(source)
-        .pipe(csvStream({enclosedChar: '"'}));
-      }
-      else if ('json' === type) {
-        io = new Readable({
-          objectMode: true,
-          read() {}
-        });
-
-        oboe(fileReader(source))
-        .node(matcher, data => {
-          io.push(data);
-        })
-        .on('done', () => {
-          io.push(null);
-        });
-      }
+      stdin = fileReader(source)
     }
 
-    return io;
+    if ('csv' === type) {
+      stdout = stdin.pipe(csvStream({enclosedChar: '"'}));
+    }
+    else if ('json' === type) {
+      stdout = new Readable({
+        objectMode: true,
+        read() {}
+      });
+
+      oboe(stdin)
+      .node(matcher, data => {
+        stdout.push(data);
+      })
+      .on('done', () => {
+        stdout.push(null);
+      });
+    }
+
+    return stdout;
   }
 }
 

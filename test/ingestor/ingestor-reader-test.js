@@ -1,4 +1,7 @@
+var http = require('http');
+var fs = require('fs');
 var assert = require('assert');
+var sinon = require('sinon');
 var chai = require('chai');
 var expect = chai.expect;
 chai.use(require('chai-stream'));
@@ -37,15 +40,27 @@ describe.only('Reader', () => {
       });
     });
 
-    xdescribe('HTTP', () => {
+    describe('HTTP', () => {
+      var httpStub;
+
       beforeEach(() => {
-        type = 'http';
+        httpStub = sinon.stub(http, 'get');
       });
 
-      xit('should handle HTTP', () => {
-        source = 'http://example.com/data.json';
+      it('should handle HTTP', () => {
+        var response = fs.createReadStream(fixturesDir + 'example.json');
+        response.statusCode = 200;
+        response.headers = {};
 
-        assert.fail('not implemented');
+        httpStub.returns(response);
+        reader = util.reader.new('json', 'http://example.com/example.json', '!*');
+
+        expect(reader).to.be.a.ReadableStream;
+        expect(reader).to.end;
+      });
+
+      afterEach(() => {
+        http.get.restore();
       });
     });
   });
