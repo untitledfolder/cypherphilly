@@ -14,23 +14,6 @@ exports.downloadDataFromSource = function(source) {
   });
 };
 
-exports.prettyjson = function(stdin, stdout) {
-  var pretty = "";
-
-  process.stdout.write("Getting data...");
-  stdin.on('data', (data) => {
-    process.stdout.write(".");
-    pretty += data;
-  });
-
-  stdin.on('close', () => {
-    console.log();
-    console.log("Done!");
-    stdout.write(prettyjson.render(JSON.parse(pretty)));
-    console.log();
-  });
-};
-
 var reader = {
   new: (type, source, matcher) => {
     var sourceType = source.match(/^http/) ? 'http' : 'file';
@@ -65,6 +48,34 @@ var reader = {
   }
 }
 
+var writer = {
+  new: (input, type) => {
+    var output = new Readable({
+      read() {}
+    });
+
+    console.log("Type:", type);
+    if ('pp' === type) {
+      input.on('data', data => {
+        output.push(prettyjson.render(data));
+      });
+    }
+    else if ('json' === type) {
+      input.on('data', data => {
+        console.log("JSON Data", data);
+        output.push(JSON.stringify(data));
+      });
+    }
+
+    input.on('end', () => {
+      console.log("Done");
+      output.push(null);
+    });
+
+    return output;
+  }
+};
+
 exports.new = (type, source) => {
 };
 
@@ -76,8 +87,4 @@ exports.processor = {
   }
 };
 
-exports.writer = {
-  new: () => {
-    return {};
-  }
-};
+exports.writer = writer;
