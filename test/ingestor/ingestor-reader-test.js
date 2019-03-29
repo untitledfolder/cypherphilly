@@ -1,6 +1,5 @@
 var http = require('http');
 var fs = require('fs');
-var assert = require('assert');
 var sinon = require('sinon');
 var chai = require('chai');
 var expect = chai.expect;
@@ -8,7 +7,7 @@ chai.use(require('chai-stream'));
 
 var util = require('../../ingestor/ingest-util');
 
-describe.only('Reader', () => {
+describe('Reader', () => {
   var fixturesDir = 'test/fixtures/ingestor/';
 
   describe('Init', () => {
@@ -169,15 +168,12 @@ describe.only('Reader', () => {
 
   xdescribe('Error', () => {
     xit('should handle file doesn\'t exist', () => {
-      assert.fail('not implemented');
     });
 
     xit('should handle http error', () => {
-      assert.fail('not implemented');
     });
 
     xit('should handle parse error', () => {
-      assert.fail('not implemented');
     });
   });
 });
