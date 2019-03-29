@@ -1,43 +1,38 @@
 var assert = require('assert');
+var chai = require('chai');
+var expect = chai.expect;
+chai.use(require('chai-stream'));
 
 var util = require('../../ingestor/ingest-util');
 
-describe('Reader', () => {
+describe.only('Reader', () => {
+  var fixturesDir = 'test/fixtures/ingestor/';
+
   describe('Init', () => {
     it('should exist', () => {
-      assert.ok(util.reader);
-    });
-
-    it('should take type and source', () => {
-      assert.ok(util.reader.new('type', 'source'));
+      expect(util.reader).to.be.ok;
     });
   });
 
-  xdescribe('Params', () => {
+  describe('Params', () => {
     var reader;
-    var type;
-    var source;
 
-    xdescribe('File', () => {
-      beforeEach(() => {
-        type = 'file';
-      });
+    describe('File', () => {
+      describe('CSV', () => {
+        it('should handle a CSV File', () => {
+          reader = util.reader.new('csv', fixturesDir + 'example.csv');
 
-      xdescribe('CSV', () => {
-        xit('should handle a CSV File', () => {
-          source = 'file.csv';
-          reader = util.reader.new(type, source);
-
-          assert.fail('not implemented');
+          expect(reader).to.be.a.ReadableStream;
+          expect(reader).to.end;
         });
       });
 
-      xdescribe('JSON', () => {
-        xit('should handle a JSON File', () => {
-          source = 'file.json';
-          reader = util.reader.new(type, source);
+      describe('JSON', () => {
+        it('should handle a JSON File', () => {
+          reader = util.reader.new('json', fixturesDir + 'example.json', '!*');
 
-          assert.fail('not implemented');
+          expect(reader).to.be.a.ReadableStream;
+          expect(reader).to.end;
         });
       });
     });
@@ -57,6 +52,20 @@ describe('Reader', () => {
 
   xdescribe('IO', () => {
     xit('should generate io', () => {
+      assert.fail('not implemented');
+    });
+  });
+
+  xdescribe('Error', () => {
+    xit('should handle file doesn\'t exist', () => {
+      assert.fail('not implemented');
+    });
+
+    xit('should handle http error', () => {
+      assert.fail('not implemented');
+    });
+
+    xit('should handle parse error', () => {
       assert.fail('not implemented');
     });
   });
