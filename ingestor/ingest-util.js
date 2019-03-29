@@ -54,7 +54,6 @@ var writer = {
       read() {}
     });
 
-    console.log("Type:", type);
     if ('pp' === type) {
       input.on('data', data => {
         output.push(prettyjson.render(data));
@@ -62,13 +61,23 @@ var writer = {
     }
     else if ('json' === type) {
       input.on('data', data => {
-        console.log("JSON Data", data);
         output.push(JSON.stringify(data));
+      });
+    }
+    else if ('csv' === type) {
+      var sentHeader = false;
+
+      input.on('data', data => {
+        if (!sentHeader) {
+          sentHeader = true;
+          output.push('"' + Object.keys(data).join('","') + '"');
+        }
+
+        output.push('"' + Object.values(data).join('","') + '"');
       });
     }
 
     input.on('end', () => {
-      console.log("Done");
       output.push(null);
     });
 

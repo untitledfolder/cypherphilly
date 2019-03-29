@@ -6,18 +6,14 @@ var mockReadableStream = require('stream').Readable;
 
 var util = require('../../ingestor/ingest-util');
 
-describe.only('Writer', () => {
+describe('Writer', () => {
   describe('Init', () => {
     it('should exist', () => {
       assert.ok(util.writer);
     });
-
-    it('should take output and processed io', () => {
-      assert.ok(util.writer.new('processedio', 'output'));
-    });
   });
 
-  describe.only('IO', () => {
+  describe('IO', () => {
     var input;
     var writer;
     var line1;
