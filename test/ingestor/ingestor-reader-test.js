@@ -26,7 +26,7 @@ describe.only('Reader', () => {
           reader = util.reader.new('csv', fixturesDir + 'example.csv');
 
           expect(reader).to.be.a.ReadableStream;
-          expect(reader).to.end;
+          return expect(reader).to.end;
         });
       });
 
@@ -35,7 +35,7 @@ describe.only('Reader', () => {
           reader = util.reader.new('json', fixturesDir + 'example.json', '!*');
 
           expect(reader).to.be.a.ReadableStream;
-          expect(reader).to.end;
+          return expect(reader).to.end;
         });
       });
     });
@@ -49,14 +49,12 @@ describe.only('Reader', () => {
 
       it('should handle HTTP', () => {
         var response = fs.createReadStream(fixturesDir + 'example.json');
-        response.statusCode = 200;
-        response.headers = {};
 
         httpStub.returns(response);
         reader = util.reader.new('json', 'http://example.com/example.json', '!*');
 
         expect(reader).to.be.a.ReadableStream;
-        expect(reader).to.end;
+        return expect(reader).to.end;
       });
 
       afterEach(() => {

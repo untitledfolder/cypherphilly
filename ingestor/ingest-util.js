@@ -1,3 +1,4 @@
+var http = require('http');
 var { spawn } = require('child_process');
 var { Readable } = require('stream');
 var fileReader = require('fs').createReadStream;
@@ -37,6 +38,9 @@ var reader = {
 
     if ('file' === sourceType) {
       stdin = fileReader(source)
+    }
+    else if ('http' === sourceType) {
+      stdin = http.get(source);
     }
 
     if ('csv' === type) {
