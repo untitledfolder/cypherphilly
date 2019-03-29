@@ -57,6 +57,7 @@ describe.only('Writer', () => {
       writer = util.writer.new(input, 'pp');
 
       writer.on('data', data => {
+        data = data.toString();
         if (!line1) line1 = data;
         else if (!line2) line2 = data;
         else if (!line3) line3 = data;
@@ -65,11 +66,10 @@ describe.only('Writer', () => {
       });
 
       writer.on('end', () => {
-        expect(line1).to.equal('Hello');
-        expect(line2).to.equal('Hello');
-        expect(line3).to.equal('Hello');
-        expect(line4).to.equal('Hello');
-        expect(line5).to.equal('Hello');
+        expect(line1).to.equal('\u001b[32mid: \u001b[39m  \u001b[34m1\u001b[39m\n\u001b[32mdata: \u001b[39mData 1');
+        expect(line2).to.equal('\u001b[32mid: \u001b[39m  \u001b[34m2\u001b[39m\n\u001b[32mdata: \u001b[39mData 2');
+        expect(line3).to.equal('\u001b[32mid: \u001b[39m  \u001b[34m3\u001b[39m\n\u001b[32mdata: \u001b[39mData 3');
+        expect(line4).to.be.undefined;
         done();
       });
     });
@@ -77,23 +77,44 @@ describe.only('Writer', () => {
     it('should output JSON', (done) => {
       writer = util.writer.new(input, 'json');
 
-      expect(line1).to.equal('Hello');
-      expect(line2).to.equal('Hello');
-      expect(line3).to.equal('Hello');
-      expect(line4).to.equal('Hello');
-      expect(line5).to.equal('Hello');
-      done();
+      writer.on('data', data => {
+        data = data.toString();
+        if (!line1) line1 = data;
+        else if (!line2) line2 = data;
+        else if (!line3) line3 = data;
+        else if (!line4) line4 = data;
+        else line5 = data;
+      });
+
+      writer.on('end', () => {
+        expect(line1).to.equal('{"id":1,"data":"Data 1"}');
+        expect(line2).to.equal('{"id":2,"data":"Data 2"}');
+        expect(line3).to.equal('{"id":3,"data":"Data 3"}');
+        expect(line4).to.be.undefined;
+        done();
+      });
     });
 
     it('should output CSV', (done) => {
       writer = util.writer.new(input, 'csv');
 
-      expect(line1).to.equal('Hello');
-      expect(line2).to.equal('Hello');
-      expect(line3).to.equal('Hello');
-      expect(line4).to.equal('Hello');
-      expect(line5).to.equal('Hello');
-      done();
+      writer.on('data', data => {
+        data = data.toString();
+        if (!line1) line1 = data;
+        else if (!line2) line2 = data;
+        else if (!line3) line3 = data;
+        else if (!line4) line4 = data;
+        else line5 = data;
+      });
+
+      writer.on('end', () => {
+        expect(line1).to.equal('"id","data"');
+        expect(line2).to.equal('"1","Data 1"');
+        expect(line3).to.equal('"2","Data 2"');
+        expect(line4).to.equal('"3","Data 3"');
+        expect(line5).to.be.undefined;
+        done();
+      });
     });
   });
 });
