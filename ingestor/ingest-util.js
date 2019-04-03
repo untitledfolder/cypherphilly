@@ -88,7 +88,10 @@ var writer = {
   }
 };
 
-exports.new = (type, source) => {
+exports.new = (source, output) => {
+  var readerStream = reader.new(source);
+
+  return {};
 };
 
 exports.reader = reader;
