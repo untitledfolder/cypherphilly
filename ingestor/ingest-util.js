@@ -15,15 +15,18 @@ exports.downloadDataFromSource = function(source) {
 };
 
 var reader = {
-  new: (type, source, matcher) => {
-    var sourceType = source.match(/^http/) ? 'http' : 'file';
+  new: (source) => {
+    var type = source.type;
+    var location = source.location;
+    var matcher = source.root;
+    var sourceType = location.match(/^http/) ? 'http' : 'file';
     var stdin, stdout;
 
     if ('file' === sourceType) {
-      stdin = fileReader(source)
+      stdin = fileReader(location)
     }
     else if ('http' === sourceType) {
-      stdin = http.get(source);
+      stdin = http.get(location);
     }
 
     if ('csv' === type) {

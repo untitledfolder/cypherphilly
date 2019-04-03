@@ -22,7 +22,10 @@ describe('Reader', () => {
     describe('File', () => {
       describe('CSV', () => {
         it('should handle a CSV File', () => {
-          reader = util.reader.new('csv', fixturesDir + 'example.csv');
+          reader = util.reader.new({
+            type: 'csv',
+            location: fixturesDir + 'example.csv'
+          });
 
           expect(reader).to.be.a.ReadableStream;
           return expect(reader).to.end;
@@ -31,7 +34,11 @@ describe('Reader', () => {
 
       describe('JSON', () => {
         it('should handle a JSON File', () => {
-          reader = util.reader.new('json', fixturesDir + 'example.json', '!*');
+          reader = util.reader.new({
+            type: 'json',
+            location: fixturesDir + 'example.json',
+            root: '!*'
+          });
 
           expect(reader).to.be.a.ReadableStream;
           return expect(reader).to.end;
@@ -50,7 +57,11 @@ describe('Reader', () => {
         var response = fs.createReadStream(fixturesDir + 'example.json');
 
         httpStub.returns(response);
-        reader = util.reader.new('json', 'http://example.com/example.json', '!*');
+        reader = util.reader.new({
+          type: 'json',
+          location: 'http://example.com/example.json',
+          root: '!*'
+        });
 
         expect(reader).to.be.a.ReadableStream;
         return expect(reader).to.end;
@@ -69,7 +80,10 @@ describe('Reader', () => {
       var obj3;
       var obj4;
 
-      reader = util.reader.new('csv', fixturesDir + 'example.csv');
+      reader = util.reader.new({
+        type: 'csv',
+        location: fixturesDir + 'example.csv'
+      });
 
       reader.on('data', data => {
         if (!obj1) obj1 = data;
@@ -120,7 +134,11 @@ describe('Reader', () => {
       var obj3;
       var obj4;
 
-      reader = util.reader.new('json', fixturesDir + 'example.json', '!*');
+      reader = util.reader.new({
+        type: 'json',
+        location: fixturesDir + 'example.json',
+        root: '!*'
+      });
 
       reader.on('data', data => {
         if (!obj1) obj1 = data;
