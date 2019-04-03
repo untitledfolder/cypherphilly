@@ -53,7 +53,7 @@ describe('Reader', () => {
         httpStub = sinon.stub(http, 'get');
       });
 
-      it('should handle HTTP', () => {
+      xit('should handle HTTP', () => {
         var response = fs.createReadStream(fixturesDir + 'example.json');
 
         httpStub.returns(response);

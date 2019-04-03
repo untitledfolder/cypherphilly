@@ -4,7 +4,6 @@ var fs = require("fs");
 var prettyjson = require("prettyjson");
 
 var workingDir = __dirname;
-console.log("Working dir:", workingDir);
 var util = require(workingDir + "/ingest-util");
 
 if (process.argv.length < 4) {
@@ -32,7 +31,7 @@ if (!ingestorConfig.source) {
 }
 
 console.log("Data source:", ingestorConfig.source);
-util.prettyjson(
-  util.downloadDataFromSource(ingestorConfig.source).stdout,
-  process.stdout
-);
+
+var ingestor = util.new(ingestorConfig.source, 'pp')
+
+ingestor.pipe(process.stdout);
