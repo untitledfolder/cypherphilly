@@ -32,6 +32,14 @@ if (!ingestorConfig.source) {
 
 console.log("Data source:", ingestorConfig.source);
 
-var ingestor = util.new(ingestorConfig.source, 'pp')
+if (ingestorConfig.source) {
+  var ingestor = util.new(ingestorConfig.source, 'pp')
+  ingestor.pipe(process.stdout);
+}
 
-ingestor.pipe(process.stdout);
+if (ingestorConfig.datasets) {
+  for (dataset in ingestorConfig.datasets) {
+    var ingestor = util.new(dataset.source, 'pp')
+    ingestor.pipe(process.stdout);
+  }
+}
