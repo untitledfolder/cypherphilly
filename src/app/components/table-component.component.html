@@ -1,0 +1,25 @@
+<mat-table #table [dataSource]="datas">
+
+  <ng-container *ngFor="let header of headers"
+    [matColumnDef]="header.key">
+
+    <mat-header-cell *matHeaderCellDef>
+      {{header.title}}
+    </mat-header-cell>
+
+    <mat-cell *matCellDef="let element">
+      {{element[header.key]}}
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="headerKeys"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: headerKeys;"></mat-row>
+
+</mat-table>
+
+<mat-paginator #paginator
+                [pageSize]="2"
+                [pageSizeOptions]="[10, 25, 50, 250, 1000]"
+                [showFirstLastButtons]="true">
+</mat-paginator>
+

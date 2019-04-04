@@ -1,12 +1,30 @@
-<div class="page-header">
-  <h1 class="app-title">
-    Welcome to CyperPhilly
+<image-content [imageUrl]="mainContentImageUrl"
+      [text]="mainContentText"
+      [title]="mainContentTitle">
+</image-content>
+
+<div class="home-subsection-title">
+  <h1>
+    Learn More
   </h1>
 </div>
 
-<div class="page-content">
-  <p>
-  The point of CyperPhilly is to get data from as much publicly available data
-  about Philly and provide tools and APIs to handle the data.
-  </p>
+<div class="home-icon-cards">
+  <div class="home-icon-card" *ngFor="let learnmore of learnMoreCards">
+    <icon-card [title]="learnmore.title" [image]="learnmore.image" [link]="learnmore.link" [external]="learnmore.external">
+    </icon-card>
+  </div>
+</div>
+
+<div class="home-subsection-title">
+  <h1>
+    Get Involved
+  </h1>
+</div>
+
+<div class="home-icon-cards">
+  <div class="home-icon-card" *ngFor="let involved of getInvolvedCards">
+    <icon-card [title]="involved.title" [image]="involved.image" [link]="involved.link" [external]="involved.external">
+    </icon-card>
+  </div>
 </div>

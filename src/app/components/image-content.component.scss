@@ -1,0 +1,31 @@
+.image-content-component {
+  width: 80%;
+  margin: auto;
+
+  .image-content-image, .image-content-section {
+    width: 49%;
+    display: inline-block;
+  }
+
+  .image-content-image {
+    img {
+      margin-top: 35px;
+      width: 85%;
+    }
+  }
+
+  .image-content-section {
+    vertical-align: top;
+    text-align: center;
+
+    .image-content-title {
+      height: 50px;
+      padding: 45px 0 25px 0;
+    }
+
+    .image-content-text {
+      font-size: 15px;
+      line-heigh: 1.6;
+    }
+  }
+}

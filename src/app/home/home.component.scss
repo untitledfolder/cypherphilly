@@ -1,0 +1,23 @@
+.home-subsection-title {
+  margin-top: 80px;
+  text-align: center;
+  margin-bottom: 35px;
+
+  h1 {
+    font-size: 70px;
+    font-family: "PT Serif";
+  }
+}
+
+.home-icon-cards {
+  width: 900px;
+  margin: auto;
+
+  .home-icon-card {
+    width: 420px;
+    height: 460px;
+    margin: 12px;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+}
