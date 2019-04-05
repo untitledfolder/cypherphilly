@@ -48,3 +48,9 @@ queryStartGenerators.forEach(startGenerator => {
     return startGenerator + ' ' + genQueryStart(varname, labels, mapped);
   };
 });
+
+exports.genSET = (varname, id, map) => {
+  var returnString = "";
+
+  return returnString;
+};
