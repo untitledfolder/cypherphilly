@@ -50,7 +50,7 @@ describe.only('Neo Util', () => {
     });
   });
 
-  describe.only('Generate map', () => {
+  describe('Generate map', () => {
     it('maps out a map with one', () => {
       var mapped = {one: 'item'};
       var output = "{one: 'item'}";
@@ -66,9 +66,14 @@ describe.only('Neo Util', () => {
     });
   });
 
-  describe('Generate MATCH', () => {
+  describe.only('Generate MATCH', () => {
     it('uses the generated label and matcher', () => {
-      assert.fail('Not implemented');
+      var varname = 'n';
+      var labels = ['Label1', 'Label2', 'Label3'];
+      var mapped = {one: 'item', two: 'items'};
+      var output = "MATCH (n :Label1:Label2:Label3 {one: 'item', two: 'items'})";
+
+      assert.equal(util.genMATCH(varname, labels, mapped), output);
     });
   });
 
