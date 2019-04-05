@@ -31,7 +31,7 @@ describe.only('Neo Util', () => {
       assert.equal(util.genLabel(varname, labels), output);
     });
 
-    it.only('handles no varname and one label as a string', () => {
+    it('handles no varname and one label as a string', () => {
       var varname = '';
       var labels = 'Label';
 
@@ -108,6 +108,37 @@ describe.only('Neo Util', () => {
       var output = "MERGE (n :Label1:Label2:Label3 {one: 'item', two: 'items'})";
 
       assert.equal(util.genMERGE(varname, labels, mapped), output);
+    });
+  });
+
+  describe.only('Generate SET list', () => {
+    it('takes a var, id, and map that is just id', () => {
+      var varname = 'n';
+      var mapped = {id: '123'};
+      var id = 'id';
+
+      var output = "";
+
+      assert.equal(util.genSET(varname, id, mapped), output);
+    });
+
+    it('takes a var, id, and map with one more than id', () => {
+      var varname = 'n';
+      var mapped = {id: '123', one: 'item'};
+
+      var output = "\nSET n.one = 'item';";
+
+      assert.equal(util.genSET(varname, id, mapped), output);
+    });
+
+    it('takes a var, id, and map with multiple fields', () => {
+      var varname = 'n';
+      var id = 'id';
+      var mapped = {id: '123', one: 'item', two: 'items'};
+
+      var output = "\nSET n.one = 'item', n.two = 'items'";
+
+      assert.equal(util.genSET(varname, id, mapped), output);
     });
   });
 
