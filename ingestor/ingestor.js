@@ -2,18 +2,29 @@
 
 var fs = require("fs");
 var prettyjson = require("prettyjson");
+var { Duplex } = require("stream");
 
 var workingDir = __dirname;
 var util = require(workingDir + "/ingest-util");
+var neoUtil = require(workingDir + "/neo-util");
 
-if (process.argv.length < 4) {
+var args = process.argv.splice(2);
+
+if (process.argv.length < 2) {
   console.log("Must specify what to ingest");
   console.log(process.argv);
   process.exit(1);
 }
 
-var ingestorConfigKey = process.argv[2];
-var ingestorConfigFile = process.argv[3];
+var DONEO = false;
+
+if (args.length >= 3 && args[0] === '-n') {
+  DONEO = true;
+  args.shift();
+}
+
+var ingestorConfigKey = args[0];
+var ingestorConfigFile = args[1];
 
 console.log("~~~ INGESTOR ~~~");
 
@@ -32,14 +43,26 @@ if (!ingestorConfig.source) {
 
 console.log("Data source:", ingestorConfig.source);
 
+var writer = process.stdout;
+
+if (DONEO) {
+  writer = new Duplex({write: (data, encoding, c)=>{writer.push(data); c()}, read: ()=>{}});
+
+  writer.on('data', data => {
+    console.log(neoUtil.genCreateOrUpdate('n', ingestorConfig.label, ingestorConfig.id, JSON.parse(data)));
+  });
+}
+
 if (ingestorConfig.source) {
-  var ingestor = util.new(ingestorConfig.source, 'pp')
-  ingestor.pipe(process.stdout);
+  var ingestor = util.new(ingestorConfig.source, 'json');
+
+  ingestor.pipe(writer);
 }
 
 if (ingestorConfig.datasets) {
   for (dataset in ingestorConfig.datasets) {
-    var ingestor = util.new(dataset.source, 'pp')
-    ingestor.pipe(process.stdout);
+    var ingestor = util.new(dataset.source, 'json');
+
+    ingestor.pipe(writer);
   }
 }

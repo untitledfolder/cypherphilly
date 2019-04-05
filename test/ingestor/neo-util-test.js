@@ -2,7 +2,7 @@ const assert = require('assert');
 
 const util = require('../../ingestor/neo-util');
 
-describe.only('Neo Util', () => {
+describe('Neo Util', () => {
   describe('Generate Labels', () => {
     it('takes no variable name and no labels', () => {
       var varname = '';
