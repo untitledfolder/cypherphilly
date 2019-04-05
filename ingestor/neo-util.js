@@ -1,4 +1,4 @@
-exports.genLabel = (varname, labels) => {
+var genLabel = (varname, labels, map) => {
   var returnString = '(';
 
   if (varname) {
@@ -13,10 +13,14 @@ exports.genLabel = (varname, labels) => {
     returnString += ':' + labels.join(':');
   }
 
+  if (map) {
+    returnString += ' ' + map;
+  }
+
   return returnString + ')';
 };
 
-exports.genMap = (mapped) => {
+var genMap = (mapped) => {
   var returnString = '{';
 
   returnString += Object.keys(mapped).map(map => {
@@ -24,4 +28,11 @@ exports.genMap = (mapped) => {
   }).join(', ');
 
   return returnString + '}';
+};
+
+exports.genMap = genMap;
+exports.genLabel = genLabel;
+
+exports.genMATCH = (varname, labels, mapped) => {
+  return "MATCH " + genLabel(varname, labels, genMap(mapped));
 };
