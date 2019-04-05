@@ -66,20 +66,27 @@ describe.only('Neo Util', () => {
     });
   });
 
-  describe.only('Generate MATCH', () => {
+  describe('Generate MATCH', () => {
     it('uses the generated label and matcher', () => {
       var varname = 'n';
       var labels = ['Label1', 'Label2', 'Label3'];
       var mapped = {one: 'item', two: 'items'};
+
       var output = "MATCH (n :Label1:Label2:Label3 {one: 'item', two: 'items'})";
 
       assert.equal(util.genMATCH(varname, labels, mapped), output);
     });
   });
 
-  describe('Generate CREATE', () => {
+  describe.only('Generate CREATE', () => {
     it('uses the generated label and map', () => {
-      assert.fail('Not implemented');
+      var varname = 'n';
+      var labels = ['Label1', 'Label2', 'Label3'];
+      var mapped = {one: 'item', two: 'items'};
+
+      var output = "CREATE (n :Label1:Label2:Label3 {one: 'item', two: 'items'})";
+
+      assert.equal(util.genCREATE(varname, labels, mapped), output);
     });
   });
 
