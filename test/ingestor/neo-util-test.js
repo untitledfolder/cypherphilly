@@ -114,8 +114,8 @@ describe.only('Neo Util', () => {
   describe.only('Generate SET list', () => {
     it('takes a var, id, and map that is just id', () => {
       var varname = 'n';
-      var mapped = {id: '123'};
       var id = 'id';
+      var mapped = {id: '123'};
 
       var output = "";
 
@@ -124,6 +124,7 @@ describe.only('Neo Util', () => {
 
     it('takes a var, id, and map with one more than id', () => {
       var varname = 'n';
+      var id = 'id';
       var mapped = {id: '123', one: 'item'};
 
       var output = "\nSET n.one = 'item';";
@@ -136,7 +137,7 @@ describe.only('Neo Util', () => {
       var id = 'id';
       var mapped = {id: '123', one: 'item', two: 'items'};
 
-      var output = "\nSET n.one = 'item', n.two = 'items'";
+      var output = "\nSET n.one = 'item', n.two = 'items';";
 
       assert.equal(util.genSET(varname, id, mapped), output);
     });

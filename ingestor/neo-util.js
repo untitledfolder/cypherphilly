@@ -49,8 +49,14 @@ queryStartGenerators.forEach(startGenerator => {
   };
 });
 
-exports.genSET = (varname, id, map) => {
+exports.genSET = (varname, id, mapped) => {
   var returnString = "";
+
+  Object.keys(mapped).forEach( map => {
+    if (map !== id) {
+      returnString += "\nSET " + varname + "." + map + " = '" + mapped[map] + "';";
+    }
+  });
 
   return returnString;
 };
