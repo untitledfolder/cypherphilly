@@ -3,6 +3,10 @@ exports.genLabel = (varname, labels) => {
 
   if (varname) {
     returnString += varname;
+
+    if (labels && labels.length) {
+      returnString += ' ';
+    }
   }
 
   if (labels && labels.length) {
