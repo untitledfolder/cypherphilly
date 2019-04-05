@@ -31,6 +31,15 @@ describe.only('Neo Util', () => {
       assert.equal(util.genLabel(varname, labels), output);
     });
 
+    it.only('handles no varname and one label as a string', () => {
+      var varname = '';
+      var labels = 'Label';
+
+      var output = '(:Label)';
+
+      assert.equal(util.genLabel(varname, labels), output);
+    });
+
     it('handles varname and one label', () => {
       var varname = 'n';
       var labels = ['Label'];

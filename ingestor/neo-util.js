@@ -9,6 +9,10 @@ var genLabel = (varname, labels, map) => {
     }
   }
 
+  if (labels && typeof labels === "string") {
+    labels = [labels];
+  }
+
   if (labels && labels.length) {
     returnString += ':' + labels.join(':');
   }
