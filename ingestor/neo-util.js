@@ -1,3 +1,9 @@
+var cleanString = text => {
+  if (typeof text === 'string') text = "'" + text.replace(/\'/g, "\\'") + "'";
+
+  return text;
+};
+
 var genLabel = (varname, labels, map) => {
   var returnString = '(';
 
@@ -28,7 +34,7 @@ var genMap = (mapped) => {
   var returnString = '{';
 
   returnString += Object.keys(mapped).map(map => {
-    return map + ": '" + mapped[map] + "'";
+    return map + ": " + cleanString(mapped[map]);
   }).join(', ');
 
   return returnString + '}';
@@ -57,7 +63,7 @@ exports.genSET = (varname, id, mapped) => {
       if (!returnString.length) returnString += "\nSET ";
       else returnString += ", ";
 
-      returnString += varname + "." + map + " = '" + mapped[map] + "'";
+      returnString += varname + "." + map + " = " + cleanString(mapped[map]) + "";
     }
   });
 

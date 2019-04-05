@@ -3,6 +3,10 @@
 var fs = require("fs");
 var prettyjson = require("prettyjson");
 var { Duplex } = require("stream");
+var neo4j = require("neo4j-driver").v1;
+
+var neoConfig = require('../neo-config.json');
+var session = neo4j.driver(neoConfig.host, neo4j.auth.basic(neoConfig.user, neoConfig.password)).session();
 
 var workingDir = __dirname;
 var util = require(workingDir + "/ingest-util");
@@ -49,7 +53,18 @@ if (DONEO) {
   writer = new Duplex({write: (data, encoding, c)=>{writer.push(data); c()}, read: ()=>{}});
 
   writer.on('data', data => {
-    console.log(neoUtil.genCreateOrUpdate('n', ingestorConfig.label, ingestorConfig.id, JSON.parse(data)));
+    session.run(neoUtil.genCreateOrUpdate('n', ingestorConfig.label, ingestorConfig.id, JSON.parse(data)))
+    .subscribe({
+      onNext: function (record) {
+        console.log("Next?:", record.get('name'));
+      },
+      onCompleted: function () {
+        console.log("Uploaded");
+      },
+      onError: function (error) {
+        console.log(error);
+      }
+    });
   });
 }
 

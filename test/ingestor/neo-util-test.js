@@ -73,6 +73,13 @@ describe('Neo Util', () => {
 
       assert.equal(util.genMap(mapped), output);
     });
+
+    it('handles single quote', () => {
+      var mapped = {one: 'item', two: 'items', quote: 'has\'quote'};
+      var output = "{one: 'item', two: 'items', quote: 'has\\'quote'}";
+
+      assert.equal(util.genMap(mapped), output);
+    });
   });
 
   describe('Generate MATCH', () => {
@@ -138,6 +145,16 @@ describe('Neo Util', () => {
       var mapped = {id: '123', one: 'item', two: 'items'};
 
       var output = "\nSET n.one = 'item', n.two = 'items';";
+
+      assert.equal(util.genSET(varname, id, mapped), output);
+    });
+
+    it('handles single quote', () => {
+      var varname = 'n';
+      var id = 'id';
+      var mapped = {id: '123', one: 'item', num: 3, two: 'items', quote: 'has\'quote'};
+
+      var output = "\nSET n.one = 'item', n.num = 3, n.two = 'items', n.quote = 'has\\'quote';";
 
       assert.equal(util.genSET(varname, id, mapped), output);
     });
