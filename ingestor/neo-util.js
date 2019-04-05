@@ -65,3 +65,15 @@ exports.genSET = (varname, id, mapped) => {
 
   return returnString;
 };
+
+exports.genCreateOrUpdate = (varname, labels, id, mapped) => {
+  var returnString = "";
+
+  var mergeById = {};
+  mergeById[id] = mapped[id];
+
+  returnString += exports.genMERGE(varname, labels, mergeById);
+  returnString += exports.genSET(varname, id, mapped);
+
+  return returnString;
+};
