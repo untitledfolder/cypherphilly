@@ -5,7 +5,7 @@ const util = require('../../ingestor/neo-util');
 describe.only('Neo Util', () => {
   describe.only('Generate Labels', () => {
     it('takes no variable name and no labels', () => {
-      var varname = 'n';
+      var varname = '';
       var labels = [];
 
       var output = '()';
