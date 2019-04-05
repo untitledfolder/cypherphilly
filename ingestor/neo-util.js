@@ -54,9 +54,14 @@ exports.genSET = (varname, id, mapped) => {
 
   Object.keys(mapped).forEach( map => {
     if (map !== id) {
-      returnString += "\nSET " + varname + "." + map + " = '" + mapped[map] + "';";
+      if (!returnString.length) returnString += "\nSET ";
+      else returnString += ", ";
+
+      returnString += varname + "." + map + " = '" + mapped[map] + "'";
     }
   });
+
+  if (returnString.length) returnString += ";";
 
   return returnString;
 };
