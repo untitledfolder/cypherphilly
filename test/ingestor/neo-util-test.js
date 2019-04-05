@@ -3,7 +3,7 @@ const assert = require('assert');
 const util = require('../../ingestor/neo-util');
 
 describe.only('Neo Util', () => {
-  describe.only('Generate Labels', () => {
+  describe('Generate Labels', () => {
     it('takes no variable name and no labels', () => {
       var varname = '';
       var labels = [];
@@ -50,19 +50,19 @@ describe.only('Neo Util', () => {
     });
   });
 
-  describe('Generate matcher', () => {
-    it('uses one field', () => {
-      assert.fail('Not implemented');
+  describe.only('Generate map', () => {
+    it('maps out a map with one', () => {
+      var mapped = {one: 'item'};
+      var output = "{one: 'item'}";
+
+      assert.equal(util.genMap(mapped), output);
     });
 
-    it('uses multiple fields', () => {
-      assert.fail('Not implemented');
-    });
-  });
+    it('maps out a map with multi', () => {
+      var mapped = {one: 'item', two: 'items'};
+      var output = "{one: 'item', two: 'items'}";
 
-  describe('Generate set map', () => {
-    it('maps out a map', () => {
-      assert.fail('Not implemented');
+      assert.equal(util.genMap(mapped), output);
     });
   });
 
