@@ -21,7 +21,7 @@ exports.genMap = (mapped) => {
 
   returnString += Object.keys(mapped).map(map => {
     return map + ": '" + mapped[map] + "'";
-  });
+  }).join(', ');
 
   return returnString + '}';
 };
