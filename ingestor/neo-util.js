@@ -37,10 +37,10 @@ var genQueryStart = (varname, labels, mapped) => {
 exports.genMap = genMap;
 exports.genLabel = genLabel;
 
-exports.genMATCH = (varname, labels, mapped) => {
-  return "MATCH " + genQueryStart(varname, labels, mapped);
-};
+var queryStartGenerators = ["MATCH", "CREATE", "MERGE"];
 
-exports.genCREATE = (varname, labels, mapped) => {
-  return "CREATE " + genQueryStart(varname, labels, mapped);
-};
+queryStartGenerators.forEach(startGenerator => {
+  exports['gen' + startGenerator] = (varname, labels, mapped) => {
+    return startGenerator + ' ' + genQueryStart(varname, labels, mapped);
+  };
+});

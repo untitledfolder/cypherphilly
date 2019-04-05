@@ -78,7 +78,7 @@ describe.only('Neo Util', () => {
     });
   });
 
-  describe.only('Generate CREATE', () => {
+  describe('Generate CREATE', () => {
     it('uses the generated label and map', () => {
       var varname = 'n';
       var labels = ['Label1', 'Label2', 'Label3'];
@@ -90,15 +90,15 @@ describe.only('Neo Util', () => {
     });
   });
 
-  describe('Generate UPDATE', () => {
-    it('uses the generated MATCH and map', () => {
-      assert.fail('Not implemented');
-    });
-  });
-
   describe('Generate MERGE', () => {
     it('uses the generated label, matcher, and map', () => {
-      assert.fail('Not implemented');
+      var varname = 'n';
+      var labels = ['Label1', 'Label2', 'Label3'];
+      var mapped = {one: 'item', two: 'items'};
+
+      var output = "MERGE (n :Label1:Label2:Label3 {one: 'item', two: 'items'})";
+
+      assert.equal(util.genMERGE(varname, labels, mapped), output);
     });
   });
 
