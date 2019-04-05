@@ -7,14 +7,6 @@ var prettyjson = require('prettyjson');
 var csvStream = require('csv-stream').createStream;
 var oboe = require('oboe');
 
-exports.downloadDataFromSource = function(source) {
-  console.log("Download data from:", source);
-
-  return spawn('curl ' + source, {
-    shell: true
-  });
-};
-
 var reader = {
   new: (source) => {
     var type = source.type;
