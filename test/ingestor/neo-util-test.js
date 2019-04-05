@@ -1,25 +1,52 @@
 const assert = require('assert');
 
+const util = require('../../ingestor/neo-util');
+
 describe.only('Neo Util', () => {
   describe.only('Generate Labels', () => {
-    it('takes variable name', () => {
-      assert.fail('Not implemented');
+    it('takes no variable name and no labels', () => {
+      var varname = 'n';
+      var labels = [];
+
+      var output = '()';
+
+      assert.equal(util.genLabel(varname, labels), output);
     });
 
-    it('takes no variable name', () => {
-      assert.fail('Not implemented');
+    it('takes variable name and no labels', () => {
+      var varname = 'n';
+      var labels = [];
+
+      var output = '(n)';
+
+      assert.equal(util.genLabel(varname, labels), output);
     });
 
-    it('handles no labels', () => {
-      assert.fail('Not implemented');
+    it('handles no varname and one label', () => {
+      var varname = '';
+      var labels = ['Label'];
+
+      var output = '(:Label)';
+
+      assert.equal(util.genLabel(varname, labels), output);
     });
 
-    it('handles one label', () => {
-      assert.fail('Not implemented');
+    it('handles varname and one label', () => {
+      var varname = 'n';
+      var labels = ['Label'];
+
+      var output = '(n :Label)';
+
+      assert.equal(util.genLabel(varname, labels), output);
     });
 
     it('handles multiple labels', () => {
-      assert.fail('Not implemented');
+      var varname = 'n';
+      var labels = ['Label1', 'Label2', 'Label3'];
+
+      var output = '(n :Label1:Label2:Label3)';
+
+      assert.equal(util.genLabel(varname, labels), output);
     });
   });
 
