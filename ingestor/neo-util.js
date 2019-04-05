@@ -15,3 +15,13 @@ exports.genLabel = (varname, labels) => {
 
   return returnString + ')';
 };
+
+exports.genMap = (mapped) => {
+  var returnString = '{';
+
+  returnString += Object.keys(mapped).map(map => {
+    return map + ": '" + mapped[map] + "'";
+  });
+
+  return returnString + '}';
+};
