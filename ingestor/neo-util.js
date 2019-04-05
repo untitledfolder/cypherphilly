@@ -10,7 +10,7 @@ exports.genLabel = (varname, labels) => {
   }
 
   if (labels && labels.length) {
-    returnString += ':' + labels[0];
+    returnString += ':' + labels.join(':');
   }
 
   return returnString + ')';
