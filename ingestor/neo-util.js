@@ -30,9 +30,17 @@ var genMap = (mapped) => {
   return returnString + '}';
 };
 
+var genQueryStart = (varname, labels, mapped) => {
+  return genLabel(varname, labels, genMap(mapped))
+};
+
 exports.genMap = genMap;
 exports.genLabel = genLabel;
 
 exports.genMATCH = (varname, labels, mapped) => {
-  return "MATCH " + genLabel(varname, labels, genMap(mapped));
+  return "MATCH " + genQueryStart(varname, labels, mapped);
+};
+
+exports.genCREATE = (varname, labels, mapped) => {
+  return "CREATE " + genQueryStart(varname, labels, mapped);
 };
