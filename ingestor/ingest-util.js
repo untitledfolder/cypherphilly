@@ -1,7 +1,7 @@
 var http = require('http');
 var https = require('https');
 var { spawn } = require('child_process');
-var { Readable, Duplex } = require('stream');
+var { Readable } = require('stream');
 var fileReader = require('fs').createReadStream;
 var prettyjson = require('prettyjson');
 var csvStream = require('csv-stream').createStream;
@@ -29,7 +29,7 @@ var reader = {
       stdin = fileReader(location)
     }
     else if (('http' === sourceType) || ('https' === sourceType)) {
-      var coupler = new Duplex({read() {}});
+      var coupler = new Readable({read() {}});
       stdin = coupler;
 
       ('https' === sourceType ? https : http).get(location, res => {
