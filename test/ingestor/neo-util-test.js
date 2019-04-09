@@ -162,7 +162,6 @@ describe('Neo Util', () => {
 
   describe('Generate create_or_update', () => {
     it('uses the appropriate pattern', () => {
-      var varname = 'n';
       var labels = ['Label1', 'Label2', 'Label3'];
       var id = 'id';
       var mapped = {id: '123', one: 'item', two: 'items'};
@@ -170,7 +169,7 @@ describe('Neo Util', () => {
       var output = "MERGE (n :Label1:Label2:Label3 {id: '123'})";
       output += "\nSET n.one = 'item', n.two = 'items';";
 
-      assert.equal(util.genCreateOrUpdate(varname, labels, id, mapped), output);
+      assert.equal(util.genCreateOrUpdate(labels, id, mapped), output);
     });
   });
 
