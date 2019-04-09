@@ -173,4 +173,14 @@ describe('Neo Util', () => {
       assert.equal(util.genCreateOrUpdate(varname, labels, id, mapped), output);
     });
   });
+
+  xdescribe('Create writer', () => {
+    it('uses id, labels, and a stream', () => {
+      assert.fail("Not implemented");
+    });
+
+    it('knows when to stop', () => {
+      assert.fail("Not implemented");
+    });
+  });
 });
