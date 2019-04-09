@@ -43,9 +43,7 @@ if (ingestorConfig.source) {
 
   if (DONEO) {
     writer = neoUtil.uploader(ingestorConfig.label, ingestorConfig.id);
-    writer.on('finish', () => {
-      neoUtil.done();
-    });
+    neoUtil.done();
   }
 
   ingestor.pipe(writer);

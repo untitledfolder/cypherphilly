@@ -101,13 +101,15 @@ exports.genCreateOrUpdate = genCreateOrUpdate;
 exports.new = config => {
   var neoConfig = require(config);
   var driver = neo4j.driver(neoConfig.host, neo4j.auth.basic(neoConfig.user, neoConfig.password));
-  var alldone = false;
+  var shouldClose = false;
+  var ingesting = 0;
 
   var neoManager = {
     uploader: (labels, id) => {
       var session = driver.session();
       var hasComplete = false;
       var currentlyProcessing = 0;
+      ingesting += 1;
 
       writer = new Writable({
         write: (data, encoding, c) => {
@@ -118,6 +120,7 @@ exports.new = config => {
           .subscribe({
             onCompleted: function () {
               currentlyProcessing -= 1;
+              ingesting -= 1;
               console.log("Upload:");
               console.log("  Labels:", labels);
               console.log("  ID:", parsed[id]);
@@ -126,7 +129,7 @@ exports.new = config => {
                 console.log("Done!");
                 session.close();
 
-                if (alldone) {
+                if (shouldClose && ingesting <= 0) {
                   driver.close();
                 }
               }
@@ -154,7 +157,7 @@ exports.new = config => {
     },
 
     done: () => {
-      alldone = true;
+      shouldClose = true;
     }
   };
 
