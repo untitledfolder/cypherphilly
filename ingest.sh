@@ -28,7 +28,7 @@ if [ -z "$INGEST_LIST" ]; then
 fi
 
 debug_message "Ingest list: $INGEST_LIST"
-for ingest_item in "$INGEST_LIST"; do
+for ingest_item in $INGEST_LIST; do
   if [ ! -f "$INGESTOR_CONFIGS_DIR/$ingest_item/config.json" ]; then
     echo "No dataset config for $ingest_item"
     continue
