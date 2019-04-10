@@ -37,9 +37,10 @@ console.log();
 console.log("Data source:", ingestorConfig.source);
 
 var writer = process.stdout;
+var outputType = DONEO ? 'json' : 'pp';
 
 if (ingestorConfig.source) {
-  var ingestor = util.new(ingestorConfig.source, 'json');
+  var ingestor = util.new(ingestorConfig.source, outputType);
 
   if (DONEO) {
     writer = neoUtil.uploader(ingestorConfig.label, ingestorConfig.id);
@@ -51,7 +52,7 @@ if (ingestorConfig.source) {
 
 if (ingestorConfig.datasets) {
   for (dataset in ingestorConfig.datasets) {
-    var ingestor = util.new(dataset.source, 'json');
+    var ingestor = util.new(dataset.source, outputType);
 
     if (DONEO) {
       writer = neoUtil.uploader(
