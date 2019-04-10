@@ -2,10 +2,12 @@ var http = require('http');
 var https = require('https');
 var { spawn } = require('child_process');
 var { Readable } = require('stream');
-var fileReader = require('fs').createReadStream;
+var fs = require('fs');
+var fileReader = fs.createReadStream;
 var prettyjson = require('prettyjson');
 var csvStream = require('csv-stream').createStream;
 var oboe = require('oboe');
+var crypto = require('crypto');
 
 var reader = {
   new: (source) => {
@@ -29,12 +31,19 @@ var reader = {
       stdin = fileReader(location)
     }
     else if (('http' === sourceType) || ('https' === sourceType)) {
-      var coupler = new Readable({read() {}});
-      stdin = coupler;
+      var stdin = new Readable({read: () => {}});
 
+      var tmpFile = "tmp.ingestor." + crypto.randomBytes(8).toString("hex");
+
+      var tmpOut = fs.createWriteStream(tmpFile);
+      tmpOut.on('finish', () => {
+        console.log('Finished writing');
+        var tmpIn = fs.createReadStream(tmpFile);
+        tmpIn.on('data', data => stdin.push(data));
+        tmpIn.on('end', () => stdin.push(null));
+      });
       ('https' === sourceType ? https : http).get(location, res => {
-        res.on('data', data => coupler.push(data));
-        res.on('end', () => coupler.push(null));
+        res.pipe(tmpOut);
       });
     }
 

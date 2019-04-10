@@ -116,7 +116,8 @@ exports.new = config => {
           var parsed = JSON.parse(data);
 
           currentlyProcessing += 1;
-          session.run(genCreateOrUpdate(labels, id, parsed))
+          var query = genCreateOrUpdate(labels, id, parsed);
+          session.run(query)
           .subscribe({
             onCompleted: function () {
               currentlyProcessing -= 1;

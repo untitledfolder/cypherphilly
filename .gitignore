@@ -1,5 +1,8 @@
 config.js
 
+# ingest files
+./tmp.*
+
 # compiled output
 /dist
 /dist-server
