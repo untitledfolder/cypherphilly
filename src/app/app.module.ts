@@ -20,12 +20,7 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot([
-      {
-        path: '**',
-        redirectTo: '/'
-      }
-    ]),
+    RouterModule,
     HttpClientModule,
     BrowserAnimationsModule,
     DataModule,

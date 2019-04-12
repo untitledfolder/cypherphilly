@@ -8,21 +8,6 @@ import { Component } from '@angular/core';
 
 export class ToolbarComponent {
 
-  navLinks = [
-    {
-      label: 'Get Involved',
-      link: '/getinvolved'
-    },
-    {
-      label: 'Setup',
-      link: '/setup'
-    },
-    {
-      label: 'Data',
-      link: '/data'
-    }
-  ]
-
   constructor() { }
 
 }

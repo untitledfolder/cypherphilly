@@ -16,7 +16,9 @@ import { DatasetService } from './dataset.service';
     DataGroupService,
     DatasetService
   ],
+  providers: [ ],
   exports: [
+    DatasetsComponent
   ]
 })
 
