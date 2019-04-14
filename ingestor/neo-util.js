@@ -2,7 +2,7 @@ var neo4j = require("neo4j-driver").v1;
 var { Writable } = require("stream");
 
 
-/*
+/**
  * Helpers
  *
  * TODO: Description
@@ -105,10 +105,25 @@ exports.genSET = genSET;
 exports.genCreateOrUpdate = genCreateOrUpdate;
 
 
-/*
+/**
  * Neo Upload Manager
  *
- * TODO: Description
+ *
+ * Description:
+ *
+ *
+ * Usage:
+ *
+ *
+ * Parameters:
+ *
+ *
+ * Output:
+ *
+ *
+ * Examples:
+ *
+ *
  */
 exports.new = config => {
   var neoConfig = require(config);

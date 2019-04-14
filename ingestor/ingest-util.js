@@ -9,7 +9,21 @@ var csvStream = require('csv-stream').createStream;
 var oboe = require('oboe');
 var crypto = require('crypto');
 
-var reader = {
+
+/**
+ * Reader
+ *
+ *
+ * Description:
+ *
+ * TODO
+ *
+ *
+ * Params:
+ *
+ *
+ */
+exports.reader = {
   new: (source) => {
     var type = source.type;
     var location = source.location;
@@ -69,7 +83,20 @@ var reader = {
   }
 }
 
-var writer = {
+/**
+ * Writer
+ *
+ *
+ * Description:
+ *
+ * TODO
+ *
+ *
+ * Params:
+ *
+ *
+ */
+exports.writer = {
   new: (input, type) => {
     var output = new Readable({
       read() {}
@@ -106,18 +133,20 @@ var writer = {
   }
 };
 
+
+/**
+ * Ingestor Manager
+ *
+ * TODO Description
+ */
 exports.new = (source, outputType) => {
-  var readerStream = reader.new(source);
+  var readerStream = exports.reader.new(source);
 
-  return writer.new(readerStream, outputType);
+  return exports.writer.new(readerStream, outputType);
 };
-
-exports.reader = reader;
 
 exports.processor = {
   new: () => {
     return {};
   }
 };
-
-exports.writer = writer;
