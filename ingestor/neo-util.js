@@ -1,6 +1,12 @@
 var neo4j = require("neo4j-driver").v1;
 var { Writable } = require("stream");
 
+
+/*
+ * Helpers
+ *
+ * TODO: Description
+ */
 var cleanString = text => {
   if (typeof text === 'string') text = "'" + text.replace(/\'/g, "\\'") + "'";
 
@@ -98,6 +104,12 @@ exports.genMERGE = genMERGE;
 exports.genSET = genSET;
 exports.genCreateOrUpdate = genCreateOrUpdate;
 
+
+/*
+ * Neo Upload Manager
+ *
+ * TODO: Description
+ */
 exports.new = config => {
   var neoConfig = require(config);
   var driver = neo4j.driver(neoConfig.host, neo4j.auth.basic(neoConfig.user, neoConfig.password));
