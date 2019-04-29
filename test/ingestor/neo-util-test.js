@@ -173,7 +173,7 @@ describe('Neo Util', () => {
     });
   });
 
-  xdescribe('Create writer', () => {
+  describe.only('Create writer', () => {
     it('uses id, labels, and a stream', () => {
       assert.fail("Not implemented");
     });

@@ -1,5 +1,8 @@
-var neo4j = require("neo4j-driver").v1;
-var { Writable } = require("stream");
+const Promise = require("promise");
+const neo4j = require("neo4j-driver").v1;
+const crypto = require("crypto");
+const fs = require("fs");
+const readline = require("readline");
 
 
 /**
@@ -125,69 +128,85 @@ exports.genCreateOrUpdate = genCreateOrUpdate;
  *
  *
  */
-exports.new = config => {
-  var neoConfig = require(config);
-  var driver = neo4j.driver(neoConfig.host, neo4j.auth.basic(neoConfig.user, neoConfig.password));
-  var shouldClose = false;
-  var ingesting = 0;
+exports.new = neoConfig => {
+  var maxUploadsPerUploader = neoConfig.max_uploads ? neoConfig.max_uploads : 5;
 
   var neoManager = {
-    uploader: (labels, id) => {
-      var session = driver.session();
-      var hasComplete = false;
-      var currentlyProcessing = 0;
-      ingesting += 1;
+    driver: neo4j.driver(neoConfig.host, neo4j.auth.basic(neoConfig.user, neoConfig.password)),
+    uploaders: 0,
+    shouldClose: false
+  };
 
-      writer = new Writable({
-        write: (data, encoding, c) => {
-          var parsed = JSON.parse(data);
-
-          currentlyProcessing += 1;
-          var query = genCreateOrUpdate(labels, id, parsed);
-          session.run(query)
-          .subscribe({
-            onCompleted: function () {
-              currentlyProcessing -= 1;
-              ingesting -= 1;
-              console.log("Upload:");
-              console.log("  Labels:", labels);
-              console.log("  ID:", parsed[id]);
-
-              if (hasComplete && currentlyProcessing <= 0) {
-                console.log("Done!");
-                session.close();
-
-                if (shouldClose && ingesting <= 0) {
-                  driver.close();
-                }
-              }
-              else {
-                console.log("Still reading?", hasComplete ? 'No' : 'Yes');
-                console.log("Processing:", currentlyProcessing);
-              }
-            },
-            onError: function (error) {
-              console.log(error);
-            }
-          });
-
-          c();
-        }
-      });
-
-      writer.on('finish', () => {
-        console.log("Data ended");
-
-        hasComplete = true;
-      });
-
-      return writer;
-    },
-
-    done: () => {
-      shouldClose = true;
+  neoManager.uploader = (stdin, id, ...labels) => {
+    if (neoManager.shouldClose) {
+      return Promise.reject("Can't make new Uploaders after closing");
     }
+    var ret, resolve, reject;
+    ret = new Promise((res, rej) => {
+      resolve = res;
+      reject = rej;
+    });
+
+    var lineReader = readline.createInterface({
+      input: stdin
+    });
+
+    var currentlyProcessing = 0;
+    var paused = false;
+    lineReader.on('line', line => {
+      line = JSON.stringify(line);
+      console.log(line);
+      var query = genCreateOrUpdate(labels, id, line);
+      currentlyProcessing += 1;
+
+      console.log("Currently processing:", currentlyProcessing);
+      if (currentlyProcessing >= maxUploadsPerUploader) {
+        console.log("~~~ Pausing uploader ~~~");
+        paused = true;
+        stdin.pause();
+      }
+
+      setTimeout(() => {
+        console.log("Done processing line:", line);
+        currentlyProcessing -= 1;
+        console.log("Currently processing:", currentlyProcessing);
+
+        if (paused && currentlyProcessing < maxUploadsPerUploader) {
+          console.log("~~~ Resuming uploader ~~~");
+          paused = false;
+          tmpFileOut.resume();
+        }
+      }, Math.floor(Math.random() * 200));
+    });
+
+    stdin.on('end', () => {
+    });
+
+    // Once done, close the promise
+
+    return ret;
+  };
+
+  neoManager.done = () => {
+    neoManager.shouldClose = true;
   };
 
   return neoManager;
 };
+
+/*
+    var parsed = JSON.parse(data);
+    var query = genCreateOrUpdate(labels, id, parsed);
+    session.run(query)
+      .subscribe({
+        onCompleted: function () {
+        },
+        onError: function (error) {
+        }
+      var session = neoManager.driver.session();
+      writer = genNeoWriter(labels, id);
+      writer.on('finish', () => {
+      });
+      neoManager.shouldClose = true;
+};
+*/

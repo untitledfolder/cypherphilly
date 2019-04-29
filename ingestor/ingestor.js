@@ -5,7 +5,7 @@ var prettyjson = require("prettyjson");
 
 var workingDir = __dirname;
 var util = require(workingDir + "/ingest-util");
-var neoUtil = require(workingDir + "/neo-util").new('../neo-config.json');
+var neoUtil = require(workingDir + "/neo-util").new(require('../neo-config.json'));
 
 var args = process.argv.splice(2);
 
@@ -43,11 +43,9 @@ if (ingestorConfig.source) {
   var ingestor = util.new(ingestorConfig.source, outputType);
 
   if (DONEO) {
-    writer = neoUtil.uploader(ingestorConfig.label, ingestorConfig.id);
+    writer = neoUtil.uploader(ingestor, ingestorConfig.id, ingestorConfig.label);
     neoUtil.done();
   }
-
-  ingestor.pipe(writer);
 }
 
 if (ingestorConfig.datasets) {
@@ -56,11 +54,10 @@ if (ingestorConfig.datasets) {
 
     if (DONEO) {
       writer = neoUtil.uploader(
-        [ingestorConfig.label, dataset.label],
-        dataset.id ? dataset.id : ingestorConfig.id
+        ingestor,
+        dataset.id ? dataset.id : ingestorConfig.id,
+        ...[ingestorConfig.label, dataset.label]
       );
     }
-
-    ingestor.pipe(writer);
   }
 }

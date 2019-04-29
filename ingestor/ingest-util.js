@@ -66,13 +66,13 @@ exports.reader = {
     }
     else if ('json' === type) {
       stdout = new Readable({
-        objectMode: true,
         read() {}
       });
 
       oboe(stdin)
       .node(matcher, data => {
-        stdout.push(data);
+        console.log("JSON:", JSON.stringify(data));
+        stdout.push(JSON.stringify(data) + "\n");
       })
       .on('done', () => {
         stdout.push(null);
@@ -109,6 +109,7 @@ exports.writer = {
     }
     else if ('json' === type) {
       input.on('data', data => {
+        console.log("Stringified:", JSON.stringify(data).toString());
         output.push(JSON.stringify(data));
       });
     }
