@@ -1,7 +1,11 @@
+.home-page {
+  margin-top: 24px;
+}
+
 .home-subsection-title {
-  margin-top: 80px;
+  margin-top: 100px;
   text-align: center;
-  margin-bottom: 35px;
+  margin-bottom: 60px;
 
   h1 {
     font-size: 70px;
@@ -12,11 +16,10 @@
 .home-icon-cards {
   width: 900px;
   margin: auto;
+  padding-left: 45px;
 
   .home-icon-card {
-    width: 420px;
-    height: 460px;
-    margin: 12px;
+    margin: 27px 64px;
     margin-bottom: 20px;
     display: inline-block;
   }

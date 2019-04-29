@@ -26,11 +26,13 @@ export class HomeComponent implements OnInit {
         Our goal is to simplify the process of telling data-driven stories using open public data to bring about actionable change, while also informing citizens and governments alike. We plan to collaborate with news organizations to publish our results to the greater Philadelphia community.`;
 
     this.learnMoreCards = [
+      /*
       {
         title: "The Cypher Philly Data Stories",
         image: "/content/icons/Cypher_Philly_logo_white_Blackborder.png",
         link: "/data"
       },
+      */
       {
         title: "Lenfest Grant Award",
         image: "/content/icons/Lenfest_Logo.png",
