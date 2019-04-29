@@ -1,30 +1,32 @@
-<image-content [imageUrl]="mainContentImageUrl"
-      [text]="mainContentText"
-      [title]="mainContentTitle">
-</image-content>
+<div class="home-page">
+  <image-content [imageUrl]="mainContentImageUrl"
+        [text]="mainContentText"
+        [title]="mainContentTitle">
+  </image-content>
 
-<div class="home-subsection-title">
-  <h1>
-    Learn More
-  </h1>
-</div>
-
-<div class="home-icon-cards">
-  <div class="home-icon-card" *ngFor="let learnmore of learnMoreCards">
-    <icon-card [title]="learnmore.title" [image]="learnmore.image" [link]="learnmore.link" [external]="learnmore.external">
-    </icon-card>
+  <div class="home-subsection-title">
+    <h1>
+      Learn More
+    </h1>
   </div>
-</div>
 
-<div class="home-subsection-title">
-  <h1>
-    Get Involved
-  </h1>
-</div>
+  <div class="home-icon-cards">
+    <div class="home-icon-card" *ngFor="let learnmore of learnMoreCards">
+      <icon-card [title]="learnmore.title" [image]="learnmore.image" [link]="learnmore.link" [external]="learnmore.external">
+      </icon-card>
+    </div>
+  </div>
 
-<div class="home-icon-cards">
-  <div class="home-icon-card" *ngFor="let involved of getInvolvedCards">
-    <icon-card [title]="involved.title" [image]="involved.image" [link]="involved.link" [external]="involved.external">
-    </icon-card>
+  <div class="home-subsection-title">
+    <h1>
+      Get Involved
+    </h1>
+  </div>
+
+  <div class="home-icon-cards">
+    <div class="home-icon-card" *ngFor="let involved of getInvolvedCards">
+      <icon-card [title]="involved.title" [image]="involved.image" [link]="involved.link" [external]="involved.external">
+      </icon-card>
+    </div>
   </div>
 </div>

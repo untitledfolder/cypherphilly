@@ -1,6 +1,6 @@
 .icon-card {
-  width: 400px;
-  height: 460px;
+  width: 270px;
+  height: 325px;
   padding: 10px;
   margin-bottom: 40px;
   display: inline-block;
@@ -8,22 +8,20 @@
   cursor: pointer;
 
   .icon-card-image {
-    width: 240px;
-    height: 240px;
-    margin: 10% auto;
-    margin-bottom: 70px;
-    box-shadow: 0px 0px 1px grey;
+    width: 150px;
+    height: 150px;
+    margin: 30px auto;
+    //box-shadow: 0px 0px 1px grey;
 
     img {
-      width: 220px;
-      height: 220px;
-      margin: 10px;
+      width: 95%;
+      margin: 2.5%;
     }
   }
 
   .icon-card-title {
     width: 60%;
-    height: 80px;
+    height: 110px;
     margin: auto;
     text-align: center;
     line-height: 1.2;
