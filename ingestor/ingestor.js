@@ -9,17 +9,25 @@ var neoUtil = require(workingDir + "/neo-util").new(require('../neo-config.json'
 
 var args = process.argv.splice(2);
 
+var DONEO = false;
+
+while (args.length && args[0][0] == '-') {
+  var flag = args.shift();
+
+  switch (flag) {
+    case '-n':
+      DONEO = true;
+      break;
+
+    default:
+      console.log("Warning - Unknown option:", args[0]);
+  }
+}
+
 if (process.argv.length < 2) {
   console.log("Must specify what to ingest");
   console.log(process.argv);
   process.exit(1);
-}
-
-var DONEO = false;
-
-if (args.length >= 3 && args[0] === '-n') {
-  DONEO = true;
-  args.shift();
 }
 
 var ingestorConfigKey = args[0];
@@ -40,11 +48,13 @@ var writer = process.stdout;
 var outputType = DONEO ? 'json' : 'pp';
 
 if (ingestorConfig.source) {
-  var ingestor = util.new(ingestorConfig.source, outputType);
+  var reader = util.reader(ingestorConfig.source);
 
   if (DONEO) {
-    writer = neoUtil.uploader(ingestor, ingestorConfig.id, ingestorConfig.label);
-    neoUtil.done();
+    util.throttle(reader).then(throttled => {
+      var uploader = neoUtil.uploader(throttled, ingestorConfig.id, ingestorConfig.label);
+      neoUtil.done();
+    });
   }
 }
 

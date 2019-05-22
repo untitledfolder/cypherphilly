@@ -137,10 +137,12 @@ exports.new = neoConfig => {
     shouldClose: false
   };
 
-  neoManager.uploader = (stdin, id, ...labels) => {
+  neoManager.uploader = (input, id, ...labels) => {
     if (neoManager.shouldClose) {
       return Promise.reject("Can't make new Uploaders after closing");
     }
+
+    console.log("Starting Neo4j uploader");
     var ret, resolve, reject;
     ret = new Promise((res, rej) => {
       resolve = res;
@@ -148,13 +150,12 @@ exports.new = neoConfig => {
     });
 
     var lineReader = readline.createInterface({
-      input: stdin
+      input: input
     });
 
     var currentlyProcessing = 0;
     var paused = false;
     lineReader.on('line', line => {
-      line = JSON.stringify(line);
       console.log(line);
       var query = genCreateOrUpdate(labels, id, line);
       currentlyProcessing += 1;
@@ -163,7 +164,7 @@ exports.new = neoConfig => {
       if (currentlyProcessing >= maxUploadsPerUploader) {
         console.log("~~~ Pausing uploader ~~~");
         paused = true;
-        stdin.pause();
+        input.pause();
       }
 
       setTimeout(() => {
@@ -171,15 +172,15 @@ exports.new = neoConfig => {
         currentlyProcessing -= 1;
         console.log("Currently processing:", currentlyProcessing);
 
-        if (paused && currentlyProcessing < maxUploadsPerUploader) {
+        if (paused && currentlyProcessing < Math.round(maxUploadsPerUploader * 0.8)) {
           console.log("~~~ Resuming uploader ~~~");
           paused = false;
-          tmpFileOut.resume();
+          input.resume();
         }
-      }, Math.floor(Math.random() * 200));
+      }, Math.floor(Math.random() * 250 + 250));
     });
 
-    stdin.on('end', () => {
+    input.on('end', () => {
     });
 
     // Once done, close the promise

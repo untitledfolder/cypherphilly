@@ -10,7 +10,7 @@ echo
 
 ADDITIONAL_PARAMS=""
 
-while [[ $1 =~ ^-.* ]]; do
+while [[ $1 == -* ]]; do
   ADDITIONAL_PARAMS="$ADDITIONAL_PARAMS $1"
   shift
 done
