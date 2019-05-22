@@ -41,13 +41,13 @@ console.log("Config key:", ingestorConfigKey);
 console.log();
 console.log("Config file:");
 console.log(prettyjson.render(ingestorConfig));
-console.log();
-console.log("Data source:", ingestorConfig.source);
 
 var writer = process.stdout;
 var outputType = DONEO ? 'json' : 'pp';
 
 if (ingestorConfig.source) {
+  console.log();
+  console.log("Data source:", ingestorConfig.source);
   var reader = util.reader(ingestorConfig.source);
 
   if (DONEO) {
@@ -59,15 +59,19 @@ if (ingestorConfig.source) {
 }
 
 if (ingestorConfig.datasets) {
-  for (dataset in ingestorConfig.datasets) {
-    var ingestor = util.new(dataset.source, outputType);
+  console.log();
+  console.log("Datasets:", ingestorConfig.datasets);
+  ingestorConfig.datasets.forEach(dataset => {
+    var reader = util.reader(dataset.source);
 
     if (DONEO) {
-      writer = neoUtil.uploader(
-        ingestor,
-        dataset.id ? dataset.id : ingestorConfig.id,
-        ...[ingestorConfig.label, dataset.label]
-      );
+      util.throttle(reader).then(throttled => {
+        var uploader = neoUtil.uploader(
+          throttled,
+          dataset.id ? dataset.id : ingestorConfig.id,
+          ...[ingestorConfig.label, dataset.label]
+        );
+      });
     }
-  }
+  });
 }
