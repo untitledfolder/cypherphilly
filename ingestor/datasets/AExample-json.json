@@ -1,0 +1,9 @@
+{
+  "name": "Data Example",
+  "label": "DataExample",
+  "source": {
+    "location": "./test/fixtures/ingestor/example.json",
+    "type": "json",
+    "root": "!.*"
+  }
+}
