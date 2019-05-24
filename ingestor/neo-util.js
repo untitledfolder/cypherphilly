@@ -143,6 +143,7 @@ exports.new = neoConfig => {
     }
 
     console.log("Starting Neo4j uploader");
+    var session = neoManager.driver.session();
     var ret, resolve, reject;
     ret = new Promise((res, rej) => {
       resolve = res;
@@ -156,6 +157,7 @@ exports.new = neoConfig => {
     var currentlyProcessing = 0;
     var paused = false;
     lineReader.on('line', line => {
+      line = JSON.parse(line);
       console.log(line);
       var query = genCreateOrUpdate(labels, id, line);
       currentlyProcessing += 1;
@@ -167,17 +169,25 @@ exports.new = neoConfig => {
         input.pause();
       }
 
-      setTimeout(() => {
-        console.log("Done processing line:", line);
-        currentlyProcessing -= 1;
-        console.log("Currently processing:", currentlyProcessing);
+      var query = genCreateOrUpdate(labels, id, line);
+      console.log("Query:", query);
+      session.run(query)
+      .subscribe({
+        onCompleted: function () {
+          console.log("Done processing line:", line);
+          currentlyProcessing -= 1;
+          console.log("Currently processing:", currentlyProcessing);
 
-        if (paused && currentlyProcessing < Math.round(maxUploadsPerUploader * 0.8)) {
-          console.log("~~~ Resuming uploader ~~~");
-          paused = false;
-          input.resume();
+          if (paused && currentlyProcessing < Math.round(maxUploadsPerUploader * 0.8)) {
+            console.log("~~~ Resuming uploader ~~~");
+            paused = false;
+            input.resume();
+          }
+        },
+        onError: function (error) {
+          console.log("Neo4j Error:", error);
         }
-      }, Math.floor(Math.random() * 250 + 250));
+      });
     });
 
     input.on('end', () => {
@@ -194,20 +204,3 @@ exports.new = neoConfig => {
 
   return neoManager;
 };
-
-/*
-    var parsed = JSON.parse(data);
-    var query = genCreateOrUpdate(labels, id, parsed);
-    session.run(query)
-      .subscribe({
-        onCompleted: function () {
-        },
-        onError: function (error) {
-        }
-      var session = neoManager.driver.session();
-      writer = genNeoWriter(labels, id);
-      writer.on('finish', () => {
-      });
-      neoManager.shouldClose = true;
-};
-*/
