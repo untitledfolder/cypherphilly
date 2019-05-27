@@ -22,7 +22,7 @@ describe('Reader', () => {
     describe('File', () => {
       describe('CSV', () => {
         it('should handle a CSV File', () => {
-          reader = util.reader.new({
+          reader = util.reader({
             type: 'csv',
             location: fixturesDir + 'example.csv'
           });
@@ -34,7 +34,7 @@ describe('Reader', () => {
 
       describe('JSON', () => {
         it('should handle a JSON File', () => {
-          reader = util.reader.new({
+          reader = util.reader({
             type: 'json',
             location: fixturesDir + 'example.json',
             root: '!*'
@@ -57,7 +57,7 @@ describe('Reader', () => {
         var response = fs.createReadStream(fixturesDir + 'example.json');
 
         httpStub.returns(response);
-        reader = util.reader.new({
+        reader = util.reader({
           type: 'json',
           location: 'http://example.com/example.json',
           root: '!*'
@@ -80,7 +80,7 @@ describe('Reader', () => {
       var obj3;
       var obj4;
 
-      reader = util.reader.new({
+      reader = util.reader({
         type: 'csv',
         location: fixturesDir + 'example.csv'
       });
@@ -93,7 +93,7 @@ describe('Reader', () => {
       });
 
       reader.on('end', () => {
-        expect(obj1).to.deep.equal({
+        expect(JSON.parse(obj1)).to.deep.equal({
           cap_number: "13-0001",
           date_received: "2013-01-07T00:00:00Z",
           dist_occurrence: "35",
@@ -103,7 +103,7 @@ describe('Reader', () => {
           the_geom_webmercator: "null",
           cartodb_id: "1"
         });
-        expect(obj2).to.deep.equal({
+        expect(JSON.parse(obj2)).to.deep.equal({
           cap_number: "13-0002",
           date_received: "2013-01-09T00:00:00Z",
           dist_occurrence: "35",
@@ -113,7 +113,7 @@ describe('Reader', () => {
           the_geom_webmercator: "null",
           cartodb_id: "2"
         });
-        expect(obj3).to.deep.equal({
+        expect(JSON.parse(obj3)).to.deep.equal({
           cap_number: "13-0003",
           date_received: "2013-02-07T00:00:00Z",
           dist_occurrence: "35",
@@ -134,7 +134,7 @@ describe('Reader', () => {
       var obj3;
       var obj4;
 
-      reader = util.reader.new({
+      reader = util.reader({
         type: 'json',
         location: fixturesDir + 'example.json',
         root: '!*'
@@ -148,7 +148,7 @@ describe('Reader', () => {
       });
 
       reader.on('end', () => {
-        expect(obj1).to.deep.equal({
+        expect(JSON.parse(obj1)).to.deep.equal({
           cap_number: "13-0001",
           date_received: "2013-01-07T00:00:00Z",
           dist_occurrence: "35",
@@ -158,7 +158,7 @@ describe('Reader', () => {
           the_geom_webmercator: null,
           cartodb_id: 1
         });
-        expect(obj2).to.deep.equal({
+        expect(JSON.parse(obj2)).to.deep.equal({
           cap_number: "13-0002",
           date_received: "2013-01-09T00:00:00Z",
           dist_occurrence: "35",
@@ -168,7 +168,7 @@ describe('Reader', () => {
           the_geom_webmercator: null,
           cartodb_id: 2
         });
-        expect(obj3).to.deep.equal({
+        expect(JSON.parse(obj3)).to.deep.equal({
           cap_number: "13-0003",
           date_received: "2013-02-07T00:00:00Z",
           dist_occurrence: "35",

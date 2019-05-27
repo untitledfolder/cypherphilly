@@ -216,7 +216,7 @@ exports.writer = {
  * TODO Description
  */
 exports.new = (source, outputType) => {
-  var readerStream = exports.reader.new(source);
+  var readerStream = exports.reader(source);
 
   var ingestor = exports.writer.new(readerStream, outputType);
   ingestor.pause = () => {

@@ -74,7 +74,10 @@ describe('Writer', () => {
       writer = util.writer.new(input, 'json');
 
       writer.on('data', data => {
-        data = data.toString();
+        console.log("DATA:", data);
+        console.log("DATA:", data.toString());
+        console.log("DATA:", JSON.parse(data));
+        data = JSON.parse(data);
         if (!line1) line1 = data;
         else if (!line2) line2 = data;
         else if (!line3) line3 = data;
