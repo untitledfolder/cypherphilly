@@ -1,0 +1,10 @@
+{
+  "name": "Data Example",
+  "label": "DataExample",
+  "id": "cartodb_id",
+  "source": {
+    "location": "./test/fixtures/ingestor/example.json",
+    "type": "json",
+    "root": "!.*"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Philadelphia Public Cases",
+  "label": "PhiladelphiaPublicCases",
+  "id": "cartodb_id",
+  "source": {
+    "location": "https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20public_cases_fc",
+    "type": "json",
+    "root": "rows.*"
+  }
+}

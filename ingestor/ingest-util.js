@@ -1,66 +1,178 @@
-var http = require('http');
-var https = require('https');
-var { spawn } = require('child_process');
-var { Readable, Duplex } = require('stream');
-var fileReader = require('fs').createReadStream;
-var prettyjson = require('prettyjson');
-var csvStream = require('csv-stream').createStream;
-var oboe = require('oboe');
+const Promise = require("promise");
+const { spawn } = require('child_process');
+const { Readable } = require('stream');
+const fs = require('fs');
+const prettyjson = require('prettyjson');
+const http = require('http');
+const https = require('https');
+const readline = require('readline');
+const crypto = require('crypto');
 
-var reader = {
-  new: (source) => {
-    var type = source.type;
-    var location = source.location;
-    var matcher = source.root;
-    var stdin, stdout;
+const csvStream = require('csv-stream').createStream;
+const oboe = require('oboe');
 
-    var sourceType;
-    if (location.match(/^https/)) {
-      sourceType = 'https';
-    }
-    else if (location.match(/^http/)) {
-      sourceType = 'http';
-    }
-    else {
-      sourceType = 'file';
-    }
+const DEBUG = false;
 
-    if ('file' === sourceType) {
-      stdin = fileReader(location)
-    }
-    else if (('http' === sourceType) || ('https' === sourceType)) {
-      var coupler = new Duplex({read() {}});
-      stdin = coupler;
 
-      ('https' === sourceType ? https : http).get(location, res => {
-        res.on('data', data => coupler.push(data));
-        res.on('end', () => coupler.push(null));
-      });
-    }
+/***   HELPERS   ***/
+function itemizeData(input, type, jsonRootMatcher) {
+  var output = new Readable({read() {}});
 
-    if ('csv' === type) {
-      stdout = stdin.pipe(csvStream({enclosedChar: '"'}));
-    }
-    else if ('json' === type) {
-      stdout = new Readable({
-        objectMode: true,
-        read() {}
-      });
+  if ('csv' === type) {
+    var fields;
+    var csvConverter = input.pipe(csvStream({enclosedChar: '"'}));
 
-      oboe(stdin)
-      .node(matcher, data => {
-        stdout.push(data);
-      })
-      .on('done', () => {
-        stdout.push(null);
-      });
-    }
+    csvConverter.on('data', data => {
+      if (DEBUG) {
+        console.log("Converted CSV Data:", data);
+        console.log();
+      }
 
-    return stdout;
+      output.push(JSON.stringify(data));
+    });
+    csvConverter.on('end', () => {
+      output.push(null);
+    });
   }
+  else if ('json' === type) {
+    oboe(input)
+    .node(jsonRootMatcher, data => {
+      if (DEBUG) {
+        console.log("Converted CSV Data:", data);
+        console.log();
+      }
+
+      output.push(JSON.stringify(data));
+    })
+    .on('done', () => {
+      output.push(null);
+    });
+  }
+
+  return output;
 }
 
-var writer = {
+
+/***   EXTERNAL   ***/
+
+exports.throttle = (input) => {
+  var resolve, reject;
+  var done = new Promise((res, rej) => {
+    resolve = res;
+    reject = rej;
+  });
+
+  var tmpFileName = "tmp.ingestor." + crypto.randomBytes(8).toString("hex");
+  var tmpFile = fs.createWriteStream(tmpFileName);
+  var throttledOutput;
+
+  input.on('data', data => {
+    tmpFile.write(data + "\n");
+  });
+  input.on('end', data => {
+    tmpFile.end(data);
+  });
+
+  tmpFile.on('finish', () => {
+    if (DEBUG) {
+      console.log("Finished caching; starting throttling");
+      console.log();
+    }
+
+    throttledOutput = fs.createReadStream(tmpFileName, {
+      highWaterMark: 1
+    });
+
+    resolve(throttledOutput);
+  });
+
+  return done;
+}
+
+/**
+ * Reader
+ *
+ *
+ * Description:
+ *
+ * TODO
+ *
+ *
+ * Params:
+ *
+ *
+ */
+exports.reader = (source) => {
+  var type = source.type;
+  var location = source.location;
+  var matcher = source.root;
+  var input, output;
+  var sourceType;
+
+  if (location.match(/^https/)) {
+    sourceType = 'https';
+  }
+  else if (location.match(/^http/)) {
+    sourceType = 'http';
+  }
+  else {
+    sourceType = 'file';
+  }
+
+  // Open as a ReadStream, whichever way it is retrieved
+  if ('file' === sourceType) {
+    input = fs.createReadStream(location);
+  }
+  else if (('http' === sourceType) || ('https' === sourceType)) {
+    input = new Readable({read() {}});
+
+    ('https' === sourceType ? https : http).get(location, res => {
+      res.on('data', (data) => {
+        input.push(data);
+      });
+      res.on('end', () => {
+        input.push(null);
+      });
+    });
+  }
+
+  if (DEBUG) {
+    input.on('data', (data) => {
+      console.log("Data read:", data.toString());
+      console.log();
+    });
+    input.on('end', () => {
+      console.log("~~~ DATA COMPLETE FOR SOURCE:", location,"~~~");
+      console.log();
+    });
+  }
+
+  output = itemizeData(input, type, matcher);
+
+  output.on('data', data => {
+    //console.log("Itemized Data:", data.toString());
+  });
+  output.on('end', () => {
+    console.log("DONE");
+  });
+
+  return output;
+}
+
+/**
+ * Writer
+ *
+ *
+ * Description:
+ *
+ * TODO
+ *
+ *
+ * Params:
+ *
+ *
+ */
+exports.writer = {
   new: (input, type) => {
     var output = new Readable({
       read() {}
@@ -73,7 +185,7 @@ var writer = {
     }
     else if ('json' === type) {
       input.on('data', data => {
-        output.push(JSON.stringify(data));
+        output.push(data.toString());
       });
     }
     else if ('csv' === type) {
@@ -97,18 +209,28 @@ var writer = {
   }
 };
 
+
+/**
+ * Ingestor Manager
+ *
+ * TODO Description
+ */
 exports.new = (source, outputType) => {
-  var readerStream = reader.new(source);
+  var readerStream = exports.reader(source);
 
-  return writer.new(readerStream, outputType);
+  var ingestor = exports.writer.new(readerStream, outputType);
+  ingestor.pause = () => {
+    readerStream.pause();
+  };
+  ingestor.resume = () => {
+    readerStream.resume();
+  };
+
+  return ingestor;
 };
-
-exports.reader = reader;
 
 exports.processor = {
   new: () => {
     return {};
   }
 };
-
-exports.writer = writer;

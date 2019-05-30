@@ -1,5 +1,8 @@
 config.js
 
+# ingest files
+tmp.*
+
 # compiled output
 /dist
 /dist-server
@@ -42,3 +45,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+neo-config.json
