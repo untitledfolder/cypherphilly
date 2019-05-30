@@ -5,7 +5,7 @@ var prettyjson = require("prettyjson");
 
 var workingDir = __dirname;
 var util = require(workingDir + "/ingest-util");
-var neoUtil = require(workingDir + "/neo-util").new(require('../neo-config.json'));
+var neoUtil = require(workingDir + "/neo-util");
 
 var args = process.argv.splice(2);
 
@@ -45,6 +45,11 @@ console.log(prettyjson.render(ingestorConfig));
 var writer = process.stdout;
 var outputType = DONEO ? 'json' : 'pp';
 
+var neoUtilDriver;
+if (DONEO) {
+  neoUtilDriver = neoUtil.new(require('../neo-config.json'));
+}
+
 if (ingestorConfig.source) {
   console.log();
   console.log("Data source:", ingestorConfig.source);
@@ -52,7 +57,8 @@ if (ingestorConfig.source) {
 
   if (DONEO) {
     util.throttle(reader).then(throttled => {
-      var uploader = neoUtil.uploader(throttled, ingestorConfig.id, ingestorConfig.label);
+      console.log("HERE");
+      var uploader = neoUtilDriver.uploader(throttled, ingestorConfig.id, ingestorConfig.label);
       neoUtil.done();
     });
   }
@@ -66,7 +72,7 @@ if (ingestorConfig.datasets) {
 
     if (DONEO) {
       util.throttle(reader).then(throttled => {
-        var uploader = neoUtil.uploader(
+        var uploader = neoUtilDriver.uploader(
           throttled,
           dataset.id ? dataset.id : ingestorConfig.id,
           ...[ingestorConfig.label, dataset.label]

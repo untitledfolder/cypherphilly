@@ -5,6 +5,8 @@ const fs = require("fs");
 const readline = require("readline");
 
 
+var DEBUG = true;
+
 /**
  * Helpers
  *
@@ -158,28 +160,28 @@ exports.new = neoConfig => {
     var paused = false;
     lineReader.on('line', line => {
       line = JSON.parse(line);
-      console.log(line);
+      if (DEBUG) console.log(line);
       var query = genCreateOrUpdate(labels, id, line);
       currentlyProcessing += 1;
 
-      console.log("Currently processing:", currentlyProcessing);
+      if (DEBUG) console.log("Currently processing:", currentlyProcessing);
       if (currentlyProcessing >= maxUploadsPerUploader) {
-        console.log("~~~ Pausing uploader ~~~");
+        if (DEBUG) console.log("~~~ Pausing uploader ~~~");
         paused = true;
         input.pause();
       }
 
       var query = genCreateOrUpdate(labels, id, line);
-      console.log("Query:", query);
+      if (DEBUG) console.log("Query:", query);
       session.run(query)
       .subscribe({
         onCompleted: function () {
-          console.log("Done processing line:", line);
+          if (DEBUG) console.log("Done processing line:", line);
           currentlyProcessing -= 1;
-          console.log("Currently processing:", currentlyProcessing);
+          if (DEBUG) console.log("Currently processing:", currentlyProcessing);
 
           if (paused && currentlyProcessing < Math.round(maxUploadsPerUploader * 0.8)) {
-            console.log("~~~ Resuming uploader ~~~");
+            if (DEBUG) console.log("~~~ Resuming uploader ~~~");
             paused = false;
             input.resume();
           }
@@ -191,6 +193,8 @@ exports.new = neoConfig => {
     });
 
     input.on('end', () => {
+      console.log("Done");
+      console.log("Should close?:", neoManager.shouldClose);
     });
 
     // Once done, close the promise

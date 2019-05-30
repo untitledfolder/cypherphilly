@@ -11,7 +11,7 @@ const crypto = require('crypto');
 const csvStream = require('csv-stream').createStream;
 const oboe = require('oboe');
 
-const DEBUG = true;
+const DEBUG = false;
 
 
 /***   HELPERS   ***/
@@ -150,7 +150,7 @@ exports.reader = (source) => {
   output = itemizeData(input, type, matcher);
 
   output.on('data', data => {
-    console.log("Itemized Data:", data.toString());
+    //console.log("Itemized Data:", data.toString());
   });
   output.on('end', () => {
     console.log("DONE");
