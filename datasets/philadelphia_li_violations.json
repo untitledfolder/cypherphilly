@@ -1,0 +1,10 @@
+{
+  "name": "Philadelphia L+I Violations",
+  "label": "PhiladelphiaLIViolations",
+  "id": "objectid",
+  "source": {
+    "location": "https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20li_violations",
+    "type": "json",
+    "root": "raw.*"
+  }
+}

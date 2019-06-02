@@ -3,7 +3,7 @@
 DEBUG_INGESTOR=false
 
 WORKING_DIR="$(dirname $BASH_SOURCE[0])"
-INGESTOR_CONFIGS_DIR="$WORKING_DIR/ingestor/datasets"
+INGESTOR_CONFIGS_DIR="$WORKING_DIR/../datasets"
 
 echo "Ingestor"
 echo
@@ -24,8 +24,9 @@ debug_message "Working dir: $WORKING_DIR"
 
 INGEST_LIST="$@"
 if [ -z "$INGEST_LIST" ]; then
-  for ingestor in $(find ingestor/datasets/ -type f); do
+  for ingestor in $(find $INGESTOR_CONFIGS_DIR -type f); do
     filtered=${ingestor##*/}
+    echo $filtered
     filtered=${filtered%.json}
     INGEST_LIST="$INGEST_LIST $filtered"
   done
@@ -40,7 +41,7 @@ for ingest_item in $INGEST_LIST; do
 
   debug_message "START INGEST: $ingest_item"
   debug_message
-  $WORKING_DIR/ingestor/ingestor.js $ADDITIONAL_PARAMS $ingest_item $INGESTOR_CONFIGS_DIR/$ingest_item.json
+  $WORKING_DIR/ingestor.js $ADDITIONAL_PARAMS $ingest_item $INGESTOR_CONFIGS_DIR/$ingest_item.json
   debug_message
   debug_message "END INGEST: $ingest_item"
 done
