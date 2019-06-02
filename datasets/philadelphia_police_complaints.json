@@ -2,6 +2,8 @@
   "name": "Philadelphia Police Complaints",
   "label": "PhiladelphiaPoliceComplaints",
   "id": "cartodb_id",
+  "homepage": "https://www.opendataphilly.org/dataset/police-complaints",
+  "enabled": "true",
   "datasets": [
     {
       "name": "Complaints",

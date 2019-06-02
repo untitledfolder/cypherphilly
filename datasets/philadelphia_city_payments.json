@@ -2,6 +2,8 @@
   "name": "Philadelphia City Payments",
   "label": "PhiladelphiaCityPayments",
   "id": "cartodb_id",
+  "homepage": "https://www.opendataphilly.org/dataset/city-payments",
+  "enabled": "false",
   "source": {
     "location": "https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20city_payments_fy2017",
     "type": "json",

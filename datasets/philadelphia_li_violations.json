@@ -2,9 +2,10 @@
   "name": "Philadelphia L+I Violations",
   "label": "PhiladelphiaLIViolations",
   "id": "objectid",
+  "homepage": "https://www.opendataphilly.org/dataset/licenses-and-inspections-violations",
+  "enabled": "true",
   "source": {
-    "location": "https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20li_violations",
-    "type": "json",
-    "root": "raw.*"
+    "location": "https://phl.carto.com/api/v2/sql?q=SELECT+*,+ST_Y(the_geom)+AS+lat,+ST_X(the_geom)+AS+lng+FROM+li_violations&filename=li_violations&format=csv&skipfields=cartodb_id",
+    "type": "csv"
   }
 }
