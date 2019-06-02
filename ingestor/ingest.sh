@@ -11,7 +11,13 @@ echo
 ADDITIONAL_PARAMS=""
 
 while [[ $1 == -* ]]; do
-  ADDITIONAL_PARAMS="$ADDITIONAL_PARAMS $1"
+  if [ "-d" == "$1" ]; then
+    shift
+    INGESTOR_CONFIGS_DIR="$1"
+  else
+    ADDITIONAL_PARAMS="$ADDITIONAL_PARAMS $1"
+  fi
+
   shift
 done
 
