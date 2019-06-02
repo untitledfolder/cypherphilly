@@ -3,7 +3,7 @@
   "label": "PhiladelphiaStreetsCodeViolationNotices",
   "id": "objectid",
   "homepage": "https://www.opendataphilly.org/dataset/code-violation-notices",
-  "enabled": "true",
+  "enabled": true,
   "source": {
     "location": "https://phl.carto.com/api/v2/sql?q=SELECT+*,+ST_Y(the_geom)+AS+lat,+ST_X(the_geom)+AS+lng+FROM+streets_code_violation_notices&filename=streets_code_violation_notices&format=csv&skipfields=cartodb_id",
     "type": "csv"
