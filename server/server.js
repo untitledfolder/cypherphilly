@@ -2,8 +2,15 @@ const fs = require('fs');
 const app = require('express')();
 const datasetsRoot = '../datasets';
 const cypherUtil = require('../utils/cypher-util');
+const neo4j = require("neo4j-driver").v1;
+const neoConfig = require("../neo-config.json");
 
 var port = 7000;
+var neoDriver = neo4j.driver(
+  neoConfig.host,
+  neo4j.auth.basic(neoConfig.user, neoConfig.password)
+);
+var neoSession = neoDriver.session();
 
 var args = process.argv.slice(2);
 if (args.length) {
@@ -64,11 +71,14 @@ app.get('/data', (req, res) => {
 
 function generateAPIs(app, apiConfigs) {
   apiConfigs.forEach(apiConfig => {
-    app.get(apiConfig.url, (req, res) => {
-      res.send(
-        apiConfig.name + ': ' + apiConfig.labels +
-        ' ' + apiConfig.cypher
-      );
+    app.get(apiConfig.url, (req, res, next) => {
+      neoSession.run(apiConfig.cypher)
+      .then(result => {
+        res.send(result.records);
+      })
+      .catch(err => {
+        next(err);
+      });
     });
   });
 }
