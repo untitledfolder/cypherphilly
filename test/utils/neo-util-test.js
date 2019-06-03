@@ -1,6 +1,6 @@
 const assert = require('assert');
 
-const util = require('../../ingestor/neo-util');
+const util = require('../../utils/neo-util');
 
 describe('Neo Util', () => {
   describe('Generate Labels', () => {

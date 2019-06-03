@@ -4,7 +4,7 @@ var sinon = require('sinon');
 
 var mockReadableStream = require('stream').Readable;
 
-var util = require('../../ingestor/ingest-util');
+var util = require('../../utils/ingest-util');
 
 describe('Writer', () => {
   describe('Init', () => {

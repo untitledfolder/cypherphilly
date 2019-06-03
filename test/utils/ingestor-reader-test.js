@@ -5,10 +5,10 @@ var chai = require('chai');
 var expect = chai.expect;
 chai.use(require('chai-stream'));
 
-var util = require('../../ingestor/ingest-util');
+var util = require('../../utils/ingest-util');
 
 describe('Reader', () => {
-  var fixturesDir = 'test/fixtures/ingestor/';
+  var fixturesDir = 'test/fixtures/sources/';
 
   describe('Init', () => {
     it('should exist', () => {
