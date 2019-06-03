@@ -4,7 +4,7 @@ var fs = require("fs");
 var prettyjson = require("prettyjson");
 
 var workingDir = __dirname;
-var util = require(workingDir + "/ingest-util");
+var util = require(workingDir + "/../utils/ingest-util");
 var neoUtil;
 
 var args = process.argv.splice(2);
@@ -17,7 +17,7 @@ while (args.length && args[0][0] == '-') {
   switch (flag) {
     case '-n':
       DONEO = true;
-      neoUtil = require(workingDir + "/neo-util");
+      neoUtil = require(workingDir + "/../utils/neo-util");
       break;
 
     default:

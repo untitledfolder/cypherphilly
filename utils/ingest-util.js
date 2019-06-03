@@ -11,7 +11,7 @@ const crypto = require('crypto');
 const csvStream = require('csv-stream').createStream;
 const oboe = require('oboe');
 
-const DEBUG = false;
+const DEBUG = true;
 
 
 /***   HELPERS   ***/

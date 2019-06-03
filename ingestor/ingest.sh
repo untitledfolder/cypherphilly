@@ -47,7 +47,7 @@ for ingest_item in $INGEST_LIST; do
 
   debug_message "START INGEST: $ingest_item"
   debug_message
-  $WORKING_DIR/ingestor.js $ADDITIONAL_PARAMS $ingest_item $INGESTOR_CONFIGS_DIR/$ingest_item.json
+  node $WORKING_DIR/ingestor.js $ADDITIONAL_PARAMS $ingest_item $INGESTOR_CONFIGS_DIR/$ingest_item.json
   debug_message
   debug_message "END INGEST: $ingest_item"
 done
