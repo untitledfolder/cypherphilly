@@ -90,7 +90,7 @@ var genCreateOrUpdate = (labels, id, mapped) => {
 };
 
 var genGetAll = (labels) => {
-  return genMATCH('n', labels) + ' RETURN n;';
+  return genMATCH('n', labels) + ' RETURN n LIMIT 10;';
 }
 
 exports.genMap = genMap;
