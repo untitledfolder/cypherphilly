@@ -1,4 +1,0 @@
-"cartodb_id","the_geom","the_geom_webmercator","cap_number","date_received","dist_occurrence","general_cap_classification","summary"
-1,null,null,"13-0001","2013-01-07T00:00:00Z","35","BAD","Summary 1"
-2,null,null,"13-0002","2013-01-09T00:00:00Z","35","GOOD","Summary 2"
-3,null,null,"13-0003","2013-02-07T00:00:00Z","35","SOSO","Summary 3"

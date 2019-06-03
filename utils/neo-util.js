@@ -3,111 +3,10 @@ const neo4j = require("neo4j-driver").v1;
 const crypto = require("crypto");
 const fs = require("fs");
 const readline = require("readline");
+const cypherUtil = require("./cypher-util");
 
 
 var DEBUG = true;
-
-/**
- * Helpers
- *
- * TODO: Description
- */
-var cleanString = text => {
-  if (typeof text === 'string') text = "'" + text.replace(/\'/g, "\\'") + "'";
-
-  return text;
-};
-
-var genLabel = (varname, labels, map) => {
-  var returnString = '(';
-
-  if (varname) {
-    returnString += varname;
-
-    if (labels && labels.length) {
-      returnString += ' ';
-    }
-  }
-
-  if (labels && typeof labels === "string") {
-    labels = [labels];
-  }
-
-  if (labels && labels.length) {
-    returnString += ':' + labels.join(':');
-  }
-
-  if (map) {
-    returnString += ' ' + map;
-  }
-
-  return returnString + ')';
-};
-
-var genMap = (mapped) => {
-  var returnString = '{';
-
-  returnString += Object.keys(mapped).map(map => {
-    return map + ": " + cleanString(mapped[map]);
-  }).join(', ');
-
-  return returnString + '}';
-};
-
-var genQueryStart = (varname, labels, mapped) => {
-  return genLabel(varname, labels, genMap(mapped))
-};
-
-var genMATCH = (varname, labels, mapped) => {
-  return 'MATCH ' + genQueryStart(varname, labels, mapped);
-};
-
-
-var genCREATE = (varname, labels, mapped) => {
-  return 'CREATE ' + genQueryStart(varname, labels, mapped);
-};
-
-var genMERGE = (varname, labels, mapped) => {
-  return 'MERGE ' + genQueryStart(varname, labels, mapped);
-};
-
-var genSET = (varname, id, mapped) => {
-  var returnString = "";
-
-  Object.keys(mapped).forEach( map => {
-    if (map !== id) {
-      if (!returnString.length) returnString += "\nSET ";
-      else returnString += ", ";
-
-      returnString += varname + "." + map + " = " + cleanString(mapped[map]) + "";
-    }
-  });
-
-  if (returnString.length) returnString += ";";
-
-  return returnString;
-};
-
-var genCreateOrUpdate = (labels, id, mapped) => {
-  var varname = 'n';
-  var returnString = "";
-
-  var mergeById = {};
-  mergeById[id] = mapped[id];
-
-  returnString += genMERGE(varname, labels, mergeById);
-  returnString += genSET(varname, id, mapped);
-
-  return returnString;
-};
-
-exports.genMap = genMap;
-exports.genLabel = genLabel;
-exports.genCREATE = genCREATE;
-exports.genMATCH = genMATCH;
-exports.genMERGE = genMERGE;
-exports.genSET = genSET;
-exports.genCreateOrUpdate = genCreateOrUpdate;
 
 
 /**
@@ -161,7 +60,7 @@ exports.new = neoConfig => {
     lineReader.on('line', line => {
       line = JSON.parse(line);
       if (DEBUG) console.log(line);
-      var query = genCreateOrUpdate(labels, id, line);
+      var query = cypherUtil.genCreateOrUpdate(labels, id, line);
       currentlyProcessing += 1;
 
       if (DEBUG) console.log("Currently processing:", currentlyProcessing);
@@ -171,7 +70,7 @@ exports.new = neoConfig => {
         input.pause();
       }
 
-      var query = genCreateOrUpdate(labels, id, line);
+      var query = cypherUtil.genCreateOrUpdate(labels, id, line);
       if (DEBUG) console.log("Query:", query);
       session.run(query)
       .subscribe({

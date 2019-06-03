@@ -2,12 +2,12 @@ var sinon = require('sinon');
 var { Readable } = require('stream');
 var { expect } = require('chai');
 
-var util = require('../../ingestor/ingest-util');
+var util = require('../../utils/ingest-util');
 
 var configDir = "test/fixtures/";
 
 const testSource = {
-  location: "test/fixtures/ingestor/example.csv",
+  location: "test/fixtures/sources/example.csv",
   type: 'csv'
 };
 

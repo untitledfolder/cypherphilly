@@ -4,8 +4,8 @@ var fs = require("fs");
 var prettyjson = require("prettyjson");
 
 var workingDir = __dirname;
-var util = require(workingDir + "/ingest-util");
-var neoUtil = require(workingDir + "/neo-util");
+var util = require(workingDir + "/../utils/ingest-util");
+var neoUtil;
 
 var args = process.argv.splice(2);
 
@@ -17,6 +17,7 @@ while (args.length && args[0][0] == '-') {
   switch (flag) {
     case '-n':
       DONEO = true;
+      neoUtil = require(workingDir + "/../utils/neo-util");
       break;
 
     default:
@@ -41,6 +42,11 @@ console.log("Config key:", ingestorConfigKey);
 console.log();
 console.log("Config file:");
 console.log(prettyjson.render(ingestorConfig));
+
+if (!ingestorConfig.enabled) {
+  console.log("DATASET DISABLED");
+  process.exit();
+}
 
 var writer = process.stdout;
 var outputType = DONEO ? 'json' : 'pp';

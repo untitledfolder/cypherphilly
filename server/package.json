@@ -1,0 +1,13 @@
+{
+  "name": "switch-server",
+  "version": "0.1.1",
+  "license": "MIT",
+  "scripts": {
+    "start": "node server"
+  },
+  "private": false,
+  "dependencies": {
+    "express": "^4.16.3",
+    "neo4j-driver": "^1.6.0"
+  }
+}

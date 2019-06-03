@@ -5,10 +5,10 @@ var chai = require('chai');
 var expect = chai.expect;
 chai.use(require('chai-stream'));
 
-var util = require('../../ingestor/ingest-util');
+var util = require('../../utils/ingest-util');
 
-describe('Reader', () => {
-  var fixturesDir = 'test/fixtures/ingestor/';
+describe.only('Reader', () => {
+  var fixturesDir = 'test/fixtures/sources/';
 
   describe('Init', () => {
     it('should exist', () => {
@@ -94,34 +94,28 @@ describe('Reader', () => {
 
       reader.on('end', () => {
         expect(JSON.parse(obj1)).to.deep.equal({
-          cap_number: "13-0001",
-          date_received: "2013-01-07T00:00:00Z",
-          dist_occurrence: "35",
-          general_cap_classification: "BAD",
-          summary: "Summary 1",
-          the_geom: "null",
-          the_geom_webmercator: "null",
-          cartodb_id: "1"
+          id_number: "102",
+          date_received: "2014-01-07T00:00:00Z",
+          status: "BAD",
+          description: "Summary 1",
+          geom: "null",
+          db_id: "1"
         });
         expect(JSON.parse(obj2)).to.deep.equal({
-          cap_number: "13-0002",
-          date_received: "2013-01-09T00:00:00Z",
-          dist_occurrence: "35",
-          general_cap_classification: "GOOD",
-          summary: "Summary 2",
-          the_geom: "null",
-          the_geom_webmercator: "null",
-          cartodb_id: "2"
+          id_number: "201",
+          date_received: "2016-01-09T00:00:00Z",
+          status: "GOOD",
+          description: "Summary 2",
+          geom: "null",
+          db_id: "2"
         });
         expect(JSON.parse(obj3)).to.deep.equal({
-          cap_number: "13-0003",
-          date_received: "2013-02-07T00:00:00Z",
-          dist_occurrence: "35",
-          general_cap_classification: "SOSO",
-          summary: "Summary 3",
-          the_geom: "null",
-          the_geom_webmercator: "null",
-          cartodb_id: "3"
+          id_number: "303",
+          date_received: "2018-02-07T00:00:00Z",
+          status: "SOSO",
+          description: "Summary 3",
+          geom: "null",
+          db_id: "3"
         });
         expect(obj4).to.be.undefined;
         done();
@@ -149,34 +143,28 @@ describe('Reader', () => {
 
       reader.on('end', () => {
         expect(JSON.parse(obj1)).to.deep.equal({
-          cap_number: "13-0001",
-          date_received: "2013-01-07T00:00:00Z",
-          dist_occurrence: "35",
-          general_cap_classification: "BAD",
-          summary: "Summary 1",
-          the_geom: null,
-          the_geom_webmercator: null,
-          cartodb_id: 1
+          id_number: "102",
+          date_received: "2015-01-07T00:00:00Z",
+          status: "BAD",
+          description: "Summary 1",
+          geom: null,
+          db_id: 1
         });
         expect(JSON.parse(obj2)).to.deep.equal({
-          cap_number: "13-0002",
-          date_received: "2013-01-09T00:00:00Z",
-          dist_occurrence: "35",
-          general_cap_classification: "GOOD",
-          summary: "Summary 2",
-          the_geom: null,
-          the_geom_webmercator: null,
-          cartodb_id: 2
+          id_number: "201",
+          date_received: "2016-01-09T00:00:00Z",
+          status: "GOOD",
+          description: "Summary 2",
+          geom: null,
+          db_id: 2
         });
         expect(JSON.parse(obj3)).to.deep.equal({
-          cap_number: "13-0003",
-          date_received: "2013-02-07T00:00:00Z",
-          dist_occurrence: "35",
-          general_cap_classification: "SOSO",
-          summary: "Summary 3",
-          the_geom: null,
-          the_geom_webmercator: null,
-          cartodb_id: 3
+          id_number: "202",
+          date_received: "2017-02-07T00:00:00Z",
+          status: "SOSO",
+          description: "Summary 3",
+          geom: null,
+          db_id: 3
         });
         expect(obj4).to.be.undefined;
         done();

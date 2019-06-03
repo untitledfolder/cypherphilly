@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var util = require('../../ingestor/ingest-util');
+var util = require('../../utils/ingest-util');
 
 describe('Processor', () => {
   describe('Init', () => {

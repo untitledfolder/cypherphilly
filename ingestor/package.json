@@ -4,10 +4,6 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "csv-stream": "^0.2.0",
-    "neo4j-driver": "^1.6.0",
-    "oboe": "^2.1.4",
-    "promise": "^8.0.3",
     "prettyjson": "^1.2.1"
   }
 }

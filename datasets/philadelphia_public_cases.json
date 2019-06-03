@@ -2,6 +2,8 @@
   "name": "Philadelphia Public Cases",
   "label": "PhiladelphiaPublicCases",
   "id": "objectid",
+  "homepage": "https://www.opendataphilly.org/dataset/311-service-and-information-requests",
+  "enabled": false,
   "source": {
     "location": "https://phl.carto.com/api/v2/sql?q=SELECT+*+FROM+public_cases_fc&filename=public_cases_fc&format=csv&skipfields=cartodb_id",
     "type": "csv"
