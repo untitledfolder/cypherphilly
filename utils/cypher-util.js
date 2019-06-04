@@ -90,8 +90,15 @@ var genCreateOrUpdate = (labels, id, mapped) => {
   return returnString;
 };
 
-var genGetAll = (labels) => {
-  return genMATCH('n', labels) + ' RETURN n LIMIT 10;';
+var genGetAll = (labels, limit) => {
+  var query = genMATCH('n', labels) + ' RETURN n';
+
+  if (limit) {
+    console.log("Limit:", limit);
+    query += ` LIMIT ${limit}`;
+  }
+  console.log("Query:", query);
+  return query + ';';
 }
 
 var genGetByID = (labels, idField, id) => {
@@ -110,3 +117,17 @@ exports.genSET = genSET;
 exports.genCreateOrUpdate = genCreateOrUpdate;
 exports.genGetAll = genGetAll;
 exports.genGetByID = genGetByID;
+
+exports.processNode = (record) => {
+  var response = {};
+
+  if (record._fields.length) {
+    Object.entries(
+      record._fields[0].properties
+    ).forEach((key, val) => {
+      response[key] = val.low ? val.low : val;
+    });
+  }
+
+  return response;
+};

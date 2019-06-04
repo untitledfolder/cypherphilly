@@ -4,6 +4,7 @@ const datasetsRoot = '../datasets';
 const cypherUtil = require('../utils/cypher-util');
 const neo4j = require("neo4j-driver").v1;
 const neoConfig = require("../neo-config.json");
+const { Readable } = require('stream');
 
 var port = 7000;
 var neoDriver = neo4j.driver(
@@ -46,7 +47,7 @@ enabledDatasets.forEach(dataset => {
     url: `/data/${dataset.key}`,
     name: dataset.config.name,
     labels: [dataset.config.label],
-    cypher: cypherUtil.genGetAll([dataset.config.label])
+    cypher: cypherUtil.genGetAll([dataset.config.label], 1000)
   });
 
   if (dataset.config.datasets) {
@@ -56,7 +57,7 @@ enabledDatasets.forEach(dataset => {
         url: `/data/${dataset.key}/${subdataset.key}`,
         name: `${dataset.config.name} - ${subdataset.name}`,
         labels: [dataset.config.label, subdataset.label],
-        cypher: cypherUtil.genMATCH('n', [dataset.config.label, subdataset.label])
+        cypher: cypherUtil.genGetAll([dataset.config.label, subdataset.label], 1000)
       });
     });
   }
@@ -72,12 +73,24 @@ app.get('/data', (req, res) => {
 function generateAPIs(app, apiConfigs) {
   apiConfigs.forEach(apiConfig => {
     app.get(apiConfig.url, (req, res, next) => {
+      var responseStream = new Readable({read() {}});
+
+      // Sure, why not..
+      responseStream.push('[');
+      responseStream.pipe(res);
       neoSession.run(apiConfig.cypher)
-      .then(result => {
-        res.send(result.records);
-      })
-      .catch(err => {
-        next(err);
+      .subscribe({
+        onNext: record => {
+          responseStream.push(
+            JSON.stringify(record) + '\n'
+          );
+        },
+        onCompleted: () => {
+          responseStream.push(null);
+        },
+        onError:  err => {
+          next(err);
+        }
       });
     });
   });
