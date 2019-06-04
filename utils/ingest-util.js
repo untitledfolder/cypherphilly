@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { Readable } = require('stream');
+const { Readable, Transform } = require('stream');
 const Promise = require("promise");
 
 const http = require('http');
@@ -57,12 +57,12 @@ function jsonToObjectStream(input, root) {
  * Flattener
  */
 exports.flattener = (input) => {
-  var output = new Readable({read() {}});
-
-  input.on('data', data => output.push(JSON.stringify(data) + '\n'));
-  input.on('end', () => output.push(null));
-
-  return output;
+  return input.pipe(new Transform({
+    writableObjectMode: true,
+    transform(data, _, done) {
+      done(null, JSON.stringify(data) + '\n');
+    }
+  }));
 }
 
 /**
@@ -76,8 +76,7 @@ exports.cacheToSLowMemoryStream = (tmpFilename, input) => {
   });
 
   var tmpFile = fs.createWriteStream(tmpFilename);
-  input.on('data', data => tmpFile.write(data));
-  input.on('end', data => tmpFile.end(data));
+  input.pipe(tmpFile);
 
   tmpFile.on('finish', () => {
     resolve(sLowMemoryFileToStream(tmpFilename));
