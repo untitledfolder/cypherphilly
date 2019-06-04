@@ -121,12 +121,8 @@ exports.genGetByID = genGetByID;
 exports.processNode = (record) => {
   var response = {};
 
-  if (record._fields.length) {
-    Object.entries(
-      record._fields[0].properties
-    ).forEach((key, val) => {
-      response[key] = val.low ? val.low : val;
-    });
+  if (record['_fields'].length) {
+    response = record._fields[0].properties
   }
 
   return response;

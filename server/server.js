@@ -9,7 +9,8 @@ const { Readable } = require('stream');
 var port = 7000;
 var neoDriver = neo4j.driver(
   neoConfig.host,
-  neo4j.auth.basic(neoConfig.user, neoConfig.password)
+  neo4j.auth.basic(neoConfig.user, neoConfig.password),
+  { disableLosslessIntegers: true }
 );
 var neoSession = neoDriver.session();
 
@@ -39,6 +40,7 @@ datasetFiles.forEach(datasetFile => {
   }
 });
 
+var limit = 10;
 console.log("Enabled Datasets:");
 var apiList = [];
 enabledDatasets.forEach(dataset => {
@@ -47,7 +49,7 @@ enabledDatasets.forEach(dataset => {
     url: `/data/${dataset.key}`,
     name: dataset.config.name,
     labels: [dataset.config.label],
-    cypher: cypherUtil.genGetAll([dataset.config.label], 1000)
+    cypher: cypherUtil.genGetAll([dataset.config.label], limit)
   });
 
   if (dataset.config.datasets) {
@@ -57,7 +59,7 @@ enabledDatasets.forEach(dataset => {
         url: `/data/${dataset.key}/${subdataset.key}`,
         name: `${dataset.config.name} - ${subdataset.name}`,
         labels: [dataset.config.label, subdataset.label],
-        cypher: cypherUtil.genGetAll([dataset.config.label, subdataset.label], 1000)
+        cypher: cypherUtil.genGetAll([dataset.config.label, subdataset.label], limit)
       });
     });
   }
@@ -76,16 +78,22 @@ function generateAPIs(app, apiConfigs) {
       var responseStream = new Readable({read() {}});
 
       // Sure, why not..
-      responseStream.push('[');
       responseStream.pipe(res);
+      responseStream.push('[');
+      var skippedFirstComma = false;
+
       neoSession.run(apiConfig.cypher)
       .subscribe({
         onNext: record => {
+          if (skippedFirstComma) responseStream.push(',\n');
+          else skippedFirstComma = true;
+
           responseStream.push(
-            JSON.stringify(record) + '\n'
+            JSON.stringify(cypherUtil.processNode(record))
           );
         },
         onCompleted: () => {
+          responseStream.push(']');
           responseStream.push(null);
         },
         onError:  err => {
@@ -106,8 +114,6 @@ function generateAPIContentsView(apiList) {
   console.log(returnView);
   return returnView;
 }
-
-//process.exit();
 
 app.listen(port, () => {
   console.log("Server started:", port);
