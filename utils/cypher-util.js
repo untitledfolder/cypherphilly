@@ -1,4 +1,5 @@
 var cleanString = text => {
+  if (typeof text === 'string') text = text.replace(/\\/g, "\\\\");
   if (typeof text === 'string') text = "'" + text.replace(/\'/g, "\\'") + "'";
 
   return text;
@@ -93,6 +94,13 @@ var genGetAll = (labels) => {
   return genMATCH('n', labels) + ' RETURN n LIMIT 10;';
 }
 
+var genGetByID = (labels, idField, id) => {
+  var idMap = {};
+  idMap[idField] = id;
+
+  return genMATCH('n', labels, idMap) + ' RETURN n;';
+}
+
 exports.genMap = genMap;
 exports.genLabel = genLabel;
 exports.genCREATE = genCREATE;
@@ -101,3 +109,4 @@ exports.genMERGE = genMERGE;
 exports.genSET = genSET;
 exports.genCreateOrUpdate = genCreateOrUpdate;
 exports.genGetAll = genGetAll;
+exports.genGetByID = genGetByID;

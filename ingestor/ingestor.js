@@ -5,11 +5,13 @@ var prettyjson = require("prettyjson");
 
 var workingDir = __dirname;
 var util = require(workingDir + "/../utils/ingest-util");
-var neoUtil;
+var neoUtil = require(workingDir + "/../utils/neo-util");
+var neoManager;
 
 var args = process.argv.splice(2);
 
 var DONEO = false;
+var DEBUG = true;
 
 while (args.length && args[0][0] == '-') {
   var flag = args.shift();
@@ -17,7 +19,11 @@ while (args.length && args[0][0] == '-') {
   switch (flag) {
     case '-n':
       DONEO = true;
-      neoUtil = require(workingDir + "/../utils/neo-util");
+      neoManager = neoUtil.new(require('../neo-config.json'), DEBUG);
+      break;
+
+    case '-d':
+      DEBUG = true;
       break;
 
     default:
@@ -36,54 +42,99 @@ var ingestorConfigFile = args[1];
 
 var ingestorConfig = JSON.parse(fs.readFileSync(ingestorConfigFile));
 
-console.log("~~~ INGESTOR ~~~");
-console.log();
-console.log("Config key:", ingestorConfigKey);
-console.log();
-console.log("Config file:");
-console.log(prettyjson.render(ingestorConfig));
+if (DEBUG) {
+  console.log("~~~ INGESTOR ~~~");
+  console.log();
+  console.log("Config key:", ingestorConfigKey);
+  console.log();
+  console.log("Config file:");
+  console.log(prettyjson.render(ingestorConfig));
+}
+else {
+  console.log("Ingesting:", ingestorConfigKey);
+}
 
 if (!ingestorConfig.enabled) {
   console.log("DATASET DISABLED");
   process.exit();
 }
 
-var writer = process.stdout;
-var outputType = DONEO ? 'json' : 'pp';
-
-var neoUtilDriver;
-if (DONEO) {
-  neoUtilDriver = neoUtil.new(require('../neo-config.json'));
-}
-
 if (ingestorConfig.source) {
-  console.log();
-  console.log("Data source:", ingestorConfig.source);
-  var reader = util.reader(ingestorConfig.source);
+  var tmpFilename = 'tmp.' + ingestorConfigKey + '.flat';
 
-  if (DONEO) {
-    util.throttle(reader).then(throttled => {
-      console.log("HERE");
-      var uploader = neoUtilDriver.uploader(throttled, ingestorConfig.id, ingestorConfig.label);
-      neoUtil.done();
-    });
+  if (DEBUG) {
+    console.log();
+    console.log("Data source:", ingestorConfig.source);
+    console.log("Tmp File:", tmpFilename);
   }
+
+  util.new(ingestorConfig.source, tmpFilename, DEBUG)
+  .then(ingestStream => {
+    if (DONEO) {
+      console.log("Uploading to neo");
+      return neoManager.newUploader(
+        ingestStream,
+        ingestorConfig.id,
+        ingestorConfig.label
+      ).then(result => {
+        neoManager.close();
+        return result;
+      });
+    }
+
+    return ingestStream.pipe(process.stdout);
+  })
+  .then(results => {
+    //console.log("Deleting complete tmp file:", tmpFilename);
+    //fs.unlinkSync(tmpFilename);
+    return results;
+  })
+  .catch(err => {
+    console.log("ERRR:", err);
+  })
+  .done(() => {
+    console.log("DONE!");
+  });
 }
 
 if (ingestorConfig.datasets) {
-  console.log();
-  console.log("Datasets:", ingestorConfig.datasets);
-  ingestorConfig.datasets.forEach(dataset => {
-    var reader = util.reader(dataset.source);
-
-    if (DONEO) {
-      util.throttle(reader).then(throttled => {
-        var uploader = neoUtilDriver.uploader(
-          throttled,
+  if (DEBUG) {
+    console.log();
+    console.log("Datasets:", ingestorConfig.datasets);
+  }
+  var ingestorPromises = ingestorConfig.datasets.map(dataset => {
+    var tmpFilename = 'tmp.' + ingestorConfigKey + '.' + dataset.key + '.flat';
+    return util.new(dataset.source, tmpFilename, DEBUG)
+    .then(ingestStream => {
+      if (DONEO) {
+        console.log("Uploading to neo:", ingestorConfigKey, dataset.key);
+        return neoManager.newUploader(
+          ingestStream,
           dataset.id ? dataset.id : ingestorConfig.id,
-          ...[ingestorConfig.label, dataset.label]
+          ingestorConfig.label,
+          dataset.label
         );
-      });
+      }
+
+      return ingestStream.pipe(process.stdout);
+    })
+    .then(results => {
+      //console.log("Deleting complete tmp file:", tmpFilename);
+      //fs.unlinkSync(tmpFilename);
+      return results;
+    })
+  });
+
+  Promise.all(ingestorPromises)
+  .then(result => {
+    console.log("DONE!");
+    if (neoManager) {
+      neoManager.close();
     }
+
+    return result;
+  })
+  .catch(err => {
+    console.log("ERRR:", err);
   });
 }
