@@ -54,7 +54,8 @@ exports.new = (neoConfig, debug) => {
   }
   var driver = neo4j.driver(
     neoConfig.host,
-    neo4j.auth.basic(neoConfig.user, neoConfig.password)
+    neo4j.auth.basic(neoConfig.user, neoConfig.password),
+    { disableLosslessIntegers: true }
   );
 
   return {
