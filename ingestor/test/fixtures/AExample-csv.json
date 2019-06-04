@@ -1,8 +1,9 @@
 {
   "name": "Data Example",
   "label": "DataExample",
+  "enabled": true,
   "source": {
-    "location": "./test/fixtures/ingestor/example.csv",
+    "location": "../test/fixtures/sources/example.csv",
     "type": "csv"
   }
 }
