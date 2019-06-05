@@ -4,6 +4,7 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
+    "neo4j-driver": "^1.6.0",
     "prettyjson": "^1.2.1"
   }
 }

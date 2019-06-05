@@ -1,12 +1,10 @@
-#!/usr/local/bin/node
+const fs = require("fs");
+const prettyjson = require("prettyjson");
 
-var fs = require("fs");
-var prettyjson = require("prettyjson");
-
-var workingDir = __dirname;
-var util = require(workingDir + "/../utils/ingest-util");
-var neoUtil = require(workingDir + "/../utils/neo-util");
-var neoManager;
+const util = require("../utils/ingest-util");
+const neo4j = require("neo4j-driver").v1;
+const { NeoUploader } = require("./neoUploader");
+const workingDir = __dirname;
 
 var args = process.argv.splice(2);
 
@@ -19,7 +17,6 @@ while (args.length && args[0][0] == '-') {
   switch (flag) {
     case '-n':
       DONEO = true;
-      neoManager = neoUtil.new(require('../neo-config.json'), DEBUG);
       break;
 
     case '-d':
@@ -59,35 +56,45 @@ if (!ingestorConfig.enabled) {
   process.exit();
 }
 
+var neoDriver;
+if (DONEO) {
+  neoDriver = neo4j.driver(
+    neoConfig.host,
+    neo4j.auth.basic(neoConfig.user, neoConfig.password),
+    { disableLosslessIntegers: true }
+  );
+}
+
 if (ingestorConfig.source) {
-  var tmpFilename = 'tmp.' + ingestorConfigKey + '.flat';
+  var dataFilename = workingDir + '/../datasets/data.' + ingestorConfigKey + '.flat';
 
   if (DEBUG) {
     console.log();
     console.log("Data source:", ingestorConfig.source);
-    console.log("Tmp File:", tmpFilename);
+    console.log("Data Storage File:", dataFilename);
   }
 
-  util.new(ingestorConfig.source, tmpFilename, DEBUG)
+  util.new(ingestorConfig.source, dataFilename, DEBUG)
   .then(ingestStream => {
+    var uploader;
+
     if (DONEO) {
-      console.log("Uploading to neo");
-      return neoManager.newUploader(
-        ingestStream,
+      console.log("Uploading to neo:", ingestorConfigKey);
+
+      uploader = new NeoManager(
         ingestorConfig.id,
         ingestorConfig.label
-      ).then(result => {
-        neoManager.close();
-        return result;
-      });
+      );
+    }
+    else {
+      return ingestStream.pipe(process.stdout)
     }
 
-    return ingestStream.pipe(process.stdout);
-  })
-  .then(results => {
-    //console.log("Deleting complete tmp file:", tmpFilename);
-    //fs.unlinkSync(tmpFilename);
-    return results;
+    var uploadManager = new UploadManager(
+      ingestStream, uploader
+    );
+
+    return uploadManager.uploadData();
   })
   .catch(err => {
     console.log("ERRR:", err);
@@ -102,34 +109,39 @@ if (ingestorConfig.datasets) {
     console.log();
     console.log("Datasets:", ingestorConfig.datasets);
   }
+
   var ingestorPromises = ingestorConfig.datasets.map(dataset => {
-    var tmpFilename = 'tmp.' + ingestorConfigKey + '.' + dataset.key + '.flat';
-    return util.new(dataset.source, tmpFilename, DEBUG)
+    var dataFilename = workingDir + '/../datasets/data.' + ingestorConfigKey + '.' + dataset.key + '.flat';
+
+    return util.new(dataset.source, dataFilename, DEBUG)
     .then(ingestStream => {
+      var uploader;
+
       if (DONEO) {
         console.log("Uploading to neo:", ingestorConfigKey, dataset.key);
-        return neoManager.newUploader(
-          ingestStream,
+
+        uploader = new Uploader(neoDriver,
           dataset.id ? dataset.id : ingestorConfig.id,
-          ingestorConfig.label,
-          dataset.label
+          ingestorConfig.label, dataset.label
         );
       }
+      else {
+        return ingestStream.pipe(process.stdout)
+      }
 
-      return ingestStream.pipe(process.stdout);
-    })
-    .then(results => {
-      //console.log("Deleting complete tmp file:", tmpFilename);
-      //fs.unlinkSync(tmpFilename);
-      return results;
-    })
+      var uploadManager = new UploadManager(
+        ingestStream, uploader
+      );
+
+      return uploadManager.uploadData();
+    });
   });
 
   Promise.all(ingestorPromises)
   .then(result => {
     console.log("DONE!");
-    if (neoManager) {
-      neoManager.close();
+    if (neoDriver) {
+      neoDriver.close();
     }
 
     return result;
