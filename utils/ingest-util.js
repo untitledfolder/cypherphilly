@@ -23,15 +23,7 @@ function sLowMemoryFileToStream(filename) {
 function httpToStream(url) {
   var output = new Readable({read() {}});
 
-  (url.match(/^https/) ? https : http).get(url, res => {
-    res.on('data', data => {
-      output.push(data);
-    });
-    res.on('end', () => {
-      console.log("Done reading http stream:", url);
-      output.push(null);
-    });
-  });
+  (url.match(/^https/) ? https : http).get(url, res.pipe(output));
 
   return output;
 }
