@@ -61,7 +61,6 @@
       "name": "Findings",
       "label": "PPC_Findings",
       "key": "findings",
-      "homepage": "https://cityofphiladelphia.github.io/carto-api-explorer/#ppd_complaint_disciplines",
       "source": {
         "location": "https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20ppd_complaint_disciplines",
         "type": "json",
