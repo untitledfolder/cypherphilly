@@ -106,7 +106,9 @@ if (ingestorConfig.source) {
     console.log("ERRR:", err);
   })
   .done(() => {
-    neoDriver.close();
+    if (neoDriver) {
+      neoDriver.close();
+    }
     console.log("DONE!");
   });
 }
