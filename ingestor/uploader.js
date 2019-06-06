@@ -1,7 +1,7 @@
 const Promise = require('promise');
 const openLineByLine = require("readline").createInterface;
 
-module.exports class UploaderManager {
+exports.UploadManager = class UploaderManager {
 
   constructor(input, uploader) {
     this.lineByLine = openLineByLine({
@@ -10,7 +10,11 @@ module.exports class UploaderManager {
     this.uploader = uploader;
     this.finishedData = false;
 
-    this.maxUploads = uploaders.maxUploads ? uploaders.maxUploads : 5;
+    this.maxUploads = uploader.maxUploads ? uploader.maxUploads : 5;
+  }
+
+  init() {
+    return this.uploader.init();
   }
 
   uploadData() {
@@ -22,27 +26,29 @@ module.exports class UploaderManager {
     var currentUploads = 0;
 
     this.lineByLine.on('close', () => {
+      console.log("FINISHED INPUT");
       this.finishedData = true;
     });
 
     this.lineByLine.on('line', line => {
       currentUploads += 1;
       if (currentUploads >= this.maxUploads) {
-        lineByLine.pause();
+        this.lineByLine.pause();
       }
 
-      uploader.handleData(JSON.parse(line))
+      this.uploader.upload(JSON.parse(line))
       .then(() => {
         currentUploads -= 1;
 
         if (this.finishedData && currentUploads == 0) {
+          console.log("FINISHED UPLOAD");
           this.uploader.close();
           resolve(true);
         }
         else {
           this.lineByLine.resume();
         }
-      }).catch(reject));
+      }).catch(reject);
     });
 
     return retPromise;

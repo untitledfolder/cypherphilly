@@ -11,10 +11,12 @@ const oboe = require('oboe');
 
 /***   HELPERS   ***/
 function fileToStream(filename) {
+  console.log("Open file:", filename);
   return fs.createReadStream(filename);
 }
 
 function sLowMemoryFileToStream(filename) {
+  console.log("Open slow file:", filename);
   return fs.createReadStream(filename, {
     highWaterMark: 1
   });
@@ -23,19 +25,26 @@ function sLowMemoryFileToStream(filename) {
 function httpToStream(url) {
   var output = new Readable({read() {}});
 
+  console.log("HTTP:", url);
   (url.match(/^https/) ? https : http)
-    .get(url, res => res.pipe(output));
+    .get(url, res => {
+      res.on('data', data => output.push(data));
+      res.on('end', () => output.push(null));
+    })
+    .on('error', err => console.log(err));
 
   return output;
 }
 
 function csvToObjectStream(input) {
+  console.log("CSV");
   return input.pipe(csvStream({enclosedChar: '"'}));
 }
 
 function jsonToObjectStream(input, root) {
   var output = new Readable({objectMode: true, read() {}});
 
+  console.log("JSON:", root);
   oboe(input)
   .node(root, data => output.push(data))
   .on('done', () => output.push(null));
