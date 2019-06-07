@@ -6,7 +6,9 @@
   "dependencies": {
     "csv-stream": "^0.2.0",
     "oboe": "^2.1.4",
-    "promise": "^8.0.3",
-    "prettyjson": "^1.2.1"
+    "knex": "^0.17.3",
+    "pg": "^7.11.0",
+    "prettyjson": "^1.2.1",
+    "promise": "^8.0.3"
   }
 }
