@@ -41,10 +41,8 @@ exports.NeoUploader = class NeoUploader {
       console.log(" Exists:", data[this.id]);
       return Promise.resolve(true);
     }
-    else {
-      console.log(" New:", data[this.id]);
-    }
 
+    console.log(" New:", data[this.id]);
     return this.neoUpload(data);
   }
 
