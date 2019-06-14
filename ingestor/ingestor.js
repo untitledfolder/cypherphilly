@@ -2,11 +2,21 @@ const fs = require("fs");
 const prettyjson = require("prettyjson");
 
 const util = require("../utils/ingest-util");
-const neo4j = require("neo4j-driver").v1;
-const neoConfig = require("../neo-config");
 const { NeoUploader } = require("./neoUploader");
 const { UploadManager } = require("./uploader");
 const workingDir = __dirname;
+
+const neo4j = require("neo4j-driver").v1;
+const neoConfig = require("../neo-config");
+var knex = require('knex')({
+    client: 'mysql',
+    connection: {
+          host : '127.0.0.1',
+          user : 'your_database_user',
+          password : 'your_database_password',
+          database : 'myapp_test'
+        }
+});
 
 var args = process.argv.splice(2);
 
