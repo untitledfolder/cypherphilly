@@ -35,7 +35,7 @@ exports.NeoUploader = class NeoUploader {
 
   upload(data) {
     console.log(this.labels.join(' ') + ", ID Field:", this.id)
-    console.log(data);
+    //console.log(data);
     console.log();
     if (this.ids.includes(data[this.id])) {
       console.log(" Exists:", data[this.id]);
