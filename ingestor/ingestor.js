@@ -8,14 +8,15 @@ const workingDir = __dirname;
 
 const neo4j = require("neo4j-driver").v1;
 const neoConfig = require("../neo-config");
+const sqlConfig = require("../sql-config");
 var knex = require('knex')({
-    client: 'mysql',
-    connection: {
-          host : '127.0.0.1',
-          user : 'your_database_user',
-          password : 'your_database_password',
-          database : 'myapp_test'
-        }
+  client: 'mysql',
+  connection: {
+    host: sqlConfig.host,
+    user: sqlConfig.user,
+    password: sqlConfig.password,
+    database: sqlConfig.database
+  }
 });
 
 var args = process.argv.splice(2);
@@ -93,11 +94,12 @@ if (ingestorConfig.source) {
     if (DO_UPLOAD) {
       console.log("Uploading to neo:", ingestorConfigKey);
 
-      uploader = new NeoUploader(
-        neoDriver,
-        neoConfig.max_uploads,
+      uploader = new SqlUploader(
+        knex,
+        sqlConfig.max_uploads,
         ingestorConfig.id,
-        ingestorConfig.label
+        ingestorConfig.table,
+        ingestorConfig.fields
       );
     }
     else {
@@ -139,9 +141,9 @@ if (ingestorConfig.datasets) {
       if (DO_UPLOAD) {
         console.log("Uploading to neo:", ingestorConfigKey, dataset.key);
 
-        uploader = new NeoUploader(neoDriver, neoConfig.max_uploads,
+        uploader = new SqlUploader(knex, sqlConfig.max_uploads,
           dataset.id ? dataset.id : ingestorConfig.id,
-          ingestorConfig.label, dataset.label
+          dataset.table, dataset.fields
         );
       }
       else {
