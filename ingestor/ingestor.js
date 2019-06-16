@@ -96,6 +96,7 @@ if (ingestorConfig.source) {
       console.log("Uploading to neo:", ingestorConfigKey);
 
       uploader = new SqlUploader(
+        ingestorConfig.name,
         knex,
         sqlConfig.max_uploads,
         ingestorConfig.id,
@@ -119,9 +120,18 @@ if (ingestorConfig.source) {
     console.log("ERRR:", err);
   })
   .done(() => {
+    console.log("INGESTOR: Done Uploading");
     if (neoDriver) {
+      console.log("Closing Neo");
       neoDriver.close();
     }
+    if (knex) {
+      console.log("Closing SQL");
+      knex.destroy();
+    }
+
+    return result;
+
     console.log("DONE!");
   });
 }
@@ -142,7 +152,9 @@ if (ingestorConfig.datasets) {
       if (DO_UPLOAD) {
         console.log("Uploading to neo:", ingestorConfigKey, dataset.key);
 
-        uploader = new SqlUploader(knex, sqlConfig.max_uploads,
+        uploader = new SqlUploader(
+          dataset.name,
+          knex, sqlConfig.max_uploads,
           dataset.id ? dataset.id : ingestorConfig.id,
           dataset.table, dataset.fields
         );
@@ -165,7 +177,12 @@ if (ingestorConfig.datasets) {
   .then(result => {
     console.log("DONE!");
     if (neoDriver) {
+      console.log("Closing Neo");
       neoDriver.close();
+    }
+    if (knex) {
+      console.log("Closing SQL");
+      knex.destroy();
     }
 
     return result;

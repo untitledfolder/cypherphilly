@@ -3,7 +3,8 @@ const workingDir = __dirname;
 
 exports.SqlUploader = class SqlUploader {
 
-  constructor(sqlConnect, maxUploads, id, table) {
+  constructor(uploaderName, sqlConnect, maxUploads, id, table) {
+    this.name = uploaderName;
     this.id = id;
     this.table = table;
     this.maxUploads = maxUploads;
@@ -20,6 +21,7 @@ exports.SqlUploader = class SqlUploader {
     return this.knex.schema.hasTable(this.table)
     .then(exists => {
       if (exists) console.log("Exists!");
+      else console.log("Need to create table");
 
       return true;
       //return this.knex.createTable(this.table, t => {
@@ -38,6 +40,12 @@ exports.SqlUploader = class SqlUploader {
   }
 
   upload(data) {
+    var resolve, reject;
+    var done = new Promise((res, rej) => {
+      resolve = res;
+      reject = rej;
+    });
+
     if (this.ids.includes(data[this.id])) {
       console.log(" Exists:", this.table, data[this.id]);
       return Promise.resolve(true);
@@ -45,7 +53,9 @@ exports.SqlUploader = class SqlUploader {
 
     console.log(" New: ", this.table, data[this.id]);
     //return this.sqlInsert(data);
-    return Promise.resolve(true);
+    setTimeout(() => resolve(true), Math.random() * 1000 + 20);
+
+    return done;
   }
 
   sqlInsert(data) {
@@ -53,6 +63,5 @@ exports.SqlUploader = class SqlUploader {
   }
 
   close() {
-    this.session.close();
   }
 }
