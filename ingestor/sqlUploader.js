@@ -17,23 +17,35 @@ exports.SqlUploader = class SqlUploader {
   init() {
     this.ids = [];
 
-    this.knex.schema.hasTable(this.table)
+    return this.knex.schema.hasTable(this.table)
     .then(exists => {
-      return exists;
+      if (exists) console.log("Exists!");
+
+      return true;
+      //return this.knex.createTable(this.table, t => {
+      //t.fields:
+      //  t.increments('id').primary();
+      //  t.string('first_name', 100);
     }).then(() => {
-      console.log("Table exists?", exists);
-      debugger;
+      console.log("Getting ID List");
+      // Select this.id from this.table
+      return true;//this.knex.select(this.id).from(this.table);
+    }).then(ids => {
+      // Iterate through each
+      // this.ids.push(item.id);
+      return true;
     });
   }
 
   upload(data) {
     if (this.ids.includes(data[this.id])) {
-      console.log(" Exists:", data[this.id]);
+      console.log(" Exists:", this.table, data[this.id]);
       return Promise.resolve(true);
     }
 
-    console.log(" New: ", data[this.id]);
-    return this.sqlInsert(data);
+    console.log(" New: ", this.table, data[this.id]);
+    //return this.sqlInsert(data);
+    return Promise.resolve(true);
   }
 
   sqlInsert(data) {

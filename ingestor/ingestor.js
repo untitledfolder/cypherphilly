@@ -3,6 +3,7 @@ const prettyjson = require("prettyjson");
 
 const util = require("../utils/ingest-util");
 const { NeoUploader } = require("./neoUploader");
+const { SqlUploader } = require("./sqlUploader");
 const { UploadManager } = require("./uploader");
 const workingDir = __dirname;
 
