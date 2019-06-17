@@ -33,6 +33,14 @@ exports.SqlUploader = class SqlUploader {
     });
   }
 
+  getIDs() {
+    return this.knex.select(this.id).from(this.table);
+  }
+
+  sqlInsert(data) {
+    return this.knex(this.table).insert(data);
+  }
+
   init() {
     this.ids = [];
 
@@ -45,37 +53,23 @@ exports.SqlUploader = class SqlUploader {
 
       return this.createTable();
     }).then(() => {
-      console.log("Getting ID List");
-      // Select this.id from this.table
-      return true;//this.knex.select(this.id).from(this.table);
+      return this.getIDs();
     }).then(ids => {
-      // Iterate through each
-      // this.ids.push(item.id);
+      this.ids = ids.map(id => id[this.id]);
+      console.log("Known ids:", this.ids);
+
       return true;
     });
   }
 
   upload(data) {
-    var resolve, reject;
-    var done = new Promise((res, rej) => {
-      resolve = res;
-      reject = rej;
-    });
-
     if (this.ids.includes(data[this.id])) {
       console.log(" Exists:", this.table, data[this.id]);
       return Promise.resolve(true);
     }
 
     console.log(" New: ", this.table, data[this.id]);
-    //return this.sqlInsert(data);
-    setTimeout(() => resolve(true), Math.random() * 1000 + 20);
-
-    return done;
-  }
-
-  sqlInsert(data) {
-    // Insert this.table by data[this.id]: data
+    return this.sqlInsert(data);
   }
 
   close() {

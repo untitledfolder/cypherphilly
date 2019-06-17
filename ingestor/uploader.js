@@ -54,6 +54,7 @@ exports.UploadManager = class UploaderManager {
         }
         else if (this.paused) {
           if (DEBUG) console.log("  " + this.uploader.name + ": !!! RESUME !!!");
+          this.paused = false;
           this.lineByLine.resume();
         }
       }).catch(reject);

@@ -1,7 +1,6 @@
 {
   "name": "Philadelphia Police Complaints",
   "label": "PhiladelphiaPoliceComplaints",
-  "id": "complaint_id",
   "homepage": "https://www.opendataphilly.org/dataset/police-complaints",
   "enabled": true,
   "datasets": [
@@ -10,6 +9,7 @@
       "label": "PPC_Complaints",
       "table": "PPComplaints",
       "key": "complaints",
+      "id": "complaint_id",
       "source": {
         "location": "https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20ppd_complaints",
         "type": "json",
@@ -47,7 +47,7 @@
         {
           "key": "district_occurrence",
           "name": "District Occurence",
-          "type": "integer",
+          "type": "text",
           "description": "The district the alleged incident occurred in."
         },
         {
@@ -69,6 +69,7 @@
       "label": "PPC_Findings",
       "table": "PPCFindings",
       "key": "findings",
+      "id": "cartodb_id",
       "source": {
         "location": "https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20ppd_complaint_disciplines",
         "type": "json",

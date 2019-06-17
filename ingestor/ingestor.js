@@ -93,7 +93,7 @@ if (ingestorConfig.source) {
     var uploader;
 
     if (DO_UPLOAD) {
-      console.log("Uploading to neo:", ingestorConfigKey);
+      console.log("Uploading to MariaDB:", ingestorConfigKey);
 
       uploader = new SqlUploader(
         ingestorConfig.name,
@@ -150,7 +150,7 @@ if (ingestorConfig.datasets) {
       var uploader;
 
       if (DO_UPLOAD) {
-        console.log("Uploading to neo:", ingestorConfigKey, dataset.key);
+        console.log("Uploading to MariaDB:", ingestorConfigKey, dataset.key);
 
         uploader = new SqlUploader(
           dataset.name,
