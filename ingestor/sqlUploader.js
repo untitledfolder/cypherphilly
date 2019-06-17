@@ -20,9 +20,13 @@ exports.SqlUploader = class SqlUploader {
   createTable() {
     console.log(this.name + " - Creating Table:", this.table);
 
-    return this.knex.createTable(this.table, t => {
+    return this.knex.schema.createTable(this.table, t => {
       this.fields.forEach(field => {
-        let column = field.knex](field.key);
+        let type = typeConfig[field.type].knex;
+        console.log("  Column:");
+        console.log("    Name:", field.key);
+        console.log("    Type:", type);
+        let column = t[type](field.key);
 
         if (field.key === this.id) column.primary();
       });

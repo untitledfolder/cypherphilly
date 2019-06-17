@@ -1,20 +1,18 @@
 {
-  "types": {
-    "integer": {
-      "mariadb": "INTEGER",
-      "knex": "integer"
-    },
-    "text": {
-      "mariadb": "TINYTEXT",
-      "knex": "string"
-    },
-    "date": {
-      "mariadb": "TINYTEXT",
-      "knex": "string"
-    },
-    "longtext": {
-      "mariadb": "TEXT",
-      "knex": "text"
-    }
+  "integer": {
+    "mariadb": "INTEGER",
+    "knex": "integer"
+  },
+  "text": {
+    "mariadb": "TINYTEXT",
+    "knex": "string"
+  },
+  "date": {
+    "mariadb": "TINYTEXT",
+    "knex": "string"
+  },
+  "longtext": {
+    "mariadb": "TEXT",
+    "knex": "text"
   }
 }
