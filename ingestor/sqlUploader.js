@@ -1,12 +1,14 @@
+const typeConfig = require("../data-types");
 const sqlUtil = require("../utils/sql-util");
 const workingDir = __dirname;
 
 exports.SqlUploader = class SqlUploader {
 
-  constructor(uploaderName, sqlConnect, maxUploads, id, table) {
+  constructor(uploaderName, sqlConnect, maxUploads, id, table, fields) {
     this.name = uploaderName;
     this.id = id;
     this.table = table;
+    this.fields = fields;
     this.maxUploads = maxUploads;
     this.knex = sqlConnect;
   }
@@ -15,19 +17,29 @@ exports.SqlUploader = class SqlUploader {
     return this.maxUploads;
   }
 
+  createTable() {
+    console.log(this.name + " - Creating Table:", this.table);
+
+    return this.knex.createTable(this.table, t => {
+      this.fields.forEach(field => {
+        let column = field.knex](field.key);
+
+        if (field.key === this.id) column.primary();
+      });
+    });
+  }
+
   init() {
     this.ids = [];
 
     return this.knex.schema.hasTable(this.table)
     .then(exists => {
-      if (exists) console.log("Exists!");
-      else console.log("Need to create table");
+      if (exists) {
+        console.log(this.name + " - Table Exists:", this.table);
+        return true;
+      }
 
-      return true;
-      //return this.knex.createTable(this.table, t => {
-      //t.fields:
-      //  t.increments('id').primary();
-      //  t.string('first_name', 100);
+      return this.createTable();
     }).then(() => {
       console.log("Getting ID List");
       // Select this.id from this.table
