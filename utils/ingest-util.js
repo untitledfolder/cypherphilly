@@ -103,9 +103,9 @@ exports.reader = (source) => {
 /**
  * Ingest Manager
  */
-exports.new = (source, tmpFilename, debug) => {
+exports.new = (name, source, tmpFilename, debug) => {
   if (fs.existsSync(tmpFilename)) {
-    console.log("Continuing where we left off!");
+    console.log(name + ": Continuing where we left off!");
 
     return Promise.resolve(sLowMemoryFileToStream(tmpFilename));
   }
@@ -114,8 +114,8 @@ exports.new = (source, tmpFilename, debug) => {
   var flattener = exports.flattener(reader);
 
   if (debug) {
-    reader.on('data', data => console.log('INGESTOR - READ', data));
-    flattener.on('data', data => console.log('FLATTENER - READ', data.toString()));
+    reader.on('data', data => console.log(name + ': INGESTOR - READ', data));
+    flattener.on('data', data => console.log(name + ': FLATTENER - READ', data.toString()));
   }
 
   return exports.cacheToSLowMemoryStream(tmpFilename, flattener);

@@ -23,7 +23,7 @@ var knex = require('knex')({
 var args = process.argv.splice(2);
 
 var DO_UPLOAD = false;
-var DEBUG = true;
+var DEBUG = false;
 
 while (args.length && args[0][0] == '-') {
   var flag = args.shift();
@@ -88,7 +88,7 @@ if (ingestorConfig.source) {
     console.log("Data Storage File:", dataFilename);
   }
 
-  util.new(ingestorConfig.source, dataFilename, DEBUG)
+  util.new(ingestorConfig.name, ingestorConfig.source, dataFilename, DEBUG)
   .then(ingestStream => {
     var uploader;
 
@@ -145,7 +145,7 @@ if (ingestorConfig.datasets) {
   var ingestorPromises = ingestorConfig.datasets.map(dataset => {
     var dataFilename = workingDir + '/../datasets/data.' + ingestorConfigKey + '.' + dataset.key + '.flat';
 
-    return util.new(dataset.source, dataFilename, DEBUG)
+    return util.new(dataset.name, dataset.source, dataFilename, DEBUG)
     .then(ingestStream => {
       var uploader;
 
