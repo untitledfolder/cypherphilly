@@ -1,6 +1,6 @@
 const Promise = require('promise');
 const openLineByLine = require("readline").createInterface;
-const DEBUG = true;
+const DEBUG = false;
 
 exports.UploadManager = class UploaderManager {
 
@@ -47,16 +47,18 @@ exports.UploadManager = class UploaderManager {
         currentUploads -= 1;
         if (DEBUG) console.log("  " + this.uploader.name + ": Currently Processing - " + currentUploads);
 
-        if (this.finishedData && currentUploads == 0) {
-          console.log("FINISHED UPLOAD:", this.uploader.name);
-          this.uploader.close();
-          resolve(true);
-        }
-        else if (this.paused) {
+        if (this.paused) {
           if (DEBUG) console.log("  " + this.uploader.name + ": !!! RESUME !!!");
           this.paused = false;
           this.lineByLine.resume();
         }
+        process.nextTick(() => {
+          if (this.finishedData && currentUploads == 0) {
+            console.log("FINISHED UPLOAD:", this.uploader.name);
+            this.uploader.close();
+            resolve(true);
+          }
+        });
       }).catch(reject);
     });
 
