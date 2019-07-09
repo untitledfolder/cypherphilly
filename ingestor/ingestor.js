@@ -1,15 +1,14 @@
-const fs = require("fs");
-const prettyjson = require("prettyjson");
-
-const util = require("../utils/ingest-util");
+const fs = require('fs');
+const { IngestManager } = require("../utils/ingestmanager");
 const { NeoUploader } = require("./neoUploader");
 const { SqlUploader } = require("./sqlUploader");
 const { UploadManager } = require("./uploader");
-const workingDir = __dirname;
 
 const neo4j = require("neo4j-driver").v1;
 const neoConfig = require("../neo-config");
 const sqlConfig = require("../sql-config");
+const workingDir = __dirname;
+
 var knex = require('knex')({
   client: 'mysql',
   connection: {
@@ -20,9 +19,25 @@ var knex = require('knex')({
   }
 });
 
+function resolveAll(list) {
+  let item = list.shift();
+
+  if (list.length) {
+    return item.then(() => {
+      console.log("Ingestor done");
+
+      return resolveAll(list)
+    });
+  }
+
+  console.log("WAITING");
+  return item;
+}
+
 var args = process.argv.splice(2);
 
-var DO_UPLOAD = false;
+var UPLOAD_SQL = false;
+var UPLOAD_NEO = false;
 var DEBUG = false;
 
 while (args.length && args[0][0] == '-') {
@@ -30,11 +45,16 @@ while (args.length && args[0][0] == '-') {
 
   switch (flag) {
     case '-u':
-      DO_UPLOAD = true;
-      break;
-
-    case '-d':
-      DEBUG = true;
+      var uploadType = args.shift();
+      if (uploadType === "sql") {
+        UPLOAD_SQL = true;
+      }
+      else if (uploadType == "neo") {
+        UPLOAD_NEO = true;
+      }
+      else {
+        console.log("Unknown upload type:", uploadType);
+      }
       break;
 
     default:
@@ -71,7 +91,7 @@ if (!ingestorConfig.enabled) {
 }
 
 var neoDriver;
-if (DO_UPLOAD) {
+if (UPLOAD_NEO) {
   neoDriver = neo4j.driver(
     neoConfig.host,
     neo4j.auth.basic(neoConfig.user, neoConfig.password),
@@ -88,33 +108,45 @@ if (ingestorConfig.source) {
     console.log("Data Storage File:", dataFilename);
   }
 
-  util.new(ingestorConfig.name, ingestorConfig.source, dataFilename, DEBUG)
-  .then(ingestStream => {
-    var uploader;
+  let manager = new IngestManager(ingestorConfig.source);
+  let ingestStream = manager.start();
+  var uploader;
 
-    if (DO_UPLOAD) {
-      console.log("Uploading to MariaDB:", ingestorConfigKey);
+  if (UPLOAD_SQL) {
+    console.log("Uploading to MariaDB:", ingestorConfigKey);
 
-      uploader = new SqlUploader(
-        ingestorConfig.name,
-        knex,
-        sqlConfig.max_uploads,
-        ingestorConfig.id,
-        ingestorConfig.table,
-        ingestorConfig.fields
-      );
-    }
-    else {
-      return ingestStream.pipe(process.stdout)
-    }
-
-    var uploadManager = new UploadManager(
-      ingestStream, uploader
+    uploader = new SqlUploader(
+      ingestorConfig.name + " SQL",
+      knex,
+      sqlConfig.max_uploads,
+      ingestorConfig.id,
+      ingestorConfig.table,
+      ingestorConfig.fields
     );
+  }
+  else if (UPLOAD_NEO) {
+    console.log("Uploading to Neo4j:", ingestorConfigKey);
 
-    return uploadManager.init().then(() => {
-      return uploadManager.uploadData();
-    });
+    uploader = new NeoUploader(
+      ingestorConfig.name + " Neo",
+      neoDriver,
+      neoConfig.max_uploads,
+      ingestorConfig.id,
+      ingestorConfig.label
+    );
+  }
+  else {
+    return Promise.resolve(ingestStream.pipe(process.stdout));
+  }
+
+  var uploadManager = new UploadManager(
+    ingestorConfig.name + " UploadManager",
+    ingestStream,
+    uploader
+  );
+
+  uploadManager.init().then(() => {
+    return uploadManager.uploadData();
   })
   .catch(err => {
     console.log("ERRR:", err);
@@ -130,8 +162,6 @@ if (ingestorConfig.source) {
       knex.destroy();
     }
 
-    return result;
-
     console.log("DONE!");
   });
 }
@@ -142,39 +172,55 @@ if (ingestorConfig.datasets) {
     console.log("Datasets:", ingestorConfig.datasets);
   }
 
-  var ingestorPromises = ingestorConfig.datasets.map(dataset => {
-    var dataFilename = workingDir + '/../datasets/data.' + ingestorConfigKey + '.' + dataset.key + '.flat';
+  var uploaderPromises = ingestorConfig.datasets.map(dataset => {
+    //var dataFilename = workingDir + '/../datasets/data.' + ingestorConfigKey + '.' + dataset.key + '.flat';
 
-    return util.new(dataset.name, dataset.source, dataFilename, DEBUG)
-    .then(ingestStream => {
-      var uploader;
+    var manager = new IngestManager(dataset.source);
 
-      if (DO_UPLOAD) {
-        console.log("Uploading to MariaDB:", ingestorConfigKey, dataset.key);
+    var ingestStream = manager.start();
+    var uploader;
 
-        uploader = new SqlUploader(
-          dataset.name,
-          knex, sqlConfig.max_uploads,
-          dataset.id ? dataset.id : ingestorConfig.id,
-          dataset.table, dataset.fields
-        );
-      }
-      else {
-        return ingestStream.pipe(process.stdout)
-      }
+    if (UPLOAD_SQL) {
+      console.log("Uploading to MariaDB:", ingestorConfigKey, dataset.key);
 
-      var uploadManager = new UploadManager(
-        ingestStream, uploader
+      uploader = new SqlUploader(
+        dataset.name + " SQL",
+        knex, sqlConfig.max_uploads,
+        dataset.id ? dataset.id : ingestorConfig.id,
+        ingestorConfig.table ?
+        ingestorConfig.table + dataset.table : dataset.table,
+        dataset.fields
       );
+    }
+    else if (UPLOAD_NEO) {
+      console.log("Uploading to Neo4j:", ingestorConfigKey, dataset.key);
 
-      return uploadManager.init().then(() => {
-        return uploadManager.uploadData();
-      });
+      uploader = new NeoUploader(
+        dataset.name + " Neo",
+        neoDriver,
+        neoConfig.max_uploader,
+        dataset.id ? dataset.id : ingestorConfig.id,
+        ingestorConfig.label, dataset.label
+      );
+    }
+    else {
+      return Promise.resolve(ingestStream.pipe(process.stdout));
+    }
+
+    var uploadManager = new UploadManager(
+      `${ingestorConfig.name} ${dataset.name} Upload Manager`,
+      ingestStream,
+      uploader
+    );
+
+    return uploadManager.init().then(() => {
+      return uploadManager.uploadData();
     });
   });
 
-  Promise.all(ingestorPromises)
-  .then(result => {
+
+  resolveAll(uploaderPromises)
+  .then(() => {
     console.log("DONE!");
     if (neoDriver) {
       console.log("Closing Neo");
@@ -184,8 +230,6 @@ if (ingestorConfig.datasets) {
       console.log("Closing SQL");
       knex.destroy();
     }
-
-    return result;
   })
   .catch(err => {
     console.log("ERRR:", err);

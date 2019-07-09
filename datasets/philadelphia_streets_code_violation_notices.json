@@ -14,7 +14,7 @@
     {
       "key": "objectid",
       "name": "Object ID",
-      "type": "text"
+      "type": "integer"
     },
     {
       "key": "the_geom",
@@ -22,8 +22,18 @@
       "type": "text"
     },
     {
+      "key": "the_geom_webmercator",
+      "name": "The Geom Webmercator",
+      "type": "text"
+    },
+    {
       "key": "lng",
       "name": "Longitude",
+      "type": "longitude"
+    },
+    {
+      "key": "lat",
+      "name": "Latitude",
       "type": "text"
     },
     {
@@ -54,16 +64,11 @@
     {
       "key": "fine_amount",
       "name": "Fine Amount",
-      "type": "text"
+      "type": "money"
     },
     {
       "key": "warning",
       "name": "Warning",
-      "type": "text"
-    },
-    {
-      "key": "the_geom_webmercator",
-      "name": "The Geom Webmercator",
       "type": "text"
     },
     {
@@ -102,11 +107,6 @@
     {
       "key": "seg_id",
       "name": "Segment ID",
-      "type": "text"
-    },
-    {
-      "key": "lat",
-      "name": "Latitude",
       "type": "text"
     },
     {

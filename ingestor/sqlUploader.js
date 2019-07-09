@@ -1,5 +1,4 @@
-const typeConfig = require("../data-types");
-const sqlUtil = require("../utils/sql-util");
+const typeConfig = require("../cypherphilly-types");
 const workingDir = __dirname;
 
 exports.SqlUploader = class SqlUploader {
@@ -56,7 +55,7 @@ exports.SqlUploader = class SqlUploader {
       return this.getIDs();
     }).then(ids => {
       this.ids = ids.map(id => id[this.id]);
-      console.log("Known ids:", this.ids);
+      console.log("Known ids:", this.ids.join(' '));
 
       return true;
     });

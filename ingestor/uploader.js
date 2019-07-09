@@ -1,66 +1,85 @@
-const Promise = require('promise');
 const openLineByLine = require("readline").createInterface;
 const DEBUG = false;
 
 exports.UploadManager = class UploaderManager {
 
-  constructor(input, uploader) {
+  constructor(name, input, uploader) {
     this.lineByLine = openLineByLine({
       input: input
     });
+    this.name = name;
     this.uploader = uploader;
-    this.paused = false;
+    this.paused = 0;
     this.finishedData = false;
+    this.currentUploads = 0;
     this.maxUploads = uploader.maxUploads;
+    this.resolve
+    this.reject;
   }
 
   init() {
     return this.uploader.init();
   }
 
-  uploadData() {
-    var resolve, reject;
-    var retPromise = new Promise((res, rej) => {
-      resolve = res;
-      reject = rej;
-    });
-    var currentUploads = 0;
+  pause() {
+    if (!this.pause) this.lineByLine.pause();
+    this.paused += 1;
 
-    console.log("STARTING INPUT:", this.uploader.name);
+    if (DEBUG) console.log(`  ${this.name}: !!! PAUSE ${this.paused} !!!`);
+  }
 
-    this.lineByLine.on('close', () => {
-      console.log("FINISHED INPUT:", this.uploader.name);
-      this.finishedData = true;
-    });
+  resume() {
+    this.paused -= 1;
+    if (!this.paused) this.lineByLine.resume();
 
-    this.lineByLine.on('line', line => {
-      currentUploads += 1;
-      if (DEBUG) console.log("  " + this.uploader.name + ": Currently Processing - " + currentUploads);
-      if (this.maxUploads && currentUploads >= this.maxUploads) {
-        if (DEBUG) console.log("  " + this.uploader.name + ": !!! PAUSE !!!");
-        this.paused = true;
-        this.lineByLine.pause();
-      }
+    if (DEBUG) console.log(`  ${this.name}: !!! RESUME ${this.paused} !!!`);
+  }
 
-      this.uploader.upload(JSON.parse(line))
-      .then(() => {
-        currentUploads -= 1;
-        if (DEBUG) console.log("  " + this.uploader.name + ": Currently Processing - " + currentUploads);
+  resumeIfPaused() {
+    if (this.paused) {
+      this.resume();
+    }
+  }
 
-        if (this.paused) {
-          if (DEBUG) console.log("  " + this.uploader.name + ": !!! RESUME !!!");
-          this.paused = false;
-          this.lineByLine.resume();
+  close() {
+    console.log("FINISHED INPUT:", this.name);
+    this.finishedData = true;
+  }
+
+  handleLine(line) {
+    this.currentUploads += 1;
+    if (DEBUG) console.log("  " + this.name + ": Currently Processing - " + this.currentUploads);
+    if (this.maxUploads && this.currentUploads >= this.maxUploads) {
+      this.pause();
+    }
+
+    this.uploader.upload(JSON.parse(line))
+    .then(() => {
+      this.currentUploads -= 1;
+      if (DEBUG) console.log("  " + this.name + ": Currently Processing - " + this.currentUploads);
+
+      this.resumeIfPaused();
+      process.nextTick(() => {
+        if (this.finishedData && this.currentUploads == 0) {
+          console.log("FINISHED UPLOAD:", this.name);
+          this.uploader.close();
+          resolve(true);
         }
-        process.nextTick(() => {
-          if (this.finishedData && currentUploads == 0) {
-            console.log("FINISHED UPLOAD:", this.uploader.name);
-            this.uploader.close();
-            resolve(true);
-          }
-        });
-      }).catch(reject);
+      });
+    }).catch(reject);
+  }
+
+  uploadData() {
+    var retPromise = new Promise((res, rej) => {
+      this.resolve = res;
+      this.reject = rej;
     });
+
+    console.log("STARTING INPUT:", this.name);
+
+    this.lineByLine.on('close', this.close);
+
+    this.lineByLine.on('line', this.handleLine);
 
     return retPromise;
   }

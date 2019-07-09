@@ -8,7 +8,7 @@
       "name": "Complaints",
       "label": "PPC_Complaints",
       "table": "PPComplaints",
-      "key": "complaints",
+      "key": "ppc_complaints",
       "id": "complaint_id",
       "source": {
         "location": "https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20ppd_complaints",
@@ -68,7 +68,7 @@
       "name": "Findings",
       "label": "PPC_Findings",
       "table": "PPCFindings",
-      "key": "findings",
+      "key": "ppc_findings",
       "id": "cartodb_id",
       "source": {
         "location": "https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20ppd_complaint_disciplines",

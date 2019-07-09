@@ -11,7 +11,23 @@
     "mariadb": "TINYTEXT",
     "knex": "string"
   },
+  "datetime": {
+    "mariadb": "TINYTEXT",
+    "knex": "string"
+  },
   "longtext": {
+    "mariadb": "TEXT",
+    "knex": "text"
+  },
+  "latitude": {
+    "mariadb": "TEXT",
+    "knex": "text"
+  },
+  "longitude": {
+    "mariadb": "TEXT",
+    "knex": "text"
+  },
+  "money": {
     "mariadb": "TEXT",
     "knex": "text"
   }
