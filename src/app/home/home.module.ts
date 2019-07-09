@@ -7,8 +7,6 @@ import { GetinvolvedComponent } from '../getinvolved/getinvolved.component';
 import { SetupComponent } from '../setup/setup.component';
 import { ComponentsModule } from '../components/components.module';
 
-import { MarkdownModule } from 'angular2-markdown';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -26,7 +24,6 @@ import { MarkdownModule } from 'angular2-markdown';
         component: SetupComponent
       }
     ]),
-    MarkdownModule.forRoot(),
     ComponentsModule
   ],
   declarations: [

@@ -4,13 +4,10 @@ import { RouterModule } from '@angular/router';
 
 import { ToolbarComponent } from './toolbar.component';
 
-import { MatToolbarModule } from '@angular/material/toolbar';
-
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule,
-    MatToolbarModule
+    RouterModule
   ],
   declarations: [
     ToolbarComponent

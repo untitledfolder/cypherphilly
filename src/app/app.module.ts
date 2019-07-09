@@ -4,13 +4,12 @@ import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
-import { ConfigService } from './config.service';
+import { DataModule } from './data/data.module';
+import { DataComponent } from './data/data.component';
+import { DataService } from './data/data.service';
+
 import { ToolbarModule } from './toolbar/toolbar.module';
 import { HomeModule } from './home/home.module';
-import { TableModule } from './table/table.module';
-import { DatasetsModule } from './datasets/datasets.module';
-
-import { DataService } from './data/data.service';
 
 import { AppComponent } from './app.component';
 
@@ -20,16 +19,19 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    RouterModule,
+    RouterModule.forRoot([
+      {
+        path: 'data',
+        component: DataComponent
+      }
+    ]),
     HttpClientModule,
     BrowserAnimationsModule,
     ToolbarModule,
     HomeModule,
-    TableModule,
-    DatasetsModule
+    DataModule
   ],
   providers: [
-    ConfigService,
     DataService
   ],
   bootstrap: [AppComponent]
