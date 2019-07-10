@@ -2,8 +2,9 @@
   "name": "Data Example",
   "label": "DataExample",
   "id": "cartodb_id",
+  "enabled": true,
   "source": {
-    "location": "./test/fixtures/ingestor/example.json",
+    "location": "../test/fixtures/sources/example.json",
     "type": "json",
     "root": "!.*"
   }

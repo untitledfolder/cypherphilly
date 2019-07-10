@@ -1,11 +1,118 @@
 {
   "name": "Philadelphia Streets Code Violation Notices",
   "label": "PhiladelphiaStreetsCodeViolationNotices",
+  "table": "PhiladelphiaStreetsCodeViolationNotices",
   "id": "objectid",
   "homepage": "https://www.opendataphilly.org/dataset/code-violation-notices",
   "enabled": true,
   "source": {
-    "location": "https://phl.carto.com/api/v2/sql?q=SELECT+*,+ST_Y(the_geom)+AS+lat,+ST_X(the_geom)+AS+lng+FROM+streets_code_violation_notices&filename=streets_code_violation_notices&format=csv&skipfields=cartodb_id",
-    "type": "csv"
-  }
+    "location": "https://phl.carto.com/api/v2/sql?q=SELECT * FROM streets_code_violation_notices",
+    "type": "json",
+    "rows": "rows.*"
+  },
+  "fields": [
+    {
+      "key": "objectid",
+      "name": "Object ID",
+      "type": "integer"
+    },
+    {
+      "key": "the_geom",
+      "name": "The Geom",
+      "type": "text"
+    },
+    {
+      "key": "the_geom_webmercator",
+      "name": "The Geom Webmercator",
+      "type": "text"
+    },
+    {
+      "key": "lng",
+      "name": "Longitude",
+      "type": "longitude"
+    },
+    {
+      "key": "lat",
+      "name": "Latitude",
+      "type": "text"
+    },
+    {
+      "key": "ticket_number",
+      "name": "Ticket Number",
+      "type": "text"
+    },
+    {
+      "key": "property_based",
+      "name": "Property Based",
+      "type": "text"
+    },
+    {
+      "key": "violation_type",
+      "name": "Violation Type",
+      "type": "text"
+    },
+    {
+      "key": "violation_code",
+      "name": "Violation Code",
+      "type": "text"
+    },
+    {
+      "key": "violation_description",
+      "name": "Violation Description",
+      "type": "text"
+    },
+    {
+      "key": "fine_amount",
+      "name": "Fine Amount",
+      "type": "money"
+    },
+    {
+      "key": "warning",
+      "name": "Warning",
+      "type": "text"
+    },
+    {
+      "key": "date_added",
+      "name": "Date Added",
+      "type": "date"
+    },
+    {
+      "key": "issued",
+      "name": "Issued",
+      "type": "text"
+    },
+    {
+      "key": "comments",
+      "name": "Comments",
+      "type": "longtext"
+    },
+    {
+      "key": "evidence_found",
+      "name": "Evidence Found",
+      "type": "text"
+    },
+    {
+      "key": "st_name",
+      "name": "Street Name",
+      "type": "text"
+    },
+    {
+      "key": "l_hundred",
+      "type": "text"
+    },
+    {
+      "key": "r_hundred",
+      "type": "text"
+    },
+    {
+      "key": "seg_id",
+      "name": "Segment ID",
+      "type": "text"
+    },
+    {
+      "key": "voided",
+      "name": "voided",
+      "type": "text"
+    }
+  ]
 }

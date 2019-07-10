@@ -77,6 +77,15 @@ var genSET = (varname, id, mapped) => {
   return returnString;
 };
 
+var genCreate = (labels, mapped) => {
+  var varname = 'n';
+  var returnString = "";
+
+  returnString += genCREATE(varname, labels, mapped);
+
+  return returnString;
+};
+
 var genCreateOrUpdate = (labels, id, mapped) => {
   var varname = 'n';
   var returnString = "";
@@ -89,6 +98,10 @@ var genCreateOrUpdate = (labels, id, mapped) => {
 
   return returnString;
 };
+
+var genGetIDs = (id, labels) => {
+  return genMATCH('n', labels) + ' RETURN n.' + id + ';';
+}
 
 var genGetAll = (labels, limit) => {
   var query = genMATCH('n', labels) + ' RETURN n';
@@ -114,7 +127,9 @@ exports.genCREATE = genCREATE;
 exports.genMATCH = genMATCH;
 exports.genMERGE = genMERGE;
 exports.genSET = genSET;
+exports.genCreate = genCreate;
 exports.genCreateOrUpdate = genCreateOrUpdate;
+exports.genGetIDs = genGetIDs;
 exports.genGetAll = genGetAll;
 exports.genGetByID = genGetByID;
 
