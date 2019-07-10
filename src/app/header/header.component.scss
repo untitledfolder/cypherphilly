@@ -1,0 +1,39 @@
+@import "../../styles.scss";
+
+.header-component {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+
+  height: $header-height;
+  width: $header-width;
+
+  background-color: $white;
+  font-family: "gotham";
+  border-bottom: $gray solid 1px;
+
+  .header-logo {
+    width: $header-logo-width;
+    height: $header-logo-height;
+    margin: 9px 13px;
+    float: left;
+
+    img {
+      height: 100%;
+    }
+  }
+
+  .header-title {
+    position: absolute;
+    top: 3px;
+
+    width: 100%;
+    text-align: center;
+    font-family: gotham-bold;
+    font-size: 52px;
+  }
+
+  .header-menu {
+    width: $header-logo-width;
+  }
+}

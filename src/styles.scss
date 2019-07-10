@@ -1,0 +1,21 @@
+// App Colors
+$blue: #0D9DA8;
+
+$black: black;
+$gray: #808080;
+$lightgray: #B2BBBD;
+$white: white;
+
+$primary: $blue;
+
+// Header
+$header-height: 64px;
+$header-width: 100%;
+$header-logo-width: 64px;
+$header-logo-width: 48px;
+
+// Borders
+@mixin app-border {
+  border: 1.5px solid $primary;
+  border-radius: 20px;
+}

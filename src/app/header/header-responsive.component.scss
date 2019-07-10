@@ -1,0 +1,17 @@
+@import "../../responsive.scss";
+
+.header-component {
+  @include device-small {
+    .header-title {
+      padding-top: 14px;
+      font-size: 28px;
+    }
+  }
+
+  @include device-xsmall {
+    .header-title {
+      padding-top: 17px;
+      font-size: 22px;
+    }
+  }
+}

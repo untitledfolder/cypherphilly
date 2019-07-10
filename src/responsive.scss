@@ -1,0 +1,69 @@
+// Material Design
+// From: https://material.io/design/layout/responsive-layout-grid.html#breakpoints
+
+// Usage:
+// @include device-small {
+//   ...
+// }
+
+@mixin device-min-max($device-min, $device-max) {
+  @media (min-width: $device-min) and (max-width: $device-max) { @content; }
+}
+
+@mixin device-min($device-min) {
+  @media (min-width: $device-min) { @content; }
+}
+
+@mixin device-max($device-max) {
+  @media (max-width: $device-max) { @content; }
+}
+
+//XSmall: 0 - 399
+$device-xsmall-upper: 399px;
+@mixin device-xsmall {
+  @include device-max($device-xsmall-upper) { @content; }
+}
+
+@mixin device-smaller {
+  @include device-max(499px) { @content; }
+}
+
+//Small: 0 – 600
+$device-small-upper: 600px;
+@mixin device-small {
+  @include device-max($device-small-upper) { @content; }
+}
+
+@mixin device-smallish {
+  @include device-max(800px) { @content; }
+}
+
+//Medium: 400 – 959
+$device-medium-lower: $device-small-upper + 1;
+$device-medium-upper: 959px;
+@mixin device-medium {
+  @include device-min-max($device-medium-lower, $device-medium-upper) { @content; }
+}
+@mixin device-medium-up {
+  @include device-min($device-medium-lower) { @content; }
+}
+@mixin device-medium-below {
+  @include device-max($device-medium-upper) { @content; }
+}
+
+//Large: 960: 960 - 10000000
+$device-large-lower: $device-medium-upper + 1;
+@mixin device-large {
+  @include device-min($device-large-lower) { @content; }
+}
+@mixin device-below-larger {
+  @include device-max(1059px) { @content; }
+}
+@mixin device-larger {
+  @include device-min(1059px) { @content; }
+}
+
+$device-xlarge-lower: 1300px;
+@mixin device-xlarge {
+  @include device-min($device-xlarge-lower) { @content; }
+}
