@@ -11,7 +11,7 @@ describe.only('IngestManager', () => {
     let readerStub;
 
     afterEach(() => {
-      if (readerStub.restore) readerStub.restore();
+      if (readerStub && readerStub.restore) readerStub.restore();
     });
 
     it('should exist', () => {
