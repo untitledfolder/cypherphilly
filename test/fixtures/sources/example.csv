@@ -1,4 +1,0 @@
-"db_id","geom","id_number","date_received","status","description"
-1,null,"102","2014-01-07T00:00:00Z","BAD","Summary 1"
-2,null,"201","2016-01-09T00:00:00Z","GOOD","Summary 2"
-3,null,"303","2018-02-07T00:00:00Z","SOSO","Summary 3"

@@ -1,11 +1,186 @@
 {
   "name": "Philadelphia L+I Violations",
   "label": "PhiladelphiaLIViolations",
+  "table": "PhiladelphiaLIViolations",
   "id": "objectid",
   "homepage": "https://www.opendataphilly.org/dataset/licenses-and-inspections-violations",
+  "description": "",
   "enabled": true,
   "source": {
-    "location": "https://phl.carto.com/api/v2/sql?q=SELECT+*,+ST_Y(the_geom)+AS+lat,+ST_X(the_geom)+AS+lng+FROM+li_violations&filename=li_violations&format=csv&skipfields=cartodb_id",
-    "type": "csv"
-  }
+    "location": "https://phl.carto.com/api/v2/sql?q=SELECT * FROM li_violations",
+    "type": "json",
+    "root": "rows.*"
+  },
+  "fields": [
+    {
+      "key": "objectid",
+      "name": "Object ID",
+      "type": "integer"
+    },
+    {
+      "key": "cartodb_id",
+      "name": "CartoDB ID",
+      "type": "integer"
+    },
+    {
+      "key": "the_geom",
+      "name": "The Geom",
+      "type": "text"
+    },
+    {
+      "key": "the_geom_webmercator",
+      "name": "The Geom Webmercator",
+      "type": "text"
+    },
+    {
+      "key": "geocode_x",
+      "name": "Geocode X",
+      "type": "text"
+    },
+    {
+      "key": "geocode_y",
+      "name": "Geocode Y",
+      "type": "text"
+    },
+    {
+      "key": "address",
+      "name": "Address",
+      "type": "text",
+      "description": "The address where the violation is located"
+    },
+    {
+      "key": "addresskey",
+      "name": "Address Key",
+      "type": "text",
+      "description": "Unique Address Identifier in L+I Hansen Database  Each Address is assigned a unique identifier in the L+I Hansen database."
+    },
+    {
+      "key": "apfailkey",
+      "name": "AP FAIL KEY",
+      "type": "integer",
+      "description": "The unique identifier for each individual violation written"
+    },
+    {
+      "key": "aptype",
+      "name": "AP Type",
+      "type": "text",
+      "description": "Case Type The department responsible for a case"
+    },
+    {
+      "key": "caseaddeddate",
+      "name": "Case Added Date",
+      "type": "date",
+      "description": "The date the case was added into the L+I Hansen system"
+    },
+    {
+      "key": "casegroup",
+      "name": "Case Group",
+      "type": "text"
+    },
+    {
+      "key": "casestatus",
+      "name": "Case Status",
+      "type": "text"
+    },
+    {
+      "key": "casepriority",
+      "name": "Case Priority",
+      "type": "text"
+    },
+    {
+      "key": "prioritydesc",
+      "name": "Priority Description",
+      "type": "text"
+    },
+    {
+      "key": "casenumber",
+      "name": "Case Number",
+      "type": "text",
+      "description": "Unique identifier for a case"
+    },
+    {
+      "key": "caseresolutioncode",
+      "name": "Case Resolution Code",
+      "type": "text",
+      "description": "A L+I defined resolution code, or what resulted in a case being marked as resolved"
+    },
+    {
+      "key": "caseresolutiondate",
+      "name": "Case Resolution Date",
+      "type": "date",
+      "description": "Date a case was resolved"
+    },
+    {
+      "key": "censustract",
+      "name": "Census Tract",
+      "type": "text",
+      "description": "Census Tract in which the address is located"
+    },
+    {
+      "key": "council_district",
+      "name": "Council District",
+      "type": "text",
+      "description": "City Council District"
+    },
+    {
+      "key": "mostrecentinsp",
+      "name": "Most Recent Inspection",
+      "type": "date",
+      "description": "The date that the violation was most recently inspected by an L+I inspector"
+    },
+    {
+      "key": "opa_account_num",
+      "name": "Opa Account Num",
+      "type": "text",
+      "description": "Office of Property Assessment Account Number' Every land parcel within the City of Philadelphia is assigned a unique account number from OPA. This number stays with the property for as long as the deed is held by the same owner. Once a property transfers ownership, it is assigned a new OPA account number and the old one is retired.\n This field can be used as a join key for various city datasets. It is also sometimes known as the 'BRT' number or within some datasets coming directly from OPA is also called the 'PARCEL_NUMBER'. (Other departments may use different internal 'Parcel Numbers', so please verify before using)."
+    },
+    {
+      "key": "organization",
+      "name": "Organization",
+      "type": "text",
+      "description": "Organization associated with the owner contact"
+    },
+    {
+      "key": "ownername",
+      "name": "Owner Name",
+      "type": "text",
+      "description": "The contact that is identified as the current owner of the address."
+    },
+    {
+      "key": "status",
+      "name": "Status",
+      "type": "text",
+      "description": "The status of the violation"
+    },
+    {
+      "key": "unit",
+      "name": "Unit",
+      "type": "text",
+      "description": "Sub-designation identifier. Suite number, apartment number, or any other additional address designation."
+    },
+    {
+      "key": "violationdate",
+      "name": "Violation Date",
+      "type": "date",
+      "description": "Date of Violation Date"
+    },
+    {
+      "key": "violationdescription",
+      "name": "Violation Description",
+      "type": "text",
+      "description": "The description of the type of violation"
+    },
+    {
+      "key": "violationtype",
+      "name": "Violation Type",
+      "type": "text",
+      "description": "The type of violation. For more detail, visit http://www.phila.gov/li/codesandregulations/Pages/codes.aspx"
+    },
+    {
+      "key": "zip",
+      "name": "Zip",
+      "type": "text",
+      "description": "ZIP+4 or postal code of the address."
+    }
+  ]
 }

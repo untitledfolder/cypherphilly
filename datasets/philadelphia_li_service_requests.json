@@ -1,11 +1,146 @@
 {
   "name": "Philadelphia L+I Service Requests",
   "label": "PhiladelphiaLIServiceRequests",
+  "table": "PhiladelphiaLIServiceRequests",
   "id": "objectid",
   "homepage": "https://www.opendataphilly.org/dataset/licenses-and-inspections-service-requests",
   "enabled": true,
   "source": {
-    "location": "https://phl.carto.com/api/v2/sql?q=SELECT+*,+ST_Y(the_geom)+AS+lat,+ST_X(the_geom)+AS+lng+FROM+li_serv_req&filename=li_serv_req&format=csv&skipfields=cartodb_id",
-    "type": "csv"
-  }
+    "location": "https://phl.carto.com/api/v2/sql?q=SELECT * FROM li_serv_req",
+    "type": "json",
+    "root": "row.*"
+  },
+  "fields": [
+    {
+      "key": "servno",
+      "name": "Service Request Number",
+      "type": "integer",
+      "description": "The unique identifier for each service request"
+    },
+    {
+      "key": "objectid",
+      "name": "Object ID",
+      "type": "text"
+    },
+    {
+      "key": "the_geom",
+      "name": "The Geom",
+      "type": "text"
+    },
+    {
+      "key": "the_geom_webmercator",
+      "name": "The Geom Webmercator",
+      "type": "text"
+    },
+    {
+      "key": "lng",
+      "name": "Longitude",
+      "type": "longitude"
+    },
+    {
+      "key": "lat",
+      "name": "Latitude",
+      "type": "latitude"
+    },
+    {
+      "key": "addresskey",
+      "name": "Address Key ",
+      "type": "integer",
+      "description": "Unique Identifier for each property in L+I's Hansen database."
+    },
+        {
+      "key": "opa_account_num",
+      "name": "Office of Property Assessment Account Number",
+      "type": "integer",
+      "description": "Every land parcel within the City of Philadelphia is assigned a unique account number from OPA. This number stays with the property for as long as the deed is held by the same owner. Once a property transfers ownership, it is assigned a new OPA account number and the old one is retired.\nThis field can be used as a join key for various city datasets. It is also sometimes known as the 'BRT' number or within some datasets coming directly from OPA is also called the 'PARCEL_NUMBER'. (Other departments may use different internal 'Parcel Numbers', so please verify before using)."
+    },
+    {
+      "key": "address",
+      "name": "Address Street",
+      "type": "text",
+      "description": "Address  address of property related to call"
+    },
+    {
+      "key": "unit",
+      "name": "Unit",
+      "type": "text",
+      "description": "Sub-designation identifier. Suite number, apartment number, or any other additional address designation."
+    },
+    {
+      "key": "zip",
+      "name": "Zip",
+      "type": "text",
+      "description": "Zip IP+4 or postal code of the address."
+    },
+    {
+      "key": "censustract",
+      "name": "Census Tract",
+      "type": "text",
+      "description": "Census tract of the address"
+    },
+    {
+      "key": "ownername",
+      "name": "Owner Name",
+      "type": "text",
+      "description": "The contact that is identified as the current owner of the address."
+    },
+    {
+      "key": "organization",
+      "name": "Organization",
+      "type": "text",
+      "description": "The organization associated with the current owner of a property."
+    },
+    {
+      "key": "sr_problemcode",
+      "name": "Service Request Problem Code",
+      "type": "text",
+      "description": "Code used to indicate the service request's problem described by the caller."
+    },
+    {
+      "key": "sr_problemdesc",
+      "name": "Service Request",
+      "type": "text",
+      "description": "Problem Description Description for the customer problem definition."
+    },
+    {
+      "key": "sr_calldate",
+      "name": "Service Request Call Date",
+      "type": "date",
+      "description": "Date and time indicating when the service request was logged. This is the time the service request was initiated in the system."
+    },
+    {
+      "key": "sr_inspectiondate",
+      "name": "Service Request Inspection Date",
+      "type": "date",
+      "description": "The date and time indicating when the service request inspection was completed."
+    },
+    {
+      "key": "sr_resolutiondate",
+      "name": "Service Request Resolution Date",
+      "type": "date",
+      "description": "Date and time indicating when the service request was resolved."
+    },
+    {
+      "key": "sr_resolutioncode",
+      "name": "Service Request Resolution Code",
+      "type": "text",
+      "description": "Code indicating the resolution of the service request."
+    },
+    {
+      "key": "sr_resolutiondesc",
+      "name": "Service Request Resolution Description",
+      "type": "text",
+      "description": "Description of the resolution code."
+    },
+    {
+      "key": "geocode_x",
+      "name": "Geocode X",
+      "type": "text"
+    },
+    {
+      "key": "geocode_y",
+      "name": "Geocode Y",
+      "type": "text"
+    }
+  ]
 }

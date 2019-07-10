@@ -1,14 +1,15 @@
 {
   "name": "Philadelphia Police Complaints",
   "label": "PhiladelphiaPoliceComplaints",
-  "id": "complaint_id",
   "homepage": "https://www.opendataphilly.org/dataset/police-complaints",
   "enabled": true,
   "datasets": [
     {
       "name": "Complaints",
       "label": "PPC_Complaints",
-      "key": "complaints",
+      "table": "PPComplaints",
+      "key": "ppc_complaints",
+      "id": "complaint_id",
       "source": {
         "location": "https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20ppd_complaints",
         "type": "json",
@@ -18,55 +19,128 @@
         {
           "key": "cartodb_id",
           "name": "CartoDB ID",
-          "type": ""
+          "type": "integer",
+          "description": "ID in the Carto DB database"
+        },
+        {
+          "key": "complaint_id",
+          "name": "Complaint ID",
+          "type": "text",
+          "description": "The complaint ID number."
         },
         {
           "key": "the_geom",
           "name": "The Geom",
-          "type": ""
+          "type": "text"
         },
         {
           "key": "the_geom_webmercator",
           "name": "The Geom Webmercator",
-          "type": ""
-        },
-        {
-          "key": "cap_number",
-          "name": "Cap Number",
-          "type": ""
+          "type": "text"
         },
         {
           "key": "date_received",
           "name": "Date Received",
-          "type": ""
+          "type": "date",
+          "description": "The date the complaint was received."
         },
         {
-          "key": "dist_occurrence",
+          "key": "district_occurrence",
           "name": "District Occurence",
-          "type": ""
+          "type": "text",
+          "description": "The district the alleged incident occurred in."
         },
         {
           "key": "general_cap_classification",
-          "name": "General Cap Classification",
-          "type": ""
+          "name": "General Classification",
+          "type": "text",
+          "description": "General Classification of Complaint. How the complaint was classified when first received. There are 12 overall classifications: Civil rights complaint, Criminal allegation, Departmental violations, Domestic, Drugs, Harassment, Lack of service, Non-investigatory incident, Physical abuse, Sexual crime/misconduct, Unprofessional conduct, Verbal abuse"
         },
         {
           "key": "summary",
           "name": "Summary",
-          "type": ""
+          "type": "longtext",
+          "description": "A brief restatement of the alleged event as filed by the complainant on the Complaint Against Police For"
         }
       ]
     },
     {
       "name": "Findings",
       "label": "PPC_Findings",
-      "key": "findings",
-      "homepage": "https://cityofphiladelphia.github.io/carto-api-explorer/#ppd_complaint_disciplines",
+      "table": "PPCFindings",
+      "key": "ppc_findings",
+      "id": "cartodb_id",
       "source": {
         "location": "https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20ppd_complaint_disciplines",
         "type": "json",
         "root": "rows.*"
-      }
+      },
+      "fields": [
+        {
+          "key": "cartodb_id",
+          "name": "CartoDB ID",
+          "type": "integer",
+          "description": "ID in the Carto DB database"
+        },
+        {
+          "key": "complaint_id",
+          "name": "Complaint ID",
+          "type": "text",
+          "description": "The complaint ID number."
+        },
+        {
+          "key": "the_geom",
+          "name": "The Geom",
+          "type": "text"
+        },
+        {
+          "key": "the_geom_webmercator",
+          "name": "The Geom Webmercator",
+          "type": "text"
+        },
+        {
+          "key": "allegations_investigated",
+          "name": "Allegations Investigated",
+          "type" :"text",
+          "description": "How the complaint was classified when first received: Civil rights complaint, Criminal allegation, Departmental violations, Disciplinary code violation, Domestic, Drugs, Harassment, Investigation OnGoing, Lack of service, Other Misconduct, Non-investigatory incident, Physical abuse, Sexual crime/misconduct, Unprofessional conduct, Verbal abuse"
+        },
+        {
+          "key": "officer_id",
+          "name": "Officer Id",
+          "type": "integer",
+          "description": "The anonymized ID associated with the accused police officer."
+        },
+        {
+          "key": "disciplinary_findings",
+          "name": "Disciplinary Findings",
+          "type": "text",
+          "description": "The final findings from the investigation: PENDING, GUILTY, NOT GUILTY, TRAINING & COUNSELING"
+        },
+        {
+          "key": "investigative_findings",
+          "name": "Investigative Findings",
+          "type": "text",
+          "description": "The determination or findings from an investigation of allegations"
+        },
+        {
+          "key": "po_race",
+          "name": "Police Officer Race",
+          "type": "text",
+          "description": "The race of the accused police officer."
+        },
+        {
+          "key": "po_sex",
+          "name": "Police Officer Sex",
+          "type": "text",
+          "description": "The sex of the accused police officer."
+        },
+        {
+          "key": "po_assigned_unit",
+          "name": "Police Officer Assigned District",
+          "type": "text",
+          "description": "The distict of the accused police officer."
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,34 @@
+{
+  "integer": {
+    "mariadb": "INTEGER",
+    "knex": "integer"
+  },
+  "text": {
+    "mariadb": "TINYTEXT",
+    "knex": "string"
+  },
+  "date": {
+    "mariadb": "TINYTEXT",
+    "knex": "string"
+  },
+  "datetime": {
+    "mariadb": "TINYTEXT",
+    "knex": "string"
+  },
+  "longtext": {
+    "mariadb": "TEXT",
+    "knex": "text"
+  },
+  "latitude": {
+    "mariadb": "TEXT",
+    "knex": "text"
+  },
+  "longitude": {
+    "mariadb": "TEXT",
+    "knex": "text"
+  },
+  "money": {
+    "mariadb": "TEXT",
+    "knex": "text"
+  }
+}
