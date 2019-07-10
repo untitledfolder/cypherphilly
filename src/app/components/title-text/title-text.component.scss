@@ -1,0 +1,15 @@
+@import "../../../fonts.scss";
+
+.component-title-text {
+  padding: 4px;
+
+  .component-title-text-title {
+    font-family: gotham-bold;
+  }
+
+  .component-title-text-text {
+    padding-top: 8px;
+
+    font-family: gotham-light;
+  }
+}

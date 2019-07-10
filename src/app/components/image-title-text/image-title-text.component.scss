@@ -1,0 +1,19 @@
+.component-image-title-text {
+  width: 100%;
+  padding: 10px;
+  padding-top: 10px;
+  padding-bottom: 7px;
+  margin-left: 2px;
+
+  .component-image-title-text-image {
+    width: 82px;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .component-image-title-text-content {
+    padding-top: 8px;
+  }
+}
