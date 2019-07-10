@@ -1,20 +1,12 @@
 const fs = require('fs');
 const app = require('express')();
-const datasetsRoot = '../datasets';
+const datasetsRoot = __dirname + '/../datasets';
 const cypherUtil = require('../utils/cypher-util');
-const neo4j = require("neo4j-driver").v1;
-const neoConfig = require("../neo-config.json");
 const sqlConfig = require("../sql-config");
 const { Readable } = require('stream');
+
 var port = 7000;
-/*
-var neoDriver = neo4j.driver(
-  neoConfig.host,
-  neo4j.auth.basic(neoConfig.user, neoConfig.password),
-  { disableLosslessIntegers: true }
-);
-var neoSession = neoDriver.session();
-*/
+var limit = 10;
 
 var knex = require('knex')({
   client: 'mysql',
@@ -32,27 +24,27 @@ if (args.length) {
 }
 
 var datasetFiles = fs.readdirSync(datasetsRoot);
-var enabledDatasets = [];
+var enabledDatasets = getDatasets(datasetFiles);
 
-datasetFiles.forEach(datasetFile => {
-  if (!datasetFile.match(/^[A-Za-z_]+\.json$/)) return;
+function getDatasets(datasetFiles) {
+  return datasetFiles
+  .filter(datasetFile => datasetFile.match(/^[A-Za-z_]+\.json$/))
+  .map(datasetFile => {
+    var datasetKey = datasetFile.replace(/\.json$/, '');
+    var datasetConfig = require(datasetsRoot + '/' + datasetFile);
 
-  var datasetKey = datasetFile.replace(/\.json$/, '');
-  var datasetConfig = require(datasetsRoot + '/' + datasetFile);
-
-  console.log("Dataset:", datasetKey);
-  console.log(datasetConfig.name);
-  console.log("Enables?:", datasetConfig.enabled);
-  console.log();
-  if (datasetConfig.enabled) {
-    enabledDatasets.push({
+    console.log("Dataset:", datasetKey);
+    console.log(datasetConfig.name);
+    console.log("Enables?:", datasetConfig.enabled);
+    console.log();
+    return {
       key: datasetKey,
       config: datasetConfig
-    });;
-  }
-});
+    };
+  })
+  .filter(dataset => dataset.config.enabled);
+};
 
-var limit = 10;
 console.log("Enabled Datasets:");
 var apiList = [];
 enabledDatasets.forEach(dataset => {
@@ -103,10 +95,10 @@ function addApiDetailsToContent(contentStream, apiList) {
   contentStream.push(`<br><a href="${apiItem.url}">${apiItem.name}</a>`);
   knex(apiItem.table).count('*').then(count => {
     contentStream.push(`<br><p>Total: ${count}</p>`);
-    contentStream.push(`<br>
-    contentStream
+    contentStream.push(`<br>`);
 
-    return 
+    return true;
+  });
 }
 
 function generateAPIs(app, apiConfigs) {
@@ -119,26 +111,6 @@ function generateAPIs(app, apiConfigs) {
       responseStream.push('[');
       var skippedFirstComma = false;
 
-      /*
-      neoSession.run(apiConfig.cypher)
-      .subscribe({
-        onNext: record => {
-          if (skippedFirstComma) responseStream.push(',\n');
-          else skippedFirstComma = true;
-
-          responseStream.push(
-            JSON.stringify(cypherUtil.processNode(record))
-          );
-        },
-        onCompleted: () => {
-          responseStream.push(']');
-          responseStream.push(null);
-        },
-        onError:  err => {
-          next(err);
-        }
-      });
-      */
       knex.select().from(apiConfig.table).limit(limit)
       .stream(stream => {
         stream.on('data', data => {
