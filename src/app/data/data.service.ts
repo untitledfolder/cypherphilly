@@ -10,10 +10,15 @@ export class DataService {
     private http: HttpClient
   ) {
     this.dataUrl = '/api';
+    console.log("Data Service");
   }
 
   getData(url: string): Promise<any> {
     return this.http.get(this.dataUrl + url).toPromise();
+  }
+
+  getDatasets(): Promise<any> {
+    return this.getData('/datasets');
   }
 
 }
