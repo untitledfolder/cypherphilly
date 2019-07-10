@@ -5,7 +5,7 @@ const { IngestManager } = require('../../utils/ingestmanager');
 
 const configDir = "test/fixtures/";
 
-describe.only('IngestManager', () => {
+describe('IngestManager', () => {
 
   describe('Init', () => {
     let readerStub;
