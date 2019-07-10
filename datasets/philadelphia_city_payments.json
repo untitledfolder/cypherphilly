@@ -1,6 +1,7 @@
 {
   "name": "Philadelphia City Payments",
   "label": "PhiladelphiaCityPayments",
+  "table": "PhiladelphiaCityPayments",
   "id": "cartodb_id",
   "homepage": "https://www.opendataphilly.org/dataset/city-payments",
   "enabled": true,
@@ -8,5 +9,119 @@
     "location": "https://phl.carto.com/api/v2/sql?q=SELECT%20*%20FROM%20city_payments_fy2017",
     "type": "json",
     "root": "rows.*"
-  }
+  },
+  "fields": [
+    {
+      "key": "cartodb_id",
+      "name": "CardtoDB ID",
+      "type": "integer",
+      "description": "ID in the CartoDB Database."
+    },
+    {
+      "key": "the_geom",
+      "name": "The Geom",
+      "type": "text"
+    },
+    {
+      "key": "the_geom_webmercator",
+      "name": "The Geom Webmercator",
+      "type": "text"
+    },
+    {
+      "key": "char_",
+      "name": "Character",
+      "type": "integer",
+      "description": "The character code used within the City’s finance and accounting system to classify the general type of payment or other financial transaction."
+    },
+    {
+      "key": "character_title",
+      "name": "Character Title",
+      "type": "text",
+      "description": "The character code title used within the City’s finance and accounting system to classify the type of payment or other financial transaction within general categories."
+    },
+    {
+      "key": "check_date",
+      "name": "Check Date",
+      "type": "date",
+      "description": "Date that the check or ACH (direct deposit) payment was made."
+    },
+    {
+      "key": "contract_description",
+      "name": "Contract Description",
+      "type": "text",
+      "description": "A short description of the contract."
+    },
+    {
+      "key": "contract_number",
+      "name": "Contract Number",
+      "type": "integer",
+      "description": "The contract number associated with payments made to vendors who have a contract with the City."
+    },
+    {
+      "key": "department_title",
+      "name": "Department Title",
+      "type": "text",
+      "description": "The department title used in the City’s finance and accounting system. These title may differ from those used on the City’s website."
+    },
+    {
+      "key": "dept",
+      "name": "Deptartment",
+      "type": "integer",
+      "description": "The department number used in the City’s finance and accounting system."
+    },
+    {
+      "key": "doc_ref_no_prefix",
+      "name": "Document Reference Number Prefix",
+      "type": "text",
+      "description": "The four letter document reference number prefix."
+    },
+    {
+      "key": "doc_ref_no_prefix_definition",
+      "name": "Document Reference Number Prefix Definition",
+      "type": "text",
+      "description": "The document reference number prefix definition which provides additional information about the payment type."
+    },
+    {
+      "key": "document_no",
+      "name": "Document Number",
+      "type": "text",
+      "description": "The unique identifier used to track individual payments in the City’s finance and accounting system. These are not the same as check numbers."
+    },
+    {
+      "key": "fm",
+      "name": "Fiscal Month",
+      "type": "integer",
+      "description": "Month in which the payment was made. Fiscal month 1 is July, fiscal month 2 is August, etc."
+    },
+    {
+      "key": "fy",
+      "name": "Fiscal Year",
+      "type": "integer",
+      "description": "Year in which the payment was made. The fiscal year runs from July 1st through June 30th."
+    },
+    {
+      "key": "sub_obj",
+      "name": "Sub Object Code",
+      "type": "text",
+      "description": "The sub-object code used within the City’s finance and accounting system to classify the type of payment or other financial transaction within more specific categories."
+    },
+    {
+      "key": "sub_obj_title",
+      "name": "Sub Object Code Title",
+      "type": "text",
+      "description": "The sub-object code title used within the City’s finance and accounting system to classify the type of payment or other financial transaction within more specific categories."
+    },
+    {
+      "key": "transaction_amount",
+      "name": "Transaction Amount",
+      "type": "money",
+      "description": "The amount of the transaction or payment. (USD$)"
+    },
+    {
+      "key": "vendor_name",
+      "name": "Vendor Name",
+      "type": "text",
+      "description": "The name of the individual, vendor, or entity that the payment was made out to."
+    }
+  ]
 }

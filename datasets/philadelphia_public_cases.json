@@ -1,11 +1,125 @@
 {
   "name": "Philadelphia Public Cases",
   "label": "PhiladelphiaPublicCases",
+  "table": "PhiladelphiaPublicCases",
   "id": "objectid",
   "homepage": "https://www.opendataphilly.org/dataset/311-service-and-information-requests",
   "enabled": true,
   "source": {
-    "location": "/home/ubuntu/docs/data/public_cases_fc.csv",
-    "type": "csv"
-  }
+    "location": "https://phl.carto.com/api/v2/sql?q=SELECT * FROM public_cases_fc",
+    "type": "json",
+    "root": "rows.*"
+  },
+  "fields": [
+    {
+      "key": "objectid",
+      "name": "Object ID",
+      "type": "integer"
+    },
+    {
+      "key": "cartodb_id",
+      "name": "CartoDB ID",
+      "type": "integer"
+    },
+    {
+      "key": "address",
+      "name": "Address",
+      "type": "text",
+      "description": "Description of location."
+    },
+    {
+      "key": "agency_responsible",
+      "name": "Agency Responsible",
+      "type": "text",
+      "description": "The department in charge of the service request."
+    },
+    {
+      "key": "expected_datetime",
+      "name": "Expected Date Time",
+      "type": "datetime",
+      "description": "The date and time when the service request can be expected to be fulfilled. This may be based on a service-specific service level agreement."
+    },
+    {
+      "key": "lat",
+      "name": "Latitude",
+      "type": "latitude",
+      "description": "The latitude for the location of the service request."
+    },
+    {
+      "key": "lon",
+      "name": "Longitude",
+      "type": "longitude",
+      "description": "The longitude for the location of the service request."
+    },
+    {
+      "key": "media_url",
+      "name": "Media Url",
+      "type": "text",
+      "description": "A URL to media associated with the request, eg an image."
+    },
+    {
+      "key": "requested_datetime",
+      "name": "Requested Date Time",
+      "type": "datetime",
+      "description": "The date and time when the service request was made."
+    },
+    {
+      "key": "service_code",
+      "name": "Service Code",
+      "type": "text",
+      "description": "The unique identifier for the service or information request type."
+    },
+    {
+      "key": "service_name",
+      "name": "Service Name",
+      "type": "text",
+      "description": "The human readable name of the service request type."
+    },
+    {
+      "key": "service_notice",
+      "name": "Service Notice",
+      "type": "text",
+      "description": "Information about the action expected to fulfill the request or otherwise address the information reported."
+    },
+    {
+      "key": "service_request_id",
+      "name": "Service Request ID",
+      "type": "integer",
+      "description": "The unique ID of the service request created."
+    },
+    {
+      "key": "status",
+      "name": "Status",
+      "type": "text",
+      "description": "The current status of the service request."
+    },
+    {
+      "key": "status_notes",
+      "name": "Status Notes",
+      "type": "text",
+      "description": "Explanation of why the status was changed to current state or more details on current status than conveyed with status alone."
+    },
+    {
+      "key": "updated_datetime",
+      "name": "Updated Date Time",
+      "type": "datetime",
+      "description": "The date and time when the service request was last modified."
+    },
+    {
+      "key": "zipcode",
+      "name": "Zipcode",
+      "type": "text",
+      "description": "zipcode The zipcode of where the service occurred."
+    },
+    {
+      "key": "the_geom",
+      "name": "The Geom",
+      "type": "text"
+    },
+    {
+      "key": "the_geom_webmercator",
+      "name": "The Geom Webmercator",
+      "type": "text"
+    }
+  ]
 }

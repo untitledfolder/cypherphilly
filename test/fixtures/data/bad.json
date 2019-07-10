@@ -1,0 +1,25 @@
+[
+  {
+    "db_id": 1,
+    "geom": null,
+    "id_number": "102",
+    "date_received": "2015-01-07T00:00:00Z",
+    "status": "BAD",
+    "description": "Summary 1"
+  },
+  {
+    "db_id": 2,
+    "geom": null,
+    "id_number": "201",
+    "date_received": "2016-01-09T00:00:00Z",
+    "status": "GOOD",
+    "description": "Summary 2"
+  {
+    "db_id": 3,
+    "geom": null,
+    "id_number": "202",
+    "date_received": "2017-02-07T00:00:00Z",
+    "status": "SOSO",
+    "description": "Summary 3"
+  }
+]

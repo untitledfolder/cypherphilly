@@ -1,4 +1,5 @@
-config.js
+neo-config.json
+sql-config.json
 
 # ingest files
 tmp.*
@@ -45,4 +46,3 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-neo-config.json

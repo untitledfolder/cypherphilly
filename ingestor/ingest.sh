@@ -14,9 +14,14 @@ while [[ $1 == -* ]]; do
   if [ "-d" == "$1" ]; then
     shift
     INGESTOR_CONFIGS_DIR="$1"
+  elif [ "-u" == "$1" ]; then
+    ADDITIONAL_PARAMS="$ADDITIONAL_PARAMS $1"
+    shift
+    ADDITIONAL_PARAMS="$ADDITIONAL_PARAMS $1"
   else
     ADDITIONAL_PARAMS="$ADDITIONAL_PARAMS $1"
   fi
+  echo "Addition Params: $ADDITIONAL_PARAMS"
 
   shift
 done
@@ -30,9 +35,10 @@ debug_message "Working dir: $WORKING_DIR"
 
 INGEST_LIST="$@"
 if [ -z "$INGEST_LIST" ]; then
-  for ingestor in $(find $INGESTOR_CONFIGS_DIR -type f); do
+  for ingestor in $(find $INGESTOR_CONFIGS_DIR -type f -regex '.*\.json$'); do
     filtered=${ingestor##*/}
-    echo $filtered
+    echo "File: $ingestor"
+    echo "Filtered: $filtered"
     filtered=${filtered%.json}
     INGEST_LIST="$INGEST_LIST $filtered"
   done
