@@ -126,6 +126,9 @@ function generateAPIs(app, apiConfigs) {
 }
 
 function generateAPIConfig(api, apiList) {
+  app.get('/api/datasets', (req, res) => {
+    res.send(apiList);
+  });
 }
 
 function generateAPIListPage(app, apiList) {
