@@ -54,7 +54,7 @@ function getDatasets(datasetFiles, enabled) {
   }
 
   return returnDatasets;
-};
+}
 
 function makeAPIConfigList(datasets) {
   var apiConfigList = [];
@@ -83,11 +83,11 @@ function makeAPIConfigList(datasets) {
   });
 
   return apiConfigList;
-};
+}
 
 function addApiDetailsListItemLink(contentStream, apiListItem) {
   contentStream.push(`<br><a href="${apiListItem.url}">${apiListItem.name}</a>\n`);
-};
+}
 
 
 /**
@@ -125,6 +125,9 @@ function generateAPIs(app, apiConfigs) {
   });
 }
 
+function generateAPIConfig(api, apiList) {
+}
+
 function generateAPIListPage(app, apiList) {
   app.get('/api/data', (req, res) => {
     let apiContentStream = new Readable({read() {}});
@@ -149,6 +152,7 @@ var enabledDatasets = getDatasets(datasetFiles, true);
 var apiConfigList = makeAPIConfigList(enabledDatasets);
 
 generateAPIs(app, apiConfigList);
+generateAPIConfig(app, apiConfigList);
 generateAPIListPage(app, apiConfigList);
 
 app.listen(port, () => {
