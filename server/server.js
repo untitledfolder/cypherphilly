@@ -1,77 +1,98 @@
 const fs = require('fs');
 const app = require('express')();
-const datasetsRoot = '../datasets';
+const datasetsRoot = __dirname + '/../datasets';
 const cypherUtil = require('../utils/cypher-util');
-const neo4j = require("neo4j-driver").v1;
-const neoConfig = require("../neo-config.json");
+const sqlConfig = require("../sql-config");
 const { Readable } = require('stream');
 
-var port = 7000;
-var neoDriver = neo4j.driver(
-  neoConfig.host,
-  neo4j.auth.basic(neoConfig.user, neoConfig.password),
-  { disableLosslessIntegers: true }
-);
-var neoSession = neoDriver.session();
 
+/**
+ * Configs
+ */
+var port = 7000;
+var limit = 10;
+
+var knex = require('knex')({
+  client: 'mysql',
+  connection: {
+    host: sqlConfig.host,
+    user: sqlConfig.user,
+    password: sqlConfig.password,
+    database: sqlConfig.database
+  }
+});
 var args = process.argv.slice(2);
 if (args.length) {
   port = args.shift();
 }
 
-var datasetFiles = fs.readdirSync(datasetsRoot);
-var enabledDatasets = [];
 
-datasetFiles.forEach(datasetFile => {
-  if (!datasetFile.match(/^[A-Za-z_]+\.json$/)) return;
+/**
+ * Helpers
+ */
+function getDatasets(datasetFiles, enabled) {
+  var returnDatasets = [];
 
-  var datasetKey = datasetFile.replace(/\.json$/, '');
-  var datasetConfig = require(datasetsRoot + '/' + datasetFile);
+  returnDatasets = datasetFiles
+  .filter(datasetFile => datasetFile.match(/^[A-Za-z_]+\.json$/))
+  .map(datasetFile => {
+    var datasetKey = datasetFile.replace(/\.json$/, '');
+    var datasetConfig = require(datasetsRoot + '/' + datasetFile);
 
-  console.log("Dataset:", datasetKey);
-  console.log(datasetConfig.name);
-  console.log("Enables?:", datasetConfig.enabled);
-  console.log();
-  if (datasetConfig.enabled) {
-    enabledDatasets.push({
+    console.log("Dataset:", datasetKey);
+    console.log(datasetConfig.name);
+    console.log("Enables?:", datasetConfig.enabled);
+    console.log();
+    return {
       key: datasetKey,
       config: datasetConfig
-    });;
-  }
-});
-
-var limit = 10;
-console.log("Enabled Datasets:");
-var apiList = [];
-enabledDatasets.forEach(dataset => {
-  console.log(dataset.key);
-  apiList.push({
-    url: `/data/${dataset.key}`,
-    name: dataset.config.name,
-    labels: [dataset.config.label],
-    cypher: cypherUtil.genGetAll([dataset.config.label], limit)
+    };
   });
 
-  if (dataset.config.datasets) {
-    dataset.config.datasets.forEach(subdataset => {
-      console.log(' ', subdataset.key);
-      apiList.push({
-        url: `/data/${dataset.key}/${subdataset.key}`,
-        name: `${dataset.config.name} - ${subdataset.name}`,
-        labels: [dataset.config.label, subdataset.label],
-        cypher: cypherUtil.genGetAll([dataset.config.label, subdataset.label], limit)
-      });
-    });
+  if (enabled) {
+    returnDatasets = returnDatasets.filter(dataset => dataset.config.enabled);
   }
-});
 
-generateAPIs(app, apiList);
+  return returnDatasets;
+};
 
-app.get('/data', (req, res) => {
-  res.set('Content-Type', 'text/html');
-  res.send(generateAPIContentsView(apiList));
-});
+function makeAPIConfigList(datasets) {
+  var apiConfigList = [];
 
+  datasets.forEach(dataset => {
+    if (dataset.config.datasets) {
+      dataset.config.datasets.forEach(subdataset => {
+        apiConfigList.push({
+          url: `/api/data/${dataset.key}/${subdataset.key}`,
+          name: `${dataset.config.name} - ${subdataset.name}`,
+          labels: [dataset.config.label, subdataset.label],
+          cypher: cypherUtil.genGetAll([dataset.config.label, subdataset.label], limit),
+          table: subdataset.table
+        });
+      });
+    }
+    else {
+      apiConfigList.push({
+        url: `/api/data/${dataset.key}`,
+        name: dataset.config.name,
+        labels: [dataset.config.label],
+        cypher: cypherUtil.genGetAll([dataset.config.label], limit),
+        table: dataset.config.table
+      });
+    }
+  });
+
+  return apiConfigList;
+};
+
+function addApiDetailsListItemLink(contentStream, apiListItem) {
+  contentStream.push(`<br><a href="${apiListItem.url}">${apiListItem.name}</a>\n`);
+};
+
+
+/**
+ * API Builders
+ */
 function generateAPIs(app, apiConfigs) {
   apiConfigs.forEach(apiConfig => {
     app.get(apiConfig.url, (req, res, next) => {
@@ -82,38 +103,53 @@ function generateAPIs(app, apiConfigs) {
       responseStream.push('[');
       var skippedFirstComma = false;
 
-      neoSession.run(apiConfig.cypher)
-      .subscribe({
-        onNext: record => {
+      knex.select().from(apiConfig.table).limit(limit)
+      .stream(stream => {
+        stream.on('data', data => {
+          console.log("Data:", data);
           if (skippedFirstComma) responseStream.push(',\n');
           else skippedFirstComma = true;
 
-          responseStream.push(
-            JSON.stringify(cypherUtil.processNode(record))
-          );
-        },
-        onCompleted: () => {
+          responseStream.push(JSON.stringify(data));
+        });
+        stream.on('end', () => {
           responseStream.push(']');
           responseStream.push(null);
-        },
-        onError:  err => {
-          next(err);
-        }
-      });
+        });
+      }).then(() => {
+        console.log('done');
+      }).catch(
+        err => console.log(`Error reading data from ${apiConfig.table}: ${err}`)
+      );
     });
   });
 }
 
-function generateAPIContentsView(apiList) {
-  var returnView = "APIs:\n";
+function generateAPIListPage(app, apiList) {
+  app.get('/api/data', (req, res) => {
+    let apiContentStream = new Readable({read() {}});
+    res.set('Content-Type', 'text/html');
+    apiContentStream.pipe(res);
 
-  apiList.forEach(apiItem => {
-    returnView += `<br><a href="/api${apiItem.url}">${apiItem.name}</a>\n`;
+    apiContentStream.push("<html><head><title>CypherPhilly: API List and Details</title></head>\n");
+    apiContentStream.push("<body>\n");
+    apiContentStream.push("<h1>API LIST<h1>\n");
+
+    apiList.forEach(
+      apiListItem => addApiDetailsListItemLink(apiContentStream, apiListItem)
+    );
+
+    apiContentStream.push("</body></html>");
+    apiContentStream.push(null);
   });
-
-  console.log(returnView);
-  return returnView;
 }
+
+var datasetFiles = fs.readdirSync(datasetsRoot);
+var enabledDatasets = getDatasets(datasetFiles, true);
+var apiConfigList = makeAPIConfigList(enabledDatasets);
+
+generateAPIs(app, apiConfigList);
+generateAPIListPage(app, apiConfigList);
 
 app.listen(port, () => {
   console.log("Server started:", port);
