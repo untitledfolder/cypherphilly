@@ -1,3 +1,6 @@
-<p>
-  data works!
-</p>
+<div>
+  <div class="home-icon-card" *ngFor="let dataset of datasets">
+    <icon-card [title]="dataset.name" [link]="dataset.link">
+    </icon-card>
+  </div>
+</div>

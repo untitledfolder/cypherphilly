@@ -64,6 +64,7 @@ function makeAPIConfigList(datasets) {
       dataset.config.datasets.forEach(subdataset => {
         apiConfigList.push({
           url: `/api/data/${dataset.key}/${subdataset.key}`,
+          link: `/data/${dataset.key}/${subdataset.key}`,
           name: `${dataset.config.name} - ${subdataset.name}`,
           labels: [dataset.config.label, subdataset.label],
           cypher: cypherUtil.genGetAll([dataset.config.label, subdataset.label], limit),
@@ -74,6 +75,7 @@ function makeAPIConfigList(datasets) {
     else {
       apiConfigList.push({
         url: `/api/data/${dataset.key}`,
+        link: `/data/${dataset.key}`,
         name: dataset.config.name,
         labels: [dataset.config.label],
         cypher: cypherUtil.genGetAll([dataset.config.label], limit),

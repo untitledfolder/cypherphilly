@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { IconCardComponent } from '../components/icon-card.component';
+
 import { DataService } from './data.service';
 
 @Component({
@@ -9,12 +11,15 @@ import { DataService } from './data.service';
 })
 export class DataComponent implements OnInit {
 
+  datasets: [];
+
   constructor(private data: DataService) { }
 
   ngOnInit() {
     this.data.getDatasets()
     .then(datasets => {
       console.log("Datasets:", datasets);
+      this.datasets = datasets;
     });
   }
 

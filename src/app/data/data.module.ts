@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { ComponentsModule } from '../components/components.module';
+
 import { DataService } from './data.service';
 import { DataComponent } from './data.component';
 
@@ -9,7 +11,8 @@ import { DataComponent } from './data.component';
     DataComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ComponentsModule
   ],
   providers: [
     DataService
